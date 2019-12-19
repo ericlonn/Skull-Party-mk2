@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _controller = GetComponent<MovementController>();
-        _animator = transform.Find("player_sprite").GetComponent<Animator>();
+        _animator = transform.Find("Squash and Stretch").transform.Find("player_sprite").GetComponent<Animator>();
         _applyAnimation = GetComponent<ApplyAnimation>();
     }
 

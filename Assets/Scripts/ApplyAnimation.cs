@@ -13,7 +13,7 @@ public class ApplyAnimation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerAnim = transform.Find("player_sprite").GetComponent<Animator>();
+        playerAnim = transform.Find("Squash and Stretch").transform.Find("player_sprite").GetComponent<Animator>();
         _player = GetComponent<Player>();
         _controller = GetComponent<MovementController>();
 
