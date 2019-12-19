@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
     public bool _isFacingRight;
 
-    public bool disableJump, disableXInput = false;
+    public bool disablePlayerInput = false;
 
     private enum Walls { left, rigth };
 
@@ -143,17 +143,14 @@ public class Player : MonoBehaviour
 
         float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
 
-        if (!disableXInput)
+        if (!disablePlayerInput)
         {
             _normalizedHorizontalSpeed = Input.GetAxis(xInput);
 
             if ((horizontalInputRaw < 0 && _isFacingRight) ||
                  (horizontalInputRaw > 0 && !_isFacingRight))
                 Flip();
-        }
 
-        if (!disableJump)
-        {
             if (AnticipateJump && Input.GetButtonDown(jumpInput))
                 JumpWhenGrounded = true;
 

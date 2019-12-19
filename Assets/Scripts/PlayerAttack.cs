@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public AnimationClip _meleeAttack1Anim;
+
+    public List<AnimationClip> meleeAttackAnimations = new List<AnimationClip>();
+    public Transform meleeAttackOrigin;
+    public LayerMask playerLayer;
 
     public float meleeAttack1MoveForce = 100f;
+
+    public float meleeAttackRaycastDistance = .2f;
 
     Player _player;
     MovementController _controller;
@@ -44,11 +49,11 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        if (!isAttacking)
+        if (!isAttacking && !attackAgain)
         {
             StartCoroutine("AttackPause");
         }
-        else if (isAttacking && meleeAttackPhase == 1)
+        else if (isAttacking)
         {
             attackAgain = true;
         }
@@ -57,43 +62,42 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator AttackPause()
     {
-        meleeAttackPhase = 1;
-        _applyAnimation.AttackAnimation(meleeAttackPhase);
         isAttacking = true;
 
-        _player.disableXInput = true;
-        _player.disableJump = true;
-
-        yield return new WaitForSeconds(_meleeAttack1Anim.length);
-
-        _player.disableXInput = false;
-        _player.disableJump = false;
-        if (!attackAgain)
+        while (isAttacking || attackAgain)
         {
-            isAttacking = false;
-        }
-        else
-        {
-            _player.disableXInput = true;
-            _player.disableJump = true;
+            _player.disablePlayerInput = true;
+            attackAgain = false;
 
-            Debug.Log("SECOND PHASE");
-            meleeAttackPhase = 2;
             _applyAnimation.AttackAnimation(meleeAttackPhase);
-            isAttacking = true;
 
-            yield return new WaitForSeconds(_meleeAttack1Anim.length);
+            Vector2 raycastDirection = _player._isFacingRight ? transform.right : -transform.right;
+            RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
 
+            // if (meleeRaycastResult.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID())
+
+
+            yield return new WaitForSeconds(meleeAttackAnimations[meleeAttackPhase - 1].length);
+
+            isAttacking = false;
+            meleeAttackPhase = meleeAttackPhase == 1 ? 2 : 1;
 
         }
 
         attackAgain = false;
         meleeAttackPhase = 1;
-        _player.disableXInput = false;
-        _player.disableJump = false;
-        isAttacking = false;
-
+        _player.disablePlayerInput = false;
+        meleeAttackPhase = 1;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawLine(meleeAttackOrigin.position,
+        new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,
+        meleeAttackOrigin.position.y,
+        meleeAttackOrigin.position.z));
+    }
 
 }
