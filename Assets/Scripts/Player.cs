@@ -32,8 +32,11 @@ public class Player : MonoBehaviour
     [Tooltip("How long can wall jump still be performed after not touching a wall?")]
     public float WallLinger = 0.1f;
 
+    public bool isStunned = false;
+
     public float bounceForceScaleX = 20f;
     public float bounceForceScaleY = 20f;
+    public float stunnedTime = 2f;
 
     [System.NonSerialized]
     public string xInput, yInput, jumpInput, attackInput;
@@ -65,6 +68,9 @@ public class Player : MonoBehaviour
             return rayHit;
         }
     }
+
+    public PhysicsMaterial2D stunnedMaterial;
+
     public bool AnticipateJump { get { return !IsGrounded && GroundIsNear && _controller.Velocity.y < 0; } }
     public bool IsTouchingWall { get { return _controller.State.IsCollidingLeft || _controller.State.IsCollidingRight; } }
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
@@ -77,18 +83,21 @@ public class Player : MonoBehaviour
     private float _normalizedHorizontalSpeed;
     private float _groundLingerTime;
     private float _wallLingerTime;
+    private float stunnedTimer = 0;
 
     private Walls _lastWallTouched;
 
     private Transform _transform;
     private BoxCollider2D _playerCollider;
     private MovementController _controller;
+    private Rigidbody2D _playerRB;
 
     void Awake()
     {
         _transform = transform;
         _playerCollider = GetComponent<BoxCollider2D>();
         _controller = GetComponent<MovementController>();
+        _playerRB = GetComponent<Rigidbody2D>();
         _isFacingRight = _transform.localScale.x > 0;
 
 
@@ -127,9 +136,20 @@ public class Player : MonoBehaviour
 
         HandleInput();
 
+        if (isStunned)
+        {
+            ApplyStun();
+        }
+
         var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
 
         _controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
+    }
+
+    public void TriggerStun() {
+        stunnedTimer = stunnedTime;
+        isStunned = true;
+        _playerRB.sharedMaterial = stunnedMaterial;
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -139,8 +159,6 @@ public class Player : MonoBehaviour
 
     void HandleInput()
     {
-        _normalizedHorizontalSpeed = 0f;
-
         float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
 
         if (!disablePlayerInput)
@@ -162,14 +180,24 @@ public class Player : MonoBehaviour
 
             if (Jumpping && !Input.GetButton(jumpInput))
                 _controller.AddVerticalForce(-JumpInterruptStrength);
-        }
 
-        if (Input.GetButtonDown(attackInput))
+            if (Input.GetButtonDown(attackInput))
+            {
+                gameObject.GetComponent<PlayerAttack>().Attack();
+            }
+
+            _controller.State.DropThroughPlatform = Input.GetAxisRaw(yInput) < 0;
+        }
+    }
+
+    void ApplyStun()
+    {
+        if (stunnedTimer > 0)
         {
-            gameObject.GetComponent<PlayerAttack>().Attack();
+            stunnedTimer -= Time.deltaTime;
+        } else {
+            isStunned = false;
         }
-
-        _controller.State.DropThroughPlatform = Input.GetAxisRaw(yInput) < 0;
     }
 
     void Jump(float magnitude)
@@ -214,4 +242,5 @@ public class Player : MonoBehaviour
             _controller.SetVerticalVelocity(bounceForceY);
         }
     }
+
 }

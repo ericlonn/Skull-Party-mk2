@@ -8,6 +8,12 @@ public class SquashAndStretch : MonoBehaviour
     public float scaleFactor = 0f;
     public Player _player;
 
+    public float launchBounceSpeed = 1f;
+    public float launchBounceAmount = -.1f;
+
+    public float landBounceSpeed = .75f;
+    public float landBounceAmount = .5f;
+
     bool previousIsGrounded;
 
     private void Start() {
@@ -34,13 +40,13 @@ public class SquashAndStretch : MonoBehaviour
     public void LaunchSandS()
     {
         LeanTween.cancel(this.gameObject);
-        LeanTween.value(this.gameObject, UpdateScaleFactor, 0f, -.1f, 1f).setEase(LeanTweenType.punch);
+        LeanTween.value(this.gameObject, UpdateScaleFactor, 0f, launchBounceAmount, launchBounceSpeed).setEase(LeanTweenType.punch);
     }
 
     public void LandSandS()
     {
         LeanTween.cancel(this.gameObject);
-        LeanTween.value(this.gameObject, UpdateScaleFactor, 0f, .05f, .75f).setEase(LeanTweenType.punch);
+        LeanTween.value(this.gameObject, UpdateScaleFactor, 0f, landBounceAmount, landBounceSpeed).setEase(LeanTweenType.punch);
     }
 
     public void UpdateScaleFactor(float newScaleFactor)

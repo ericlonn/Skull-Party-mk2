@@ -565,7 +565,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0.000017414575, y: 0.000017414575, z: -3.0326744e-10, w: 1}
-  m_LocalPosition: {x: -0.0003482905, y: 0.8403483, z: -9.99997}
+  m_LocalPosition: {x: 2.3296516, y: 0.8403483, z: -10.0000515}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 288463896}
@@ -822,7 +822,7 @@ MonoBehaviour:
   - target: {fileID: 327616471}
     weight: 1
     radius: 0
-  - target: {fileID: 0}
+  - target: {fileID: 1979531375}
     weight: 1
     radius: 0
 --- !u!4 &867485846
@@ -833,7 +833,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867485844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.33, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1742,6 +1742,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2019363294}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1979531375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+    type: 3}
+  m_PrefabInstance: {fileID: 2019363294}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2019363294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1813,6 +1819,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455590, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: bounceForceScaleX
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455586, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455586, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455586, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455586, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e3f0e3d44ce744a59b768f73078ff60, type: 3}

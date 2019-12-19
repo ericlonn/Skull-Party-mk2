@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2880207564584455588}
   - component: {fileID: 2880207564584455586}
   - component: {fileID: 2880207564584455590}
-  - component: {fileID: 2880207564584455589}
   - component: {fileID: 2880207564584455587}
+  - component: {fileID: 2880207564584455589}
   - component: {fileID: 2880207564584455592}
   m_Layer: 0
   m_Name: Player
@@ -34,6 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2880207564674108083}
+  - {fileID: 4004112144060740477}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -71,19 +72,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2880207564584455585}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &2880207564584455590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 0
-  JumpMagnitude: 12
+  JumpMagnitude: 15
   JumpInterruptStrength: 120
   GroundedLinger: 0.05
   GroundCheckDistance: 0.5
@@ -106,29 +107,13 @@ MonoBehaviour:
   WallJump: 1
   WallJumpForce: {x: 12, y: 12}
   WallLinger: 0.1
-  bounceForceScaleX: 20
-  bounceForceScaleY: 20
+  isStunned: 0
+  bounceForceScaleX: 15
+  bounceForceScaleY: 5
+  stunnedTime: 2
+  stunnedMaterial: {fileID: 6200000, guid: dbb55b608ed425e42815951cdd06beb6, type: 2}
   _isFacingRight: 0
   disablePlayerInput: 0
---- !u!114 &2880207564584455589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880207564584455585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689cd95710234544aa794ee33ed4d132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeAttackAnimations: []
-  meleeAttackOrigin: {fileID: 0}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  meleeAttack1MoveForce: 100
-  meleeAttackRaycastDistance: 0.2
 --- !u!114 &2880207564584455587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,9 +136,30 @@ MonoBehaviour:
     Flying: 0
     Gravity: -28
     MaxVelocity: {x: 3.4028235e+38, y: 3.4028235e+38}
-    MaxSpeed: 3
+    MaxSpeed: 15
     AccelerationOnGround: 20
-    AccelerationInAir: 5
+    AccelerationInAir: 3
+--- !u!114 &2880207564584455589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880207564584455585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689cd95710234544aa794ee33ed4d132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeAttackAnimations:
+  - {fileID: 7400000, guid: 5649616c22347454ab71788123e6b106, type: 2}
+  - {fileID: 7400000, guid: c9140d3efc04354478bd595d4cf4b642, type: 2}
+  meleeAttackOrigin: {fileID: 4004112144060740477}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  meleeAttack1MoveForce: 10
+  meleeAttackRaycastDistance: 1
 --- !u!114 &2880207564584455592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +319,37 @@ MonoBehaviour:
   squashPoint: {fileID: 2880207564674108083}
   scaleFactor: 0
   _player: {fileID: 2880207564584455590}
+  launchBounceSpeed: 1
+  launchBounceAmount: -0.1
+  landBounceSpeed: 0.6
+  landBounceAmount: 0.1
+--- !u!1 &8545630599635975810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4004112144060740477}
+  m_Layer: 0
+  m_Name: Melee Attack Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4004112144060740477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8545630599635975810}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.466, y: 0.08, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2880207564584455591}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

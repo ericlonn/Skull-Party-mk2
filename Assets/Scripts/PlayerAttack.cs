@@ -22,7 +22,6 @@ public class PlayerAttack : MonoBehaviour
     bool isAttacking = false;
 
     int meleeAttackPhase = 1;
-    int totalAttacks = 3;
 
     void Start()
     {
@@ -74,7 +73,13 @@ public class PlayerAttack : MonoBehaviour
             Vector2 raycastDirection = _player._isFacingRight ? transform.right : -transform.right;
             RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
 
-            // if (meleeRaycastResult.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID())
+            foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
+            {
+                if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID())
+                {
+                    attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun();
+                }
+            }
 
 
             yield return new WaitForSeconds(meleeAttackAnimations[meleeAttackPhase - 1].length);
