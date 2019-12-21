@@ -143,13 +143,30 @@ public class Player : MonoBehaviour
 
         var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
 
-        _controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
+        if (!disablePlayerInput)
+        {
+            _controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
+        }
     }
 
-    public void TriggerStun() {
-        stunnedTimer = stunnedTime;
-        isStunned = true;
-        _playerRB.sharedMaterial = stunnedMaterial;
+    public void TriggerStun(Vector2 launchDirection)
+    {
+        if (!isStunned)
+        {
+            stunnedTimer = stunnedTime;
+            isStunned = true;
+
+            _playerRB.bodyType = RigidbodyType2D.Dynamic;
+            _playerRB.sharedMaterial = stunnedMaterial;
+            _playerRB.mass = 1;
+
+            _playerRB.AddForce(launchDirection, ForceMode2D.Impulse);
+            Debug.Log(launchDirection);
+
+        }
+
+        // _controller.SetHorizontalVelocity(0f);
+        // _controller.AddForce(launchDirection * launchForce);
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -159,10 +176,11 @@ public class Player : MonoBehaviour
 
     void HandleInput()
     {
-        float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
+
 
         if (!disablePlayerInput)
         {
+            float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
             _normalizedHorizontalSpeed = Input.GetAxis(xInput);
 
             if ((horizontalInputRaw < 0 && _isFacingRight) ||
@@ -195,8 +213,16 @@ public class Player : MonoBehaviour
         if (stunnedTimer > 0)
         {
             stunnedTimer -= Time.deltaTime;
-        } else {
+            disablePlayerInput = true;
+        }
+        else
+        {
             isStunned = false;
+            disablePlayerInput = false;
+
+            _playerRB.sharedMaterial = null;
+            _playerRB.bodyType = RigidbodyType2D.Kinematic;
+            _playerRB.mass = .000001f;
         }
     }
 

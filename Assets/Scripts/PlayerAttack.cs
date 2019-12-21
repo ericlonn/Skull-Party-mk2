@@ -9,14 +9,21 @@ public class PlayerAttack : MonoBehaviour
     public Transform meleeAttackOrigin;
     public LayerMask playerLayer;
 
-    public float meleeAttack1MoveForce = 100f;
+    public float meleeAttack1MoveForce = 10f;
 
     public float meleeAttackRaycastDistance = .2f;
+
+    public float meleeAttack1StunForceX;
+    public float meleeAttack1StunForceY;
+
+    public bool attackCanLand = false;
 
     Player _player;
     MovementController _controller;
     Animator _animator;
     ApplyAnimation _applyAnimation;
+
+    float meleeAttackTimer = 0f;
 
     bool attackAgain = false;
     bool isAttacking = false;
@@ -34,75 +41,76 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAttacking && _player._isFacingRight)
-        {
-            _controller.SetHorizontalVelocity(meleeAttack1MoveForce);
-        }
-        else if (isAttacking && !_player._isFacingRight)
-        {
-            _controller.SetHorizontalVelocity(-meleeAttack1MoveForce);
-        }
-
-
+        EvaluateAttack();
     }
 
     public void Attack()
     {
-        if (!isAttacking && !attackAgain)
+        if (!isAttacking)
         {
-            StartCoroutine("AttackPause");
+            isAttacking = true;
+            _applyAnimation.AttackAnimation(meleeAttackPhase);
+            meleeAttackTimer = meleeAttackAnimations[0].length;
+            _controller.SetHorizontalVelocity(0f);
         }
-        else if (isAttacking)
-        {
-            attackAgain = true;
-        }
-
     }
 
-    public IEnumerator AttackPause()
+    public void EvaluateAttack()
     {
-        isAttacking = true;
 
-        while (isAttacking || attackAgain)
+
+        if (isAttacking)
         {
             _player.disablePlayerInput = true;
-            attackAgain = false;
+        }
 
-            _applyAnimation.AttackAnimation(meleeAttackPhase);
+        if (attackCanLand && isAttacking)
+        {
+            float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimations[0].length);
 
-            Vector2 raycastDirection = _player._isFacingRight ? transform.right : -transform.right;
+            if (isAttacking && _player._isFacingRight)
+            {
+                _controller.SetHorizontalVelocity(smoothAttackMove);
+            }
+            else if (isAttacking && !_player._isFacingRight)
+            {
+                _controller.SetHorizontalVelocity(-smoothAttackMove);
+            }
+
+            Vector2 raycastDirection = transform.right;
             RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
 
             foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
             {
                 if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID())
                 {
-                    attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun();
+                    Vector2 launchForce;
+                    if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
+                    else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
+                    attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
                 }
             }
-
-
-            yield return new WaitForSeconds(meleeAttackAnimations[meleeAttackPhase - 1].length);
-
-            isAttacking = false;
-            meleeAttackPhase = meleeAttackPhase == 1 ? 2 : 1;
-
         }
 
-        attackAgain = false;
-        meleeAttackPhase = 1;
-        _player.disablePlayerInput = false;
-        meleeAttackPhase = 1;
+        if (meleeAttackTimer > 0) { meleeAttackTimer -= Time.deltaTime; }
+        else { 
+            isAttacking = false; 
+            _player.disablePlayerInput = false;
+        }
+
+
+
+
     }
 
     private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
+{
+    Gizmos.color = Color.magenta;
 
-        Gizmos.DrawLine(meleeAttackOrigin.position,
-        new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,
-        meleeAttackOrigin.position.y,
-        meleeAttackOrigin.position.z));
-    }
+    Gizmos.DrawLine(meleeAttackOrigin.position,
+    new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,
+    meleeAttackOrigin.position.y,
+    meleeAttackOrigin.position.z));
+}
 
 }

@@ -8,6 +8,7 @@ public class ApplyAnimation : MonoBehaviour
     Animator playerAnim;
     Player _player;
     MovementController _controller;
+    SquashAndStretch _sAndSController;
 
 
     // Start is called before the first frame update
@@ -16,6 +17,7 @@ public class ApplyAnimation : MonoBehaviour
         playerAnim = transform.Find("Squash and Stretch").transform.Find("player_sprite").GetComponent<Animator>();
         _player = GetComponent<Player>();
         _controller = GetComponent<MovementController>();
+        
 
 
     }
@@ -43,6 +45,12 @@ public class ApplyAnimation : MonoBehaviour
             } else {
                 playerAnim.SetBool("isWallSliding", false);
             } 
+
+            if (_player.isStunned) {
+                playerAnim.SetBool("isStunned", true);
+            } else {
+                playerAnim.SetBool("isStunned", false);
+            }
 
 
         }
