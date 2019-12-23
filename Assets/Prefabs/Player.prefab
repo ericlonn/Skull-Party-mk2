@@ -72,7 +72,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2880207564584455585}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 0
-  JumpMagnitude: 15
+  JumpMagnitude: 20
   JumpInterruptStrength: 120
   GroundedLinger: 0.05
   GroundCheckDistance: 0.5
@@ -110,7 +110,7 @@ MonoBehaviour:
   isStunned: 0
   bounceForceScaleX: 15
   bounceForceScaleY: 5
-  stunnedTime: 2
+  stunnedTime: 1
   stunnedMaterial: {fileID: 6200000, guid: dbb55b608ed425e42815951cdd06beb6, type: 2}
   _isFacingRight: 0
   disablePlayerInput: 0
@@ -136,9 +136,11 @@ MonoBehaviour:
     Flying: 0
     Gravity: -28
     MaxVelocity: {x: 3.4028235e+38, y: 3.4028235e+38}
-    MaxSpeed: 15
+    MaxSpeed: 18
     AccelerationOnGround: 20
     AccelerationInAir: 3
+  gravMultiplierUp: 1.2
+  gravMultiplierDown: 3
 --- !u!114 &2880207564584455589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,9 +162,10 @@ MonoBehaviour:
     m_Bits: 0
   meleeAttack1MoveForce: 30
   meleeAttackRaycastDistance: 1
-  meleeAttack1StunForceX: 1
-  meleeAttack1StunForceY: 1
+  meleeAttack1StunForceX: 50
+  meleeAttack1StunForceY: 10
   attackCanLand: 0
+  attackLanded: 0
 --- !u!114 &2880207564584455592
 MonoBehaviour:
   m_ObjectHideFlags: 0

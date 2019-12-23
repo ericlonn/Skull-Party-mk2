@@ -17,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
     public float meleeAttack1StunForceY;
 
     public bool attackCanLand = false;
+    public bool attackLanded = false;
 
     Player _player;
     MovementController _controller;
@@ -68,11 +69,11 @@ public class PlayerAttack : MonoBehaviour
         {
             float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimations[0].length);
 
-            if (isAttacking && _player._isFacingRight)
+            if (isAttacking && _player._isFacingRight && !attackLanded)
             {
                 _controller.SetHorizontalVelocity(smoothAttackMove);
             }
-            else if (isAttacking && !_player._isFacingRight)
+            else if (isAttacking && !_player._isFacingRight && !attackLanded)
             {
                 _controller.SetHorizontalVelocity(-smoothAttackMove);
             }
@@ -88,6 +89,7 @@ public class PlayerAttack : MonoBehaviour
                     if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
                     else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
                     attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
+                    attackLanded = true;
                 }
             }
         }
@@ -95,6 +97,7 @@ public class PlayerAttack : MonoBehaviour
         if (meleeAttackTimer > 0) { meleeAttackTimer -= Time.deltaTime; }
         else { 
             isAttacking = false; 
+            attackLanded = false;
             _player.disablePlayerInput = false;
         }
 

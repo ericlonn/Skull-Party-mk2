@@ -156,11 +156,12 @@ public class Player : MonoBehaviour
             stunnedTimer = stunnedTime;
             isStunned = true;
 
-            _playerRB.bodyType = RigidbodyType2D.Dynamic;
-            _playerRB.sharedMaterial = stunnedMaterial;
-            _playerRB.mass = 1;
+            // _playerRB.bodyType = RigidbodyType2D.Dynamic;
+            // _playerRB.sharedMaterial = stunnedMaterial;
+            // _playerRB.mass = 1;
 
-            _playerRB.AddForce(launchDirection, ForceMode2D.Impulse);
+            _controller.SetVelocity(new Vector2(0f, 0f));
+            _controller.AddForce(launchDirection);
             Debug.Log(launchDirection);
 
         }
@@ -169,9 +170,27 @@ public class Player : MonoBehaviour
         // _controller.AddForce(launchDirection * launchForce);
     }
 
+    void ApplyStun()
+    {
+        if (stunnedTimer > 0)
+        {
+            stunnedTimer -= Time.deltaTime;
+            disablePlayerInput = true;
+        }
+        else
+        {
+            isStunned = false;
+            disablePlayerInput = false;
+
+            _playerRB.sharedMaterial = null;
+            _playerRB.mass = .000001f;
+            _playerRB.bodyType = RigidbodyType2D.Kinematic;
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D other)
     {
-        ApplyBounce(other);
+        if (!isStunned) ApplyBounce(other);
     }
 
     void HandleInput()
@@ -208,23 +227,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void ApplyStun()
-    {
-        if (stunnedTimer > 0)
-        {
-            stunnedTimer -= Time.deltaTime;
-            disablePlayerInput = true;
-        }
-        else
-        {
-            isStunned = false;
-            disablePlayerInput = false;
 
-            _playerRB.sharedMaterial = null;
-            _playerRB.bodyType = RigidbodyType2D.Kinematic;
-            _playerRB.mass = .000001f;
-        }
-    }
 
     void Jump(float magnitude)
     {

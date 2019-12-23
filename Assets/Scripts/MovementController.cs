@@ -19,6 +19,8 @@ public class MovementController : MonoBehaviour
     public ControllerState State { get; private set; }
     public Vector2 Velocity { get { return _velocity; } }
     public bool HandleCollisions { get; set; }
+    public float gravMultiplierUp = 1f;
+    public float gravMultiplierDown = 2f;
 
     private Vector2 _velocity;
     private Transform _transform;
@@ -49,12 +51,14 @@ public class MovementController : MonoBehaviour
 		if (!Parameters.Flying)
 			ApplyGravity();
 		
+
         Move(Velocity * Time.deltaTime);
     }
     
     void ApplyGravity()
     {
-		_velocity.y += Parameters.Gravity * Time.deltaTime;
+        if (_velocity.y >= 0) { _velocity.y += Parameters.Gravity * Time.deltaTime * gravMultiplierUp; }
+        else if (_velocity.y < 0) { _velocity.y += Parameters.Gravity * Time.deltaTime * gravMultiplierDown; }
     }
 
     public void AddForce(Vector2 force)
