@@ -12,6 +12,7 @@ public class MovementController : MonoBehaviour
     public LayerMask VerticalMask;
     [Tooltip("Layers to collide with horizontally.")]
     public LayerMask HorizontalMask;
+    public LayerMask PlayerMask;
     [Header("Parameters")]
     public ControllerParameters DefaultParameters;
 
@@ -45,16 +46,16 @@ public class MovementController : MonoBehaviour
         _horizontalDistanceBetweenRays = (_playerCollider.size.x * Mathf.Abs(_localScale.x) - 2 * SkinWidth) / (TotalVerticalRays - 1);
         _verticalDistanceBetweenRays = (_playerCollider.size.y * Mathf.Abs(_localScale.y) - 2 * SkinWidth) / (TotalHorizontalRays - 1);
     }
-    
+
     public void LateUpdate()
     {
-		if (!Parameters.Flying)
-			ApplyGravity();
-		
+        if (!Parameters.Flying)
+            ApplyGravity();
+
 
         Move(Velocity * Time.deltaTime);
     }
-    
+
     void ApplyGravity()
     {
         if (_velocity.y >= 0) { _velocity.y += Parameters.Gravity * Time.deltaTime * gravMultiplierUp; }
@@ -65,7 +66,7 @@ public class MovementController : MonoBehaviour
     {
         _velocity += force * Time.deltaTime;
     }
-    
+
     public void SetVelocity(Vector2 force)
     {
         _velocity = force;
@@ -99,18 +100,18 @@ public class MovementController : MonoBehaviour
         {
             CalculateRayOrigins();
 
-			if (Mathf.Abs(deltaMovement.x) > .001f)
-				MoveHorizontally(ref deltaMovement);
+            if (Mathf.Abs(deltaMovement.x) > .001f)
+                MoveHorizontally(ref deltaMovement);
 
-			MoveVertically(ref deltaMovement);
+            MoveVertically(ref deltaMovement);
         }
 
-		_transform.Translate(deltaMovement);
+        _transform.Translate(deltaMovement);
 
-		if (Time.deltaTime > 0)
-			_velocity = deltaMovement / Time.deltaTime;
+        if (Time.deltaTime > 0)
+            _velocity = deltaMovement / Time.deltaTime;
 
-		_velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
+        _velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
     }
 
@@ -133,14 +134,16 @@ public class MovementController : MonoBehaviour
 
         for (var i = 0; i < TotalHorizontalRays; i++)
         {
+
             var rayVector = new Vector2(rayOrigin.x, rayOrigin.y + i * _verticalDistanceBetweenRays);
             Debug.DrawRay(rayVector, rayDirection * rayDistance, Color.red);
+            bool playerCollision = false;
 
             var raycastHit = Physics2D.Raycast(rayVector, rayDirection, rayDistance, HorizontalMask);
-			if (!raycastHit)
-				continue;
+            if (!raycastHit && !playerCollision)
+                continue;
 
-			deltaMovement.x = raycastHit.point.x - rayVector.x;
+            deltaMovement.x = raycastHit.point.x - rayVector.x;
             rayDistance = Mathf.Abs(deltaMovement.x);
 
             if (isGoingRight)
@@ -154,9 +157,9 @@ public class MovementController : MonoBehaviour
                 State.IsCollidingLeft = true;
             }
 
-			if (rayDistance < SkinWidth + .0001f)
-				break;
-		}
+            if (rayDistance < SkinWidth + .0001f)
+                break;
+        }
     }
 
     void MoveVertically(ref Vector2 deltaMovement)
@@ -172,15 +175,15 @@ public class MovementController : MonoBehaviour
             Debug.DrawRay(rayVector, rayDirection * rayDistance, Color.red);
 
             var raycastHit = Physics2D.Raycast(rayVector, rayDirection, rayDistance, VerticalMask);
-			if (!raycastHit)
-				continue;
+            if (!raycastHit)
+                continue;
 
             var hitObject = raycastHit.transform.gameObject;
 
-			if (hitObject.CompareTag("Platform") && (!isGoingDown || State.DropThroughPlatform))
-				continue;
+            if (hitObject.CompareTag("Platform") && (!isGoingDown || State.DropThroughPlatform))
+                continue;
 
-			deltaMovement.y = raycastHit.point.y - rayVector.y;
+            deltaMovement.y = raycastHit.point.y - rayVector.y;
             rayDistance = Mathf.Abs(deltaMovement.y);
 
             if (isGoingDown)
@@ -194,8 +197,8 @@ public class MovementController : MonoBehaviour
                 State.IsCollidingAbove = true;
             }
 
-			if (rayDistance < SkinWidth + .0001f)
-				break;
-		}
+            if (rayDistance < SkinWidth + .0001f)
+                break;
+        }
     }
 }

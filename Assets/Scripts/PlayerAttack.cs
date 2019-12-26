@@ -18,6 +18,7 @@ public class PlayerAttack : MonoBehaviour
 
     public bool attackCanLand = false;
     public bool attackLanded = false;
+    public bool isAttacking = false;
 
     Player _player;
     MovementController _controller;
@@ -27,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     float meleeAttackTimer = 0f;
 
     bool attackAgain = false;
-    bool isAttacking = false;
+
 
     int meleeAttackPhase = 1;
 
@@ -52,14 +53,16 @@ public class PlayerAttack : MonoBehaviour
             isAttacking = true;
             _applyAnimation.AttackAnimation(meleeAttackPhase);
             meleeAttackTimer = meleeAttackAnimations[0].length;
-            _controller.SetHorizontalVelocity(0f);
+
+            if (_player.IsGrounded)
+            {
+                _controller.SetHorizontalVelocity(0f);
+            }
         }
     }
 
     public void EvaluateAttack()
     {
-
-
         if (isAttacking)
         {
             _player.disablePlayerInput = true;
@@ -69,11 +72,11 @@ public class PlayerAttack : MonoBehaviour
         {
             float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimations[0].length);
 
-            if (isAttacking && _player._isFacingRight && !attackLanded)
+            if (isAttacking && _player._isFacingRight && !attackLanded && _player.IsGrounded)
             {
                 _controller.SetHorizontalVelocity(smoothAttackMove);
             }
-            else if (isAttacking && !_player._isFacingRight && !attackLanded)
+            else if (isAttacking && !_player._isFacingRight && !attackLanded && _player.IsGrounded)
             {
                 _controller.SetHorizontalVelocity(-smoothAttackMove);
             }
@@ -83,20 +86,26 @@ public class PlayerAttack : MonoBehaviour
 
             foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
             {
-                if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID())
+                if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID() && attackRayCast.collider.gameObject.CompareTag("Player"))
                 {
                     Vector2 launchForce;
                     if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
                     else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
                     attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
                     attackLanded = true;
+                    _controller.SetHorizontalVelocity(0f);
+                }
+                else if (attackRayCast.collider.CompareTag("Tossable"))
+                {
+                    attackRayCast.collider.GetComponent<TossableObject>().TriggerHit(Mathf.Sign(attackRayCast.collider.gameObject.transform.position.x - transform.position.x), gameObject);
                 }
             }
         }
 
         if (meleeAttackTimer > 0) { meleeAttackTimer -= Time.deltaTime; }
-        else { 
-            isAttacking = false; 
+        else
+        {
+            isAttacking = false;
             attackLanded = false;
             _player.disablePlayerInput = false;
         }
@@ -107,13 +116,13 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private void OnDrawGizmos()
-{
-    Gizmos.color = Color.magenta;
+    {
+        Gizmos.color = Color.magenta;
 
-    Gizmos.DrawLine(meleeAttackOrigin.position,
-    new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,
-    meleeAttackOrigin.position.y,
-    meleeAttackOrigin.position.z));
-}
+        Gizmos.DrawLine(meleeAttackOrigin.position,
+        new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,
+        meleeAttackOrigin.position.y,
+        meleeAttackOrigin.position.z));
+    }
 
 }

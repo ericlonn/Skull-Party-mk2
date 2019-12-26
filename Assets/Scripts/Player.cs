@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public float WallLinger = 0.1f;
 
     public bool isStunned = false;
+    public bool stunnedAir = false;
 
     public float bounceForceScaleX = 20f;
     public float bounceForceScaleY = 20f;
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public PhysicsMaterial2D stunnedMaterial;
+    public ParticleSystem stunnedParticleSystem;
 
     public bool AnticipateJump { get { return !IsGrounded && GroundIsNear && _controller.Velocity.y < 0; } }
     public bool IsTouchingWall { get { return _controller.State.IsCollidingLeft || _controller.State.IsCollidingRight; } }
@@ -99,6 +100,8 @@ public class Player : MonoBehaviour
         _controller = GetComponent<MovementController>();
         _playerRB = GetComponent<Rigidbody2D>();
         _isFacingRight = _transform.localScale.x > 0;
+
+        stunnedParticleSystem.Stop();
 
 
     }
@@ -156,41 +159,50 @@ public class Player : MonoBehaviour
             stunnedTimer = stunnedTime;
             isStunned = true;
 
-            // _playerRB.bodyType = RigidbodyType2D.Dynamic;
-            // _playerRB.sharedMaterial = stunnedMaterial;
-            // _playerRB.mass = 1;
-
             _controller.SetVelocity(new Vector2(0f, 0f));
-            _controller.AddForce(launchDirection);
+            _controller.SetVelocity(launchDirection);
             Debug.Log(launchDirection);
 
         }
-
-        // _controller.SetHorizontalVelocity(0f);
-        // _controller.AddForce(launchDirection * launchForce);
     }
 
     void ApplyStun()
     {
-        if (stunnedTimer > 0)
+        if (!stunnedAir && !IsGrounded) stunnedAir = true;
+
+        if (stunnedAir && IsGrounded)
+        {
+            stunnedTimer = 0;
+            stunnedAir = false;
+            isStunned = false;
+        }
+
+        if (isStunned)
         {
             stunnedTimer -= Time.deltaTime;
             disablePlayerInput = true;
+
+            if (_controller.State.IsCollidingRight || _controller.State.IsCollidingLeft)
+            {
+                _controller.SetHorizontalVelocity(-_controller.Velocity.x);
+            }
+
+            if (!stunnedParticleSystem.isPlaying) stunnedParticleSystem.Play();
+
+            if (Mathf.Sign(_controller.Velocity.x) == 1 && Mathf.Sign(transform.localScale.x) == -1) {
+                Flip();
+            } else if (Mathf.Sign(_controller.Velocity.x) == -1 && Mathf.Sign(transform.localScale.x) == 1)
+            {
+                Flip();
+            }
         }
         else
         {
             isStunned = false;
             disablePlayerInput = false;
-
-            _playerRB.sharedMaterial = null;
-            _playerRB.mass = .000001f;
-            _playerRB.bodyType = RigidbodyType2D.Kinematic;
+            stunnedTimer = 0;
+            stunnedParticleSystem.Stop();
         }
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (!isStunned) ApplyBounce(other);
     }
 
     void HandleInput()
@@ -250,25 +262,67 @@ public class Player : MonoBehaviour
         _isFacingRight = !_isFacingRight;
     }
 
-    private void ApplyBounce(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        float bounceForceX;
-        float bounceForceY = bounceForceScaleY;
+        bool otherTagIsPlayer = other.gameObject.CompareTag("Player");
+        bool otherIsNotSelf = other.gameObject.GetInstanceID() != gameObject.GetInstanceID();
+        bool otherIsStunned;
 
-        if (other.gameObject.tag == "Player")
+        if (otherTagIsPlayer)
         {
+            otherIsStunned = other.gameObject.GetComponent<Player>().isStunned;
+        }
+        else
+        {
+            otherIsStunned = false;
+        }
 
-            if (other.gameObject.transform.position.x > transform.position.x)
-            {
-                bounceForceX = -bounceForceScaleX;
-            }
-            else
-            {
-                bounceForceX = bounceForceScaleX;
-            }
+
+        if (otherTagIsPlayer && otherIsNotSelf)
+        {
+            ApplyBounce(transform.position - other.collider.gameObject.transform.position);
+            // Debug.Log(gameObject.name + " " + (transform.position - other.collider.gameObject.transform.position));
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != gameObject.GetInstanceID())
+        {
+            ApplyBounce(transform.position - other.collider.gameObject.transform.position);
+            // Debug.Log(gameObject.name + " " + (transform.position - other.collider.gameObject.transform.position));
+        }
+    }
+
+    public void ApplyBounce(Vector2 bounceDirection)
+    {
+        float bounceForceX = bounceDirection.normalized.x * bounceForceScaleX;
+        float bounceForceY;
+
+        if (IsGrounded)
+        {
+            bounceForceY = bounceForceScaleY;
+        }
+        else
+        {
+            bounceForceY = bounceDirection.normalized.y * bounceForceScaleY;
+        }
+
+        if (!isStunned && !GetComponent<PlayerAttack>().isAttacking)
+        {
 
             _controller.SetHorizontalVelocity(bounceForceX);
             _controller.SetVerticalVelocity(bounceForceY);
+        }
+
+        if (isStunned)
+        {
+            if (Mathf.Sign(bounceDirection.x) == -1){
+                transform.Translate(-Vector2.right * _playerCollider.bounds.extents.x);
+            } else {
+                transform.Translate(Vector2.right * _playerCollider.bounds.extents.x);
+            }
+            _controller.SetHorizontalVelocity(-_controller.Velocity.x);
         }
     }
 
