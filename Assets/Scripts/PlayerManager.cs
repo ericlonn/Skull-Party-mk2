@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> playerObjects = new List<GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         int playerNumber = 1;
 

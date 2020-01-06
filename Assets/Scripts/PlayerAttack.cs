@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
 
-    public List<AnimationClip> meleeAttackAnimations = new List<AnimationClip>();
+    public AnimationClip meleeAttackAnimation;
     public Transform meleeAttackOrigin;
     public LayerMask playerLayer;
+    public GameObject bulletPrefab;
 
     public float meleeAttack1MoveForce = 10f;
 
@@ -43,21 +44,28 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        EvaluateAttack();
+        if (!_player.isPoweredUp)
+        {
+            EvaluateAttack();
+        }
     }
 
     public void Attack()
     {
-        if (!isAttacking)
+        if (!isAttacking && !_player.isPoweredUp)
         {
             isAttacking = true;
             _applyAnimation.AttackAnimation(meleeAttackPhase);
-            meleeAttackTimer = meleeAttackAnimations[0].length;
+            meleeAttackTimer = meleeAttackAnimation.length;
 
             if (_player.IsGrounded)
             {
                 _controller.SetHorizontalVelocity(0f);
             }
+        }
+        else if (_player.isPoweredUp)
+        {
+            FireBullet();
         }
     }
 
@@ -70,7 +78,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (attackCanLand && isAttacking)
         {
-            float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimations[0].length);
+            float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimation.length);
 
             if (isAttacking && _player._isFacingRight && !attackLanded && _player.IsGrounded)
             {
@@ -109,10 +117,11 @@ public class PlayerAttack : MonoBehaviour
             attackLanded = false;
             _player.disablePlayerInput = false;
         }
+    }
 
-
-
-
+    private void FireBullet() {
+       Instantiate(bulletPrefab, meleeAttackOrigin.position, Quaternion.identity);
+       transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
     }
 
     private void OnDrawGizmos()

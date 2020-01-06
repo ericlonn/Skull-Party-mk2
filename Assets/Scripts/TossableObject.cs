@@ -36,15 +36,21 @@ public class TossableObject : MonoBehaviour
 
             Vector2 wallCheckOrigin;
             RaycastHit2D wallCheckHit;
-            if (tossDirection.x > 0) {
+            if (tossDirection.x > 0)
+            {
                 wallCheckOrigin = new Vector2(transform.position.x + _collider.bounds.extents.x, transform.position.y);
                 wallCheckHit = Physics2D.Raycast(wallCheckOrigin, Vector2.right, wallCheckDistance);
-            } else {
+            }
+            else
+            {
                 wallCheckOrigin = new Vector2(transform.position.x - _collider.bounds.extents.x, transform.position.y);
                 wallCheckHit = Physics2D.Raycast(wallCheckOrigin, -Vector2.right, wallCheckDistance);
             }
 
-            if (wallCheckHit.collider.gameObject.CompareTag("Ground")) {
+            if (wallCheckHit.collider == null) return;
+
+            if (wallCheckHit.collider.gameObject.CompareTag("Ground"))
+            {
                 Destroy(gameObject);
             }
         }
@@ -69,14 +75,17 @@ public class TossableObject : MonoBehaviour
             if (tossDirection.x > 1)
             {
                 other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(-stunForceX, stunForceY));
-            } else {
+            }
+            else
+            {
                 other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(stunForceX, stunForceY));
             }
 
             Destroy(gameObject);
         }
 
-        if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID()) {
+        if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
+        {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
         }
 

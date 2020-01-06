@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     [Tooltip("How long can wall jump still be performed after not touching a wall?")]
     public float WallLinger = 0.1f;
 
+    public GameObject _playerSprite;
+
     public bool isStunned = false;
     public bool stunnedAir = false;
 
@@ -76,15 +78,18 @@ public class Player : MonoBehaviour
     public bool IsTouchingWall { get { return _controller.State.IsCollidingLeft || _controller.State.IsCollidingRight; } }
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
     public bool _isFacingRight;
-
     public bool disablePlayerInput = false;
+
+    public bool isPoweredUp = false;
+    public float poweredUpTime = 10f;
 
     private enum Walls { left, rigth };
 
     private float _normalizedHorizontalSpeed;
     private float _groundLingerTime;
     private float _wallLingerTime;
-    private float stunnedTimer = 0;
+    private float stunnedTimer = 0f;
+    private float poweredUpTimer = 0f;
 
     private Walls _lastWallTouched;
 
@@ -139,6 +144,17 @@ public class Player : MonoBehaviour
 
         HandleInput();
 
+        if (Input.GetKeyDown(KeyCode.P) && !isPoweredUp)
+        {
+            Debug.Log("p down");
+            TriggerPoweredUp();
+        }
+
+        if (isPoweredUp)
+        {
+            ApplyPoweredUp();
+        }
+
         if (isStunned)
         {
             ApplyStun();
@@ -166,6 +182,32 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TriggerPoweredUp()
+    {
+        isPoweredUp = true;
+        poweredUpTimer = poweredUpTime;
+        _playerSprite.GetComponent<SpriteRenderer>().color = Color.green;
+
+    }
+
+    void DisablePoweredUp()
+    {
+        isPoweredUp = false;
+        poweredUpTimer = 0f;
+        _playerSprite.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    void ApplyPoweredUp()
+    {
+        poweredUpTimer -= Time.deltaTime;
+
+        if (poweredUpTimer <= 0)
+        {
+            DisablePoweredUp();
+        }
+
+    }
+
     void ApplyStun()
     {
         if (!stunnedAir && !IsGrounded) stunnedAir = true;
@@ -189,9 +231,11 @@ public class Player : MonoBehaviour
 
             if (!stunnedParticleSystem.isPlaying) stunnedParticleSystem.Play();
 
-            if (Mathf.Sign(_controller.Velocity.x) == 1 && Mathf.Sign(transform.localScale.x) == -1) {
+            if (Mathf.Sign(_controller.Velocity.x) == 1 && Mathf.Sign(transform.localScale.x) == -1)
+            {
                 Flip();
-            } else if (Mathf.Sign(_controller.Velocity.x) == -1 && Mathf.Sign(transform.localScale.x) == 1)
+            }
+            else if (Mathf.Sign(_controller.Velocity.x) == -1 && Mathf.Sign(transform.localScale.x) == 1)
             {
                 Flip();
             }
@@ -317,9 +361,12 @@ public class Player : MonoBehaviour
 
         if (isStunned)
         {
-            if (Mathf.Sign(bounceDirection.x) == -1){
+            if (Mathf.Sign(bounceDirection.x) == -1)
+            {
                 transform.Translate(-Vector2.right * _playerCollider.bounds.extents.x);
-            } else {
+            }
+            else
+            {
                 transform.Translate(Vector2.right * _playerCollider.bounds.extents.x);
             }
             _controller.SetHorizontalVelocity(-_controller.Velocity.x);
