@@ -120,7 +120,10 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private void FireBullet() {
-       Instantiate(bulletPrefab, meleeAttackOrigin.position, Quaternion.identity);
+       GameObject firedBullet = Instantiate(bulletPrefab, meleeAttackOrigin.position, Quaternion.identity);
+       firedBullet.GetComponent<BulletBehavior>().playerColor = _player.playerColor;
+       firedBullet.GetComponent<BulletBehavior>().isMovingRight = _player._isFacingRight;
+       firedBullet.GetComponent<BulletBehavior>().playerID = _player.gameObject.GetInstanceID();
        transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
     }
 

@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     public float bounceForceScaleY = 20f;
     public float stunnedTime = 2f;
 
+    public Color playerColor;
+
     [System.NonSerialized]
     public string xInput, yInput, jumpInput, attackInput;
 
@@ -146,7 +148,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P) && !isPoweredUp)
         {
-            Debug.Log("p down");
             TriggerPoweredUp();
         }
 
@@ -177,7 +178,6 @@ public class Player : MonoBehaviour
 
             _controller.SetVelocity(new Vector2(0f, 0f));
             _controller.SetVelocity(launchDirection);
-            Debug.Log(launchDirection);
 
         }
     }

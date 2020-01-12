@@ -4900,6 +4900,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a173c01224b9c8d44b2e49ca8d5ffaea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  isMovingRight: 0
   speedScale: 0.65
 --- !u!61 &2812968497762163103
 BoxCollider2D:
@@ -4943,7 +4945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5120437953227430359
 Transform:
   m_ObjectHideFlags: 0
