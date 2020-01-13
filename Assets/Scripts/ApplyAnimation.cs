@@ -17,8 +17,6 @@ public class ApplyAnimation : MonoBehaviour
         playerAnim = transform.Find("Squash and Stretch").transform.Find("player_sprite").GetComponent<Animator>();
         _player = GetComponent<Player>();
         _controller = GetComponent<MovementController>();
-        
-
 
     }
 
@@ -60,7 +58,10 @@ public class ApplyAnimation : MonoBehaviour
                 playerAnim.SetTrigger("meleeAttack1");    
             }
             else if (attackPhase == 2) {
-                playerAnim.SetTrigger("meleeAttack2");
+                playerAnim.SetBool("kick", true);
+            }
+            else if (attackPhase == 0) {
+                playerAnim.SetBool("kick", false);
             }
             
         }

@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2880207564584455591}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &176123725808266390
 GameObject:
@@ -60,7 +60,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2880207564584455591}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8814735117380439139
 ParticleSystem:
@@ -4783,6 +4783,36 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &2157851963421670909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8403637524902685885}
+  m_Layer: 9
+  m_Name: Kick Attack Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8403637524902685885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157851963421670909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2880207564584455591}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2880207564584455585
 GameObject:
   m_ObjectHideFlags: 0
@@ -4818,6 +4848,7 @@ Transform:
   m_Children:
   - {fileID: 2880207564674108083}
   - {fileID: 4004112144060740477}
+  - {fileID: 8403637524902685885}
   - {fileID: 6360671129091888643}
   - {fileID: 1388650101573328574}
   - {fileID: 2104966457538087321}
@@ -4950,12 +4981,14 @@ MonoBehaviour:
   meleeAttackAnimation: {fileID: 7400000, guid: 5649616c22347454ab71788123e6b106,
     type: 2}
   meleeAttackOrigin: {fileID: 4004112144060740477}
+  kickAttackOrigin: {fileID: 8403637524902685885}
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
   bulletPrefab: {fileID: 2812968497762163074, guid: 6d4b0d1833456a641a081f1cfddfbe8a,
     type: 3}
   meleeAttack1MoveForce: 30
+  kickAttackMoveForce: {x: 5, y: 5}
   meleeAttackRaycastDistance: 0.8
   meleeAttack1StunForceX: 30
   meleeAttack1StunForceY: 10
@@ -5056,7 +5089,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9efbc0b9089fa31459e7f0a4a3b7b8f3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5169,7 +5202,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 2880207564584455591}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3938529191317610902
 SpriteRenderer:

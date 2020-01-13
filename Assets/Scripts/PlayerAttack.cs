@@ -7,10 +7,12 @@ public class PlayerAttack : MonoBehaviour
 
     public AnimationClip meleeAttackAnimation;
     public Transform meleeAttackOrigin;
+    public Transform kickAttackOrigin;
     public LayerMask playerLayer;
     public GameObject bulletPrefab;
 
     public float meleeAttack1MoveForce = 10f;
+    public Vector2 kickAttackMoveForce = new Vector2(5f, 5f);
 
     public float meleeAttackRaycastDistance = .2f;
 
@@ -28,10 +30,7 @@ public class PlayerAttack : MonoBehaviour
 
     float meleeAttackTimer = 0f;
 
-    bool attackAgain = false;
-
-
-    int meleeAttackPhase = 1;
+    int attackType = 1;
 
     void Start()
     {
@@ -55,13 +54,20 @@ public class PlayerAttack : MonoBehaviour
         if (!isAttacking && !_player.isPoweredUp)
         {
             isAttacking = true;
-            _applyAnimation.AttackAnimation(meleeAttackPhase);
+            attackType = 1;
+            _applyAnimation.AttackAnimation(attackType);
             meleeAttackTimer = meleeAttackAnimation.length;
 
             if (_player.IsGrounded)
             {
                 _controller.SetHorizontalVelocity(0f);
             }
+        }
+        else if (!isAttacking && !_player.isPoweredUp && !_player.IsGrounded)
+        {
+            // isAttacking = true;
+            // attackType = 2;
+            // _applyAnimation.AttackAnimation(attackType);
         }
         else if (_player.isPoweredUp)
         {
@@ -75,56 +81,70 @@ public class PlayerAttack : MonoBehaviour
         {
             _player.disablePlayerInput = true;
         }
-
-        if (attackCanLand && isAttacking)
+        if (attackType == 1)
         {
-            float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimation.length);
-
-            if (isAttacking && _player._isFacingRight && !attackLanded && _player.IsGrounded)
+            if (attackCanLand && isAttacking)
             {
-                _controller.SetHorizontalVelocity(smoothAttackMove);
-            }
-            else if (isAttacking && !_player._isFacingRight && !attackLanded && _player.IsGrounded)
-            {
-                _controller.SetHorizontalVelocity(-smoothAttackMove);
-            }
+                float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimation.length);
 
-            Vector2 raycastDirection = transform.right;
-            RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
-
-            foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
-            {
-                if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID() && attackRayCast.collider.gameObject.CompareTag("Player"))
+                if (isAttacking && _player._isFacingRight && !attackLanded && _player.IsGrounded)
                 {
-                    Vector2 launchForce;
-                    if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
-                    else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
-                    attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
-                    attackLanded = true;
-                    _controller.SetHorizontalVelocity(0f);
+                    _controller.SetHorizontalVelocity(smoothAttackMove);
                 }
-                else if (attackRayCast.collider.CompareTag("Tossable"))
+                else if (isAttacking && !_player._isFacingRight && !attackLanded && _player.IsGrounded)
                 {
-                    attackRayCast.collider.GetComponent<TossableObject>().TriggerHit(Mathf.Sign(attackRayCast.collider.gameObject.transform.position.x - transform.position.x), gameObject);
+                    _controller.SetHorizontalVelocity(-smoothAttackMove);
                 }
+
+                Vector2 raycastDirection = transform.right;
+                RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
+
+                foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
+                {
+                    if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID() && attackRayCast.collider.gameObject.CompareTag("Player"))
+                    {
+                        Vector2 launchForce;
+                        if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
+                        else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
+                        attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
+                        attackLanded = true;
+                        _controller.SetHorizontalVelocity(0f);
+                    }
+                    else if (attackRayCast.collider.CompareTag("Tossable"))
+                    {
+                        attackRayCast.collider.GetComponent<TossableObject>().TriggerHit(Mathf.Sign(attackRayCast.collider.gameObject.transform.position.x - transform.position.x), gameObject);
+                    }
+                }
+            }
+
+            if (meleeAttackTimer > 0) { meleeAttackTimer -= Time.deltaTime; }
+            else
+            {
+                isAttacking = false;
+                attackLanded = false;
+                _player.disablePlayerInput = false;
+                attackType = 0;
             }
         }
-
-        if (meleeAttackTimer > 0) { meleeAttackTimer -= Time.deltaTime; }
-        else
+        else if (attackType == 2)
         {
-            isAttacking = false;
-            attackLanded = false;
-            _player.disablePlayerInput = false;
+            // if (_controller.State.IsCollidingBelow || _controller.State.IsCollidingRight || _controller.State.IsCollidingLeft || _player.WallSlide)
+            // {
+            //     isAttacking = false;
+            //     attackType = 0;
+            //     _applyAnimation.AttackAnimation(attackType);
+            //     _player.disablePlayerInput = false;
+            // }
         }
     }
 
-    private void FireBullet() {
-       GameObject firedBullet = Instantiate(bulletPrefab, meleeAttackOrigin.position, Quaternion.identity);
-       firedBullet.GetComponent<BulletBehavior>().playerColor = _player.playerColor;
-       firedBullet.GetComponent<BulletBehavior>().isMovingRight = _player._isFacingRight;
-       firedBullet.GetComponent<BulletBehavior>().playerID = _player.gameObject.GetInstanceID();
-       transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
+    private void FireBullet()
+    {
+        GameObject firedBullet = Instantiate(bulletPrefab, meleeAttackOrigin.position, Quaternion.identity);
+        firedBullet.GetComponent<BulletBehavior>().playerColor = _player.playerColor;
+        firedBullet.GetComponent<BulletBehavior>().isMovingRight = _player._isFacingRight;
+        firedBullet.GetComponent<BulletBehavior>().playerID = _player.gameObject.GetInstanceID();
+        transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
     }
 
     private void OnDrawGizmos()
