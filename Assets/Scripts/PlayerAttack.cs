@@ -51,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        if (!isAttacking && !_player.isPoweredUp)
+        if (!isAttacking && !_player.isPoweredUp && !_player.isStunned)
         {
             isAttacking = true;
             attackType = 1;
@@ -63,7 +63,7 @@ public class PlayerAttack : MonoBehaviour
                 _controller.SetHorizontalVelocity(0f);
             }
         }
-        else if (!isAttacking && !_player.isPoweredUp && !_player.IsGrounded)
+        else if (!isAttacking && !_player.isPoweredUp && !_player.IsGrounded && !_player.isStunned)
         {
             // isAttacking = true;
             // attackType = 2;

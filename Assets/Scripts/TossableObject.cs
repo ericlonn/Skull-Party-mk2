@@ -6,7 +6,7 @@ public class TossableObject : MonoBehaviour
 {
     public float tossForce = 10f;
     public float tossRotationMultiplier = 50f;
-    public float gravityMultiplier = 10f;
+    public float gravityMultiplier = 20f;
     public bool isTossed = false;
     public float stunForceX = 30f;
     public float stunForceY = 10f;
@@ -15,6 +15,7 @@ public class TossableObject : MonoBehaviour
     public Vector2 tossDirection = Vector2.zero;
     public BoxCollider2D _collider;
     public LayerMask groundLayer;
+    public ParticleSystem impactParticles;
 
     // Start is called before the first frame update
     void Start()
@@ -80,7 +81,7 @@ public class TossableObject : MonoBehaviour
             {
                 other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(stunForceX, stunForceY));
             }
-
+            Instantiate(impactParticles, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 
