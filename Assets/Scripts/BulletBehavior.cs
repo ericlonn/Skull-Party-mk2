@@ -10,6 +10,7 @@ public class BulletBehavior : MonoBehaviour
     public float speedScale = 2f;
     public float StunForceX = 30f;
     public float StunForceY = 10f;
+    public ParticleSystem hitParticles;
 
     private SpriteRenderer bulletSprite;
 
@@ -18,6 +19,8 @@ public class BulletBehavior : MonoBehaviour
         bulletSprite = transform.Find("bullet sprite").GetComponent<SpriteRenderer>();
         playerColor.a = 1;
         bulletSprite.color = playerColor;
+
+
 
         if (isMovingRight)
         {
@@ -53,6 +56,9 @@ public class BulletBehavior : MonoBehaviour
             if (isMovingRight) { launchForce = new Vector2(StunForceX, StunForceY); }
             else { launchForce = new Vector2(-StunForceX, StunForceY); }
             other.gameObject.GetComponent<Player>().TriggerStun(launchForce);
+
+            Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity, other.gameObject.transform);
+            Destroy(gameObject, 0f);
         }
     }
 }
