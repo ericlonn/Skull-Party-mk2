@@ -3,6 +3,7 @@
 public class Player : MonoBehaviour
 {
     public int playerNumber;
+    public int powerskullCount = 0;
 
     [Tooltip("Jump strenght.")]
     public float JumpMagnitude = 12f;
