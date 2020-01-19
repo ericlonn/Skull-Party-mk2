@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4207527708249639289}
   - component: {fileID: 6645959414377506990}
   - component: {fileID: 4873983476382507417}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Powerskull
-  m_TagString: Untagged
+  m_TagString: Powerskull
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b0f5d30a0088f6d45a6fc8bb72c5bd43, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -188,3 +188,6 @@ MonoBehaviour:
   collectedAnimLargeScale: 1.2
   collectedAnimLarge: 0.3
   collectedAnimSmall: 0.2
+  collectedAlpha: 0.75
+  bumpForceX: 10
+  bumpForceY: 3

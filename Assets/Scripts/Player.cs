@@ -4,6 +4,8 @@ public class Player : MonoBehaviour
 {
     public int playerNumber;
     public int powerskullCount = 0;
+    public int health = 3;
+    public int poweredUpAmmo = 3;
 
     [Tooltip("Jump strenght.")]
     public float JumpMagnitude = 12f;
@@ -85,6 +87,7 @@ public class Player : MonoBehaviour
 
     public bool isPoweredUp = false;
     public float poweredUpTime = 10f;
+    public float poweredUpTimer = 0f;
 
     private enum Walls { left, rigth };
 
@@ -92,7 +95,8 @@ public class Player : MonoBehaviour
     private float _groundLingerTime;
     private float _wallLingerTime;
     private float stunnedTimer = 0f;
-    private float poweredUpTimer = 0f;
+    
+    
 
     private Walls _lastWallTouched;
 
@@ -145,12 +149,12 @@ public class Player : MonoBehaviour
         }
         else _controller.Parameters.Flying = false;
 
-        HandleInput();
-
-        if (Input.GetKeyDown(KeyCode.P) && !isPoweredUp)
+        if (powerskullCount == 3)
         {
             TriggerPoweredUp();
         }
+
+        HandleInput();
 
         if (isPoweredUp)
         {
@@ -188,6 +192,7 @@ public class Player : MonoBehaviour
         isPoweredUp = true;
         poweredUpTimer = poweredUpTime;
         _playerSprite.GetComponent<SpriteRenderer>().color = Color.green;
+        GetComponent<PlayerAttack>().ammoCount = poweredUpAmmo;
 
     }
 
@@ -278,6 +283,7 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown(attackInput))
             {
                 gameObject.GetComponent<PlayerAttack>().Attack();
+                TriggerPoweredUp();
             }
 
             _controller.State.DropThroughPlatform = Input.GetAxisRaw(yInput) < 0;

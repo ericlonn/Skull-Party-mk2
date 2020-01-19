@@ -10,7 +10,7 @@ public class BulletBehavior : MonoBehaviour
     public float speedScale = 2f;
     public float StunForceX = 30f;
     public float StunForceY = 10f;
-    public ParticleSystem hitParticles;
+    public GameObject hitParticles;
 
     private SpriteRenderer bulletSprite;
 
@@ -50,14 +50,16 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID) {
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID)
+        {
             Debug.Log("other: " + other.gameObject.GetInstanceID() + " | self:" + gameObject.GetInstanceID());
             Vector2 launchForce;
             if (isMovingRight) { launchForce = new Vector2(StunForceX, StunForceY); }
             else { launchForce = new Vector2(-StunForceX, StunForceY); }
             other.gameObject.GetComponent<Player>().TriggerStun(launchForce);
 
-            Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity, other.gameObject.transform);
+            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
+
             Destroy(gameObject, 0f);
         }
     }

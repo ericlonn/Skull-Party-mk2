@@ -23,12 +23,15 @@ public class PlayerAttack : MonoBehaviour
     public bool attackLanded = false;
     public bool isAttacking = false;
 
+    public int ammoCount = 0;
+
     Player _player;
     MovementController _controller;
     Animator _animator;
     ApplyAnimation _applyAnimation;
 
     float meleeAttackTimer = 0f;
+
 
     int attackType = 1;
 
@@ -145,6 +148,7 @@ public class PlayerAttack : MonoBehaviour
         firedBullet.GetComponent<BulletBehavior>().isMovingRight = _player._isFacingRight;
         firedBullet.GetComponent<BulletBehavior>().playerID = _player.gameObject.GetInstanceID();
         transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
+        ammoCount -= 1;
     }
 
     private void OnDrawGizmos()

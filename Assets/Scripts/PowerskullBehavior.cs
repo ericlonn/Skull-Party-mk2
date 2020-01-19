@@ -9,11 +9,15 @@ public class PowerskullBehavior : MonoBehaviour
     public float collectedAnimLarge = .5f;
     public float collectedAnimSmall = .5f;
     public float collectedAlpha = .75f;
+    public float bumpForceX = 1f;
+    public float bumpForceY = 1f;
+
+    Rigidbody2D _rb;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _rb = GetComponent<Rigidbody2D>();
 
     }
 
@@ -25,11 +29,20 @@ public class PowerskullBehavior : MonoBehaviour
             transform.position = playerCollected.transform.position;
         }
 
+        if (_rb.velocity.x > bumpForceX)
+        {
+            _rb.velocity = new Vector2(bumpForceX, _rb.velocity.y);
+        }
+
+        if (_rb.velocity.y > bumpForceY)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, bumpForceY);
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && playerCollected == null)
+        if (other.gameObject.CompareTag("Player") && playerCollected == null && !other.gameObject.GetComponent<Player>().isPoweredUp)
         {
             playerCollected = other.gameObject;
             // GetComponent<SpriteRenderer>().enabled = false;
@@ -40,6 +53,12 @@ public class PowerskullBehavior : MonoBehaviour
             tmp.a = collectedAlpha;
             GetComponent<SpriteRenderer>().color = tmp;
             StartCoroutine("CollectedAnim");
+        }
+        else if (other.gameObject.CompareTag("Player") && playerCollected == null && other.gameObject.GetComponent<Player>().isPoweredUp)
+        {
+            float poweredPlayerDirection = Mathf.Sign(transform.position.x - other.gameObject.transform.position.x);
+            Vector2 bumpVector = new Vector2(bumpForceX * poweredPlayerDirection, bumpForceY);
+            GetComponent<Rigidbody2D>().AddForce(bumpVector, ForceMode2D.Impulse);
         }
     }
 

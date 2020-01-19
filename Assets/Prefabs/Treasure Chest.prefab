@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6020612193047014073}
   - component: {fileID: 6020612193047014074}
   - component: {fileID: 6020612193047014078}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Treasure Chest
   m_TagString: Tossable
   m_Icon: {fileID: 0}
