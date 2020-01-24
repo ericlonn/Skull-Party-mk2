@@ -4904,7 +4904,7 @@ MonoBehaviour:
   isMovingRight: 0
   playerID: 0
   speedScale: 0.3
-  StunForceX: 30
+  StunForceX: 10
   StunForceY: 10
   hitParticles: {fileID: 5330791654129069584, guid: 0c3d959d3bc1fd04c807b2f009989308,
     type: 3}

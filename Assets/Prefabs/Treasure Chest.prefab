@@ -136,6 +136,10 @@ MonoBehaviour:
     m_Bits: 256
   impactParticles: {fileID: 2278635924003363623, guid: 55add8a35830a6742855769fc8e09d0e,
     type: 3}
+  powerskullObj: {fileID: 4207527708249639284, guid: 22d177bdbdc64234496ac6acc4482d02,
+    type: 3}
+  psLaunchSpeedX: 5
+  psLaunchSpeedY: 10
 --- !u!50 &6020612193047014078
 Rigidbody2D:
   serializedVersion: 4

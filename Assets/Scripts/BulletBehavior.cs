@@ -52,11 +52,10 @@ public class BulletBehavior : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID)
         {
-            Debug.Log("other: " + other.gameObject.GetInstanceID() + " | self:" + gameObject.GetInstanceID());
             Vector2 launchForce;
             if (isMovingRight) { launchForce = new Vector2(StunForceX, StunForceY); }
             else { launchForce = new Vector2(-StunForceX, StunForceY); }
-            other.gameObject.GetComponent<Player>().TriggerStun(launchForce);
+            other.gameObject.GetComponent<Player>().TriggerStun(launchForce, false);
 
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
 

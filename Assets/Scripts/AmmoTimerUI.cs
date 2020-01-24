@@ -6,6 +6,7 @@ public class AmmoTimerUI : MonoBehaviour
 {
     public GameObject ammoCounter1, ammoCounter2, ammoCounter3;
     public GameObject timerBar;
+    public GameObject timerBarBG;
     public GameObject barMask;
     public float barMaskStartingPosX, barMaskEndingPosX;
     Player _player;
@@ -29,6 +30,7 @@ public class AmmoTimerUI : MonoBehaviour
         if (_player.isPoweredUp)
         {
             if (timerBar.active == false) timerBar.SetActive(true);
+            if (timerBarBG.active == false) timerBarBG.SetActive(true);
 
             switch (transform.parent.GetComponent<PlayerAttack>().ammoCount)
             {

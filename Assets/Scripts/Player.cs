@@ -42,7 +42,8 @@ public class Player : MonoBehaviour
 
     public float bounceForceScaleX = 20f;
     public float bounceForceScaleY = 20f;
-    public float stunnedTime = 2f;
+    public float stunnedTime = 4f;
+    public float ejectedTime = 5f;
 
     public Color playerColor;
 
@@ -88,6 +89,8 @@ public class Player : MonoBehaviour
     public bool isPoweredUp = false;
     public float poweredUpTime = 10f;
     public float poweredUpTimer = 0f;
+    public GameObject powerskullPrefab;
+    public GameObject poweredUpFire;
 
     private enum Walls { left, rigth };
 
@@ -95,8 +98,11 @@ public class Player : MonoBehaviour
     private float _groundLingerTime;
     private float _wallLingerTime;
     private float stunnedTimer = 0f;
-    
-    
+    private float ejectedTimer = 5f;
+
+    private bool bulletStunned;
+
+    private int ejectedCounter;
 
     private Walls _lastWallTouched;
 
@@ -115,6 +121,8 @@ public class Player : MonoBehaviour
 
         stunnedParticleSystem.Stop();
 
+        ejectedTimer = ejectedTime;
+
 
     }
 
@@ -127,6 +135,8 @@ public class Player : MonoBehaviour
             jumpInput = "Jump" + playerNumber;
             attackInput = "Attack" + playerNumber;
         }
+
+        ejectedTimer -= Time.deltaTime;
 
         _groundLingerTime += Time.deltaTime;
         if (IsTouchingWall)
@@ -149,7 +159,7 @@ public class Player : MonoBehaviour
         }
         else _controller.Parameters.Flying = false;
 
-        if (powerskullCount == 3)
+        if (powerskullCount == 3 && !isPoweredUp)
         {
             TriggerPoweredUp();
         }
@@ -174,7 +184,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TriggerStun(Vector2 launchDirection)
+    public void TriggerStun(Vector2 launchDirection, bool bulletStun)
     {
         if (!isStunned)
         {
@@ -182,16 +192,37 @@ public class Player : MonoBehaviour
             isStunned = true;
 
             _controller.SetVelocity(new Vector2(0f, 0f));
-            _controller.SetVelocity(launchDirection);
+
+            if (_controller.State.IsCollidingRight && Mathf.Sign(launchDirection.x) > 0)
+            {
+                _controller.SetVelocity(new Vector2(-Mathf.Abs(launchDirection.x), launchDirection.y));
+            }
+            else if (_controller.State.IsCollidingLeft && Mathf.Sign(launchDirection.x) < 0)
+            {
+                _controller.SetVelocity(new Vector2(Mathf.Abs(launchDirection.x), launchDirection.y));
+            }
+            else
+            {
+                _controller.SetVelocity(launchDirection);
+            }
 
         }
+
+        if (bulletStun)
+        {
+            bulletStunned = true;
+        }
+
+        transform.position += new Vector3(0f, .5f, 0f);
+
+
     }
 
     public void TriggerPoweredUp()
     {
         isPoweredUp = true;
         poweredUpTimer = poweredUpTime;
-        _playerSprite.GetComponent<SpriteRenderer>().color = Color.green;
+        poweredUpFire.SetActive(true);
         GetComponent<PlayerAttack>().ammoCount = poweredUpAmmo;
 
     }
@@ -200,6 +231,8 @@ public class Player : MonoBehaviour
     {
         isPoweredUp = false;
         poweredUpTimer = 0f;
+        powerskullCount = 0;
+        poweredUpFire.gameObject.GetComponent<PowerskullFire>().PowerDown();
         _playerSprite.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
@@ -216,24 +249,22 @@ public class Player : MonoBehaviour
 
     void ApplyStun()
     {
-        if (!stunnedAir && !IsGrounded) stunnedAir = true;
 
-        if (stunnedAir && IsGrounded)
-        {
-            stunnedTimer = 0;
-            stunnedAir = false;
-            isStunned = false;
-        }
-
-        if (isStunned)
+        if (isStunned && stunnedTimer > 0f)
         {
             stunnedTimer -= Time.deltaTime;
+            Debug.Log("now");
             disablePlayerInput = true;
 
             if (_controller.State.IsCollidingRight || _controller.State.IsCollidingLeft)
             {
                 _controller.SetHorizontalVelocity(-_controller.Velocity.x);
             }
+
+            // if (_controller.State.IsCollidingBelow)
+            // {
+            //     isStunned = false;
+            // }
 
             if (!stunnedParticleSystem.isPlaying) stunnedParticleSystem.Play();
 
@@ -252,12 +283,12 @@ public class Player : MonoBehaviour
             disablePlayerInput = false;
             stunnedTimer = 0;
             stunnedParticleSystem.Stop();
+            bulletStunned = false;
         }
     }
 
     void HandleInput()
     {
-
 
         if (!disablePlayerInput)
         {
@@ -283,7 +314,7 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown(attackInput))
             {
                 gameObject.GetComponent<PlayerAttack>().Attack();
-                TriggerPoweredUp();
+                // TriggerPoweredUp();
             }
 
             _controller.State.DropThroughPlatform = Input.GetAxisRaw(yInput) < 0;
@@ -329,7 +360,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if (otherTagIsPlayer && otherIsNotSelf)
+        if (otherTagIsPlayer && otherIsNotSelf && !_controller.State.IsCollidingRight && !_controller.State.IsCollidingLeft)
         {
             ApplyBounce(transform.position - other.collider.gameObject.transform.position);
             // Debug.Log(gameObject.name + " " + (transform.position - other.collider.gameObject.transform.position));
@@ -338,11 +369,12 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != gameObject.GetInstanceID())
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != gameObject.GetInstanceID() && !_controller.State.IsCollidingRight && !_controller.State.IsCollidingLeft)
         {
             ApplyBounce(transform.position - other.collider.gameObject.transform.position);
             // Debug.Log(gameObject.name + " " + (transform.position - other.collider.gameObject.transform.position));
         }
+
     }
 
     public void ApplyBounce(Vector2 bounceDirection)
@@ -366,17 +398,32 @@ public class Player : MonoBehaviour
             _controller.SetVerticalVelocity(bounceForceY);
         }
 
-        if (isStunned)
+        // if (isStunned)
+        // {
+        //     if (Mathf.Sign(bounceDirection.x) == -1)
+        //     {
+        //         transform.Translate(-Vector2.right * _playerCollider.bounds.extents.x);
+        //     }
+        //     else
+        //     {
+        //         transform.Translate(Vector2.right * _playerCollider.bounds.extents.x);
+        //     }
+        //     _controller.SetHorizontalVelocity(-_controller.Velocity.x);
+        // }
+    }
+
+    public void EjectPowerskull()
+    {
+        ejectedCounter++;
+
+        if (powerskullCount > 0 && ejectedCounter >= 3 && ejectedTimer <= 0f)
         {
-            if (Mathf.Sign(bounceDirection.x) == -1)
-            {
-                transform.Translate(-Vector2.right * _playerCollider.bounds.extents.x);
-            }
-            else
-            {
-                transform.Translate(Vector2.right * _playerCollider.bounds.extents.x);
-            }
-            _controller.SetHorizontalVelocity(-_controller.Velocity.x);
+            Vector2 offsetPos = new Vector2(transform.position.x, transform.position.y + 2);
+            GameObject ejectedPowerskull = Instantiate(powerskullPrefab, offsetPos, Quaternion.identity);
+            ejectedPowerskull.GetComponent<PowerskullBehavior>().ejected = true;
+            powerskullCount--;
+            ejectedCounter = 0;
+            ejectedTimer = ejectedTime;
         }
     }
 

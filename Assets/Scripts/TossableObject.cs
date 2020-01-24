@@ -17,6 +17,10 @@ public class TossableObject : MonoBehaviour
     public LayerMask groundLayer;
     public ParticleSystem impactParticles;
 
+    public GameObject powerskullObj;
+    public float psLaunchSpeedX = 30f;
+    public float psLaunchSpeedY = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,8 @@ public class TossableObject : MonoBehaviour
 
             if (wallCheckHit.collider.gameObject.CompareTag("Ground"))
             {
+                Instantiate(impactParticles, transform.position, Quaternion.identity);
+                SpawnPowerskull();
                 Destroy(gameObject);
             }
         }
@@ -73,15 +79,11 @@ public class TossableObject : MonoBehaviour
     {
         if (isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {
-            if (tossDirection.x > 1)
-            {
-                other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(-stunForceX, stunForceY));
-            }
-            else
-            {
-                other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(stunForceX, stunForceY));
-            }
+
+            other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(Mathf.Sign(tossDirection.x) * stunForceX, stunForceY), false);
+
             Instantiate(impactParticles, transform.position, Quaternion.identity);
+            SpawnPowerskull();
             Destroy(gameObject);
         }
 
@@ -89,6 +91,16 @@ public class TossableObject : MonoBehaviour
         {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
         }
+
+    }
+
+    private void SpawnPowerskull()
+    {
+        GameObject newPowerskull = Instantiate(powerskullObj, transform.position, Quaternion.identity);
+
+        float randomXForce = -Mathf.Sign(tossDirection.x) * psLaunchSpeedX;
+        float randomYForce = psLaunchSpeedY;
+        newPowerskull.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomXForce, randomYForce), ForceMode2D.Impulse);
 
     }
 

@@ -109,7 +109,11 @@ public class PlayerAttack : MonoBehaviour
                         Vector2 launchForce;
                         if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
                         else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
-                        attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce);
+                        if (!attackRayCast.collider.gameObject.GetComponent<Player>().isStunned)
+                        {
+                            attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce, false);
+                        }
+                        attackRayCast.collider.gameObject.GetComponent<Player>().EjectPowerskull();
                         attackLanded = true;
                         _controller.SetHorizontalVelocity(0f);
                     }
@@ -149,6 +153,11 @@ public class PlayerAttack : MonoBehaviour
         firedBullet.GetComponent<BulletBehavior>().playerID = _player.gameObject.GetInstanceID();
         transform.Find("bullet flash0").GetComponent<Animator>().SetTrigger("fire");
         ammoCount -= 1;
+        if (ammoCount == 0)
+        {
+            _player.poweredUpTimer = 0;
+            _player.powerskullCount = 0;
+        }
     }
 
     private void OnDrawGizmos()
