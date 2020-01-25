@@ -41,7 +41,9 @@ public class PlayerManager : MonoBehaviour
             {
                 if (playerObject.GetComponent<Player>().health <= 0)
                 {
+                    Transform deadPlayerTranform = playerObject.transform;
                     GameObject playerStandIn = Instantiate(deathStandIn, playerObject.transform.position, Quaternion.identity);
+                    playerStandIn.GetComponent<PlayerDeathSpriteBehavior>().targetGroup = camTargetGroup;
 
                     playerStandIn.GetComponent<SpriteRenderer>().color = playerObject.GetComponent<Player>().playerColor;
 
@@ -53,8 +55,12 @@ public class PlayerManager : MonoBehaviour
 
                     playerStandIn.GetComponent<PlayerDeathSpriteBehavior>().playerColor = playerObject.GetComponent<Player>().playerColor;
 
+                    camTargetGroup.AddMember(playerStandIn.transform,1f, 0f);
+
                     Destroy(playerObject);
                 }
+
+                
             }
         }
     }

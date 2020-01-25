@@ -126,7 +126,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Glow: 0
+    - _Glow: 29.3
     - _GlowTexUsed: 0
     - _GradBlend: 1
     - _GrassManualAnim: 1

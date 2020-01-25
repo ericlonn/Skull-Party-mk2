@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerDeathSpriteBehavior : MonoBehaviour
 {
 
     public GameObject bloodSplatterObj;
     public Color playerColor = Color.white;
+    public CinemachineTargetGroup targetGroup;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
         newSplatterExplosionSprite.color = playerColor;
         newSplatterBloodSprite.color = playerColor;
 
-
-        Destroy(gameObject);
+        targetGroup.RemoveMember(transform);
+        Destroy(gameObject);    
     }
 }

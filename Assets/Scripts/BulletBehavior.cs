@@ -56,16 +56,21 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID && !other.gameObject.GetComponent<Player>().isStunned)
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID)
         {
             Vector2 launchForce;
             if (isMovingRight) { launchForce = new Vector2(StunForceX, StunForceY); }
             else { launchForce = new Vector2(-StunForceX, StunForceY); }
-            other.gameObject.GetComponent<Player>().TriggerStun(launchForce, true);
-            other.gameObject.GetComponent<Player>().health--;
+            if (!other.gameObject.GetComponent<Player>().isStunned)
+            {
+                other.gameObject.GetComponent<Player>().health--;
+                other.gameObject.GetComponent<Player>().TriggerStun(launchForce, true);
+            }
+
+
 
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
-            newHitParticles.transform.Find("bullet hit sprite").GetComponent<SpriteRenderer>().color = playerColor;
+            newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
 
             Destroy(gameObject, 0f);
         }
@@ -73,7 +78,7 @@ public class BulletBehavior : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
-            newHitParticles.transform.Find("bullet hit sprite").GetComponent<SpriteRenderer>().color = playerColor;
+            newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
 
             Destroy(gameObject, 0f);
         }
