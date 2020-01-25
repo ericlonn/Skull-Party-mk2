@@ -85,12 +85,14 @@ public class Player : MonoBehaviour
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
     public bool _isFacingRight;
     public bool disablePlayerInput = false;
+    public bool bulletStunned;
 
     public bool isPoweredUp = false;
     public float poweredUpTime = 10f;
     public float poweredUpTimer = 0f;
     public GameObject powerskullPrefab;
     public GameObject poweredUpFire;
+
 
     private enum Walls { left, rigth };
 
@@ -100,7 +102,7 @@ public class Player : MonoBehaviour
     private float stunnedTimer = 0f;
     private float ejectedTimer = 5f;
 
-    private bool bulletStunned;
+
 
     private int ejectedCounter;
 
@@ -186,8 +188,11 @@ public class Player : MonoBehaviour
 
     public void TriggerStun(Vector2 launchDirection, bool bulletStun)
     {
+
         if (!isStunned)
         {
+            Debug.Log("TriggerStun()");
+            transform.Translate(new Vector3(0, GroundCheckDistance, 0));
             stunnedTimer = stunnedTime;
             isStunned = true;
 
@@ -212,8 +217,6 @@ public class Player : MonoBehaviour
         {
             bulletStunned = true;
         }
-
-        transform.position += new Vector3(0f, .5f, 0f);
 
 
     }
@@ -249,11 +252,20 @@ public class Player : MonoBehaviour
 
     void ApplyStun()
     {
+        stunnedTimer -= Time.deltaTime;
 
-        if (isStunned && stunnedTimer > 0f)
+        if (stunnedTimer < 0)
         {
-            stunnedTimer -= Time.deltaTime;
-            Debug.Log("now");
+            isStunned = false;
+        }
+
+        if (GroundIsNear && !bulletStunned && stunnedTime / stunnedTimer < .8f)
+        {
+            isStunned = false;
+        }
+
+        if (isStunned && !bulletStunned)
+        {
             disablePlayerInput = true;
 
             if (_controller.State.IsCollidingRight || _controller.State.IsCollidingLeft)
@@ -261,12 +273,7 @@ public class Player : MonoBehaviour
                 _controller.SetHorizontalVelocity(-_controller.Velocity.x);
             }
 
-            // if (_controller.State.IsCollidingBelow)
-            // {
-            //     isStunned = false;
-            // }
-
-            if (!stunnedParticleSystem.isPlaying) stunnedParticleSystem.Play();
+            if (!stunnedParticleSystem.isPlaying && !_controller.State.IsCollidingBelow) stunnedParticleSystem.Play();
 
             if (Mathf.Sign(_controller.Velocity.x) == 1 && Mathf.Sign(transform.localScale.x) == -1)
             {
@@ -277,13 +284,46 @@ public class Player : MonoBehaviour
                 Flip();
             }
         }
-        else
+        else if (isStunned && bulletStunned)
+        {
+            disablePlayerInput = true;
+
+            if (_controller.State.IsCollidingRight || _controller.State.IsCollidingLeft)
+            {
+                _controller.SetHorizontalVelocity(-_controller.Velocity.x);
+            }
+
+            if (_controller.State.IsCollidingBelow) {
+                _controller.SetHorizontalVelocity(_controller.Velocity.x * .98f);
+            }
+
+            if (!stunnedParticleSystem.isPlaying && !_controller.State.IsCollidingBelow)
+            {
+                stunnedParticleSystem.Play();
+            }
+            else if (stunnedParticleSystem.isPlaying && _controller.State.IsCollidingBelow)
+            {
+                stunnedParticleSystem.Stop();
+            }
+
+            if (Mathf.Sign(_controller.Velocity.x) == 1 && Mathf.Sign(transform.localScale.x) == -1)
+            {
+                Flip();
+            }
+            else if (Mathf.Sign(_controller.Velocity.x) == -1 && Mathf.Sign(transform.localScale.x) == 1)
+            {
+                Flip();
+            }
+        }
+
+        if (!isStunned)
         {
             isStunned = false;
             disablePlayerInput = false;
             stunnedTimer = 0;
             stunnedParticleSystem.Stop();
             bulletStunned = false;
+            _controller.SetVelocity(Vector2.zero);
         }
     }
 
@@ -364,6 +404,12 @@ public class Player : MonoBehaviour
         {
             ApplyBounce(transform.position - other.collider.gameObject.transform.position);
             // Debug.Log(gameObject.name + " " + (transform.position - other.collider.gameObject.transform.position));
+        }
+
+        if (other.gameObject.CompareTag("Ground") && !bulletStunned)
+        {
+            isStunned = false;
+            ApplyStun();
         }
     }
 

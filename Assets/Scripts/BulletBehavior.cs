@@ -40,26 +40,44 @@ public class BulletBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Find("bullet sprite").GetComponent<SpriteRenderer>().color = playerColor;
         // if (isMovingRight)
         // {
-        transform.Translate(Vector2.right * speedScale);
+
         // } else {
         //     transform.Translate(-Vector2.right * speedScale);
         // }
     }
 
+    private void FixedUpdate()
+    {
+        transform.Translate(Vector2.right * speedScale * Time.deltaTime);
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID)
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != playerID && !other.gameObject.GetComponent<Player>().isStunned)
         {
             Vector2 launchForce;
             if (isMovingRight) { launchForce = new Vector2(StunForceX, StunForceY); }
             else { launchForce = new Vector2(-StunForceX, StunForceY); }
-            other.gameObject.GetComponent<Player>().TriggerStun(launchForce, false);
+            other.gameObject.GetComponent<Player>().TriggerStun(launchForce, true);
+            other.gameObject.GetComponent<Player>().health--;
 
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
+            newHitParticles.transform.Find("bullet hit sprite").GetComponent<SpriteRenderer>().color = playerColor;
 
             Destroy(gameObject, 0f);
         }
+
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
+            newHitParticles.transform.Find("bullet hit sprite").GetComponent<SpriteRenderer>().color = playerColor;
+
+            Destroy(gameObject, 0f);
+        }
+
+        Debug.Log(other.gameObject.tag);
     }
 }

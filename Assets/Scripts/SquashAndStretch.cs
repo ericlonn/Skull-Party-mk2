@@ -18,6 +18,7 @@ public class SquashAndStretch : MonoBehaviour
 
     private void Start() {
         previousIsGrounded = _player.IsGrounded;
+
     }
 
     private void Update()

@@ -278,7 +278,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 5.09
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5109,7 +5109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab7ed0b472a1432b8931441b2a5d1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 0
+  playerNumber: 2
   powerskullCount: 0
   health: 3
   poweredUpAmmo: 3
@@ -5127,12 +5127,13 @@ MonoBehaviour:
   stunnedAir: 0
   bounceForceScaleX: 50
   bounceForceScaleY: 10
-  stunnedTime: 0.75
+  stunnedTime: 2.5
   ejectedTime: 5
   playerColor: {r: 0.95847404, g: 0.990566, b: 0, a: 1}
   stunnedParticleSystem: {fileID: 8814735117380439139}
   _isFacingRight: 0
   disablePlayerInput: 0
+  bulletStunned: 0
   isPoweredUp: 0
   poweredUpTime: 10
   poweredUpTimer: 0
@@ -5192,7 +5193,7 @@ MonoBehaviour:
     type: 3}
   meleeAttack1MoveForce: 30
   kickAttackMoveForce: {x: 5, y: 5}
-  meleeAttackRaycastDistance: 0.8
+  meleeAttackRaycastDistance: 1
   meleeAttack1StunForceX: 30
   meleeAttack1StunForceY: 10
   attackCanLand: 0
@@ -5255,6 +5256,7 @@ GameObject:
   - component: {fileID: 2880207565776421185}
   - component: {fileID: 978182308}
   - component: {fileID: 4585333359133793720}
+  - component: {fileID: 7397961854580195979}
   m_Layer: 0
   m_Name: player_sprite
   m_TagString: Untagged
@@ -5376,6 +5378,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7397961854580195979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880207565776421213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4b74b394f838f4bb3fd4a72db9a4a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerScript: {fileID: 0}
+  playerMaterials:
+  - {fileID: 2100000, guid: 9efbc0b9089fa31459e7f0a4a3b7b8f3, type: 2}
+  - {fileID: 2100000, guid: 16ab992588f15124cb0e917e44f3d0cb, type: 2}
+  - {fileID: 2100000, guid: 87db7406798db3343808c9ae931e9f91, type: 2}
+  - {fileID: 2100000, guid: 6d4e2b7e603ed444a96109aadcab48a1, type: 2}
 --- !u!1 &3260339277461042436
 GameObject:
   m_ObjectHideFlags: 0

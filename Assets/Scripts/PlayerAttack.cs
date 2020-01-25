@@ -19,7 +19,7 @@ public class PlayerAttack : MonoBehaviour
     public float meleeAttack1StunForceX;
     public float meleeAttack1StunForceY;
 
-    public bool attackCanLand = false;
+    public bool attackCanLand = true;
     public bool attackLanded = false;
     public bool isAttacking = false;
 
@@ -99,8 +99,22 @@ public class PlayerAttack : MonoBehaviour
                     _controller.SetHorizontalVelocity(-smoothAttackMove);
                 }
 
-                Vector2 raycastDirection = transform.right;
+                Vector2 raycastDirection;
+
+                if (_player._isFacingRight)
+                {
+                    raycastDirection = transform.right;
+                }
+                else
+                {
+                    raycastDirection = -transform.right;
+                }
+
                 RaycastHit2D[] meleeAttackCollider = Physics2D.RaycastAll(meleeAttackOrigin.position, raycastDirection, meleeAttackRaycastDistance);
+                // Vector3 debugPunchOffsetX = new Vector3(meleeAttackOrigin.position.x + (Mathf.Sign() meleeAttackRaycastDistance, 
+                //                                         meleeAttackOrigin.position.y, 
+                //                                         meleeAttackOrigin.position.z);
+                // Debug.DrawLine(meleeAttackOrigin.position, debugPunchOffsetX, Color.yellow); 
 
                 foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
                 {
@@ -112,6 +126,7 @@ public class PlayerAttack : MonoBehaviour
                         if (!attackRayCast.collider.gameObject.GetComponent<Player>().isStunned)
                         {
                             attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce, false);
+                            Debug.Log("attack landed");
                         }
                         attackRayCast.collider.gameObject.GetComponent<Player>().EjectPowerskull();
                         attackLanded = true;
@@ -162,7 +177,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
+        Gizmos.color = Color.red;
 
         Gizmos.DrawLine(meleeAttackOrigin.position,
         new Vector3(meleeAttackOrigin.position.x + meleeAttackRaycastDistance,

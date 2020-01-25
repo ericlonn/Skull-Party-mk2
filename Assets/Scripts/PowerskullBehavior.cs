@@ -31,7 +31,6 @@ public class PowerskullBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (playerCollected != null)
         {
             transform.position = playerCollected.transform.position;
@@ -54,10 +53,11 @@ public class PowerskullBehavior : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 300f));
 
-            if (!ejectedCRRunning) {
-                float randomXForceSign = Mathf.Sign(Random.Range(-1,1));
+            if (!ejectedCRRunning)
+            {
+                float randomXForceSign = Mathf.Sign(Random.Range(-1, 1));
                 float randomXForce = Random.Range(100, 200) * randomXForceSign;
-                
+
                 StartCoroutine("EjectedFlyUp");
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(randomXForce, 0));
             }
@@ -103,7 +103,10 @@ public class PowerskullBehavior : MonoBehaviour
     {
         foreach (GameObject player in _playerMan.playerObjects)
         {
-            Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), true);
+            if (player != null)
+            {
+                Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), true);
+            }
         }
 
 
@@ -112,7 +115,10 @@ public class PowerskullBehavior : MonoBehaviour
 
         foreach (GameObject player in _playerMan.playerObjects)
         {
-            Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), false);
+            if (player != null)
+            {
+                Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), false);
+            }
         }
     }
 

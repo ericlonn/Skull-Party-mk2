@@ -11,7 +11,7 @@ public class PowerskullManager : MonoBehaviour
     public GameObject treasureChestPrefab;
     public float treasureChestChance = .25f;
     public float spawnDelayTime = 20f;
-    
+
     float lastSkullSpawnedTime = 0f;
     int currentPowerskullsInPlay = 0;
     Vector2 averagePlayerLocation = Vector2.zero;
@@ -79,24 +79,42 @@ public class PowerskullManager : MonoBehaviour
 
         foreach (Transform spawnPoint in spawnPoints)
         {
-            if (furthestSpawnPoint == null)
+            Collider2D[] skullOverlapCheck = Physics2D.OverlapCircleAll(spawnPoint.position, 5f);
+            bool skullNearby = false;
+
+            foreach (Collider2D nearbyObject in skullOverlapCheck)
             {
-                furthestSpawnPoint = spawnPoint;
+                if (nearbyObject.CompareTag("Powerskull") || nearbyObject.CompareTag("Tossable"))
+                {
+                    skullNearby = true;
+                }
             }
 
-            if (Vector2.Distance(spawnPoint.transform.position, averagePlayerLocation) > Vector2.Distance(furthestSpawnPoint.transform.position, averagePlayerLocation))
+            if (!skullNearby)
             {
-                furthestSpawnPoint = spawnPoint;
+                if (furthestSpawnPoint == null)
+                {
+                    furthestSpawnPoint = spawnPoint;
+                }
+
+                if (Vector2.Distance(spawnPoint.transform.position, averagePlayerLocation) > Vector2.Distance(furthestSpawnPoint.transform.position, averagePlayerLocation))
+                {
+                    furthestSpawnPoint = spawnPoint;
+                }
             }
         }
 
-        if (Random.Range(0f, 1f) > treasureChestChance)
+        if (furthestSpawnPoint != null)
         {
-            Instantiate(powerskullPrefab, furthestSpawnPoint.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(treasureChestPrefab, furthestSpawnPoint.position, Quaternion.identity);
+            if (Random.Range(0f, 1f) > treasureChestChance)
+            {
+                Instantiate(powerskullPrefab, furthestSpawnPoint.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(treasureChestPrefab, furthestSpawnPoint.position, Quaternion.identity);
+            }
+
         }
 
     }
