@@ -4870,3 +4870,6 @@ MonoBehaviour:
   bloodSplatterObj: {fileID: 5781796696760888990, guid: 7fedd23cd9860ef419f9c3ea6b96b2e7,
     type: 3}
   playerColor: {r: 1, g: 1, b: 1, a: 1}
+  targetGroup: {fileID: 0}
+  powerskullPrefab: {fileID: 4207527708249639284, guid: 22d177bdbdc64234496ac6acc4482d02,
+    type: 3}

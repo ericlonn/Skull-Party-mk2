@@ -9,6 +9,7 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
     public GameObject bloodSplatterObj;
     public Color playerColor = Color.white;
     public CinemachineTargetGroup targetGroup;
+    public GameObject powerskullPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,13 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
         newSplatterExplosionSprite.color = playerColor;
         newSplatterBloodSprite.color = playerColor;
 
+        EjectPowerskull();
         targetGroup.RemoveMember(transform);
         Destroy(gameObject);    
+    }
+
+    void EjectPowerskull() {
+        GameObject ejectedPowerskull = Instantiate(powerskullPrefab, transform.position, Quaternion.identity);
+        ejectedPowerskull.GetComponent<PowerskullBehavior>().ejected = true;
     }
 }
