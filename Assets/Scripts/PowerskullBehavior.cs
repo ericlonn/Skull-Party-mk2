@@ -5,6 +5,7 @@ using UnityEngine;
 public class PowerskullBehavior : MonoBehaviour
 {
     public GameObject playerCollected = null;
+    public GameObject spawnBurst;
     public float collectedAnimLargeScale = 2f;
     public float collectedAnimLarge = .5f;
     public float collectedAnimSmall = .5f;
@@ -18,13 +19,14 @@ public class PowerskullBehavior : MonoBehaviour
     Rigidbody2D _rb;
     PlayerManager _playerMan;
     bool isCollectable = false;
+    bool lastFrameColliding = false;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerMan = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         _rb = GetComponent<Rigidbody2D>();
-
+        Instantiate(spawnBurst, transform.position, Quaternion.identity);
         StartCoroutine("JustSpawnedTime");
     }
 
@@ -45,6 +47,7 @@ public class PowerskullBehavior : MonoBehaviour
         {
             _rb.velocity = new Vector2(_rb.velocity.x, bumpForceY);
         }
+
     }
 
     private void LateUpdate()
@@ -66,6 +69,7 @@ public class PowerskullBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+
         if (isCollectable)
         {
             if (other.gameObject.CompareTag("Player") && playerCollected == null && !other.gameObject.GetComponent<Player>().isPoweredUp)
@@ -74,11 +78,14 @@ public class PowerskullBehavior : MonoBehaviour
                 // GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 playerCollected.GetComponent<Player>().powerskullCount++;
+                playerCollected.GetComponent<Player>().score += 50;
 
                 Color tmp = GetComponent<SpriteRenderer>().color;
                 tmp.a = collectedAlpha;
                 GetComponent<SpriteRenderer>().color = tmp;
                 StartCoroutine("CollectedAnim");
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(4, false);
+                return;
             }
             else if (other.gameObject.CompareTag("Player") && playerCollected == null && other.gameObject.GetComponent<Player>().isPoweredUp)
             {
@@ -86,16 +93,18 @@ public class PowerskullBehavior : MonoBehaviour
                 Vector2 bumpVector = new Vector2(bumpForceX * poweredPlayerDirection, bumpForceY);
                 GetComponent<Rigidbody2D>().AddForce(bumpVector, ForceMode2D.Impulse);
             }
+            // GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true);
         }
     }
 
     IEnumerator CollectedAnim()
     {
-        Vector3 collectedVector = new Vector3(collectedAnimLargeScale, collectedAnimLargeScale, collectedAnimLargeScale);
-        LeanTween.scale(gameObject, collectedVector, collectedAnimLarge).setEase(LeanTweenType.easeInOutSine);
-        yield return new WaitForSeconds(collectedAnimLarge);
-        LeanTween.scale(gameObject, Vector3.zero, collectedAnimSmall).setEase(LeanTweenType.easeInOutSine);
-        yield return new WaitForSeconds(collectedAnimSmall);
+            Vector3 collectedVector = new Vector3(collectedAnimLargeScale, collectedAnimLargeScale, collectedAnimLargeScale);
+            LeanTween.scale(gameObject, collectedVector, collectedAnimLarge).setEase(LeanTweenType.easeInOutSine);
+            yield return new WaitForSeconds(collectedAnimLarge);
+            LeanTween.scale(gameObject, Vector3.zero, collectedAnimSmall).setEase(LeanTweenType.easeInOutSine);
+            yield return new WaitForSeconds(collectedAnimSmall);
+
         Destroy(gameObject, 0f);
     }
 

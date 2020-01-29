@@ -16,6 +16,7 @@ public class TossableObject : MonoBehaviour
     public BoxCollider2D _collider;
     public LayerMask groundLayer;
     public ParticleSystem impactParticles;
+    public GameObject spawnBurst;
 
     public GameObject powerskullObj;
     public float psLaunchSpeedX = 30f;
@@ -25,6 +26,7 @@ public class TossableObject : MonoBehaviour
     void Start()
     {
         _collider = GetComponent<BoxCollider2D>();
+        Instantiate(spawnBurst, transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -68,6 +70,7 @@ public class TossableObject : MonoBehaviour
         isTossed = true;
         tossDirection = new Vector2(hitDirection, 0);
         tosser = passedTosser;
+        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false);
     }
 
     void MoveToFloor()
@@ -84,12 +87,14 @@ public class TossableObject : MonoBehaviour
 
             Instantiate(impactParticles, transform.position, Quaternion.identity);
             SpawnPowerskull();
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, false);
             Destroy(gameObject);
         }
 
         if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false);
         }
 
     }

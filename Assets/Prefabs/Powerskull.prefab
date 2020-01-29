@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4207527708249639285}
   - component: {fileID: 4207527708249639294}
   - component: {fileID: 4207527708249639289}
-  - component: {fileID: 6645959414377506990}
   - component: {fileID: 4873983476382507417}
+  - component: {fileID: 7298784083294540548}
   m_Layer: 10
   m_Name: Powerskull
   m_TagString: Powerskull
@@ -152,27 +152,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0776179, y: 1.4954365}
   m_EdgeRadius: 0
---- !u!114 &6645959414377506990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4207527708249639284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 951354d2197c57644949a25753cb94e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ForceMaterial: {fileID: 0}
-  ActiveChange: 1
-  AddShadow: 1
-  ReceivedShadow: 0
-  BlendMode: 0
-  _Alpha: 1
-  Gold: 2.95
-  ShaderChange: 0
-  ActiveUpdate: 1
 --- !u!114 &4873983476382507417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollected: {fileID: 0}
+  spawnBurst: {fileID: 6419466864207284544, guid: 51816cc6470de8046a9284005d1574f0,
+    type: 3}
   collectedAnimLargeScale: 1.2
   collectedAnimLarge: 0.3
   collectedAnimSmall: 0.2
@@ -194,6 +175,24 @@ MonoBehaviour:
   bumpForceY: 3
   ejected: 0
   ejectedCRRunning: 0
+--- !u!114 &7298784083294540548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4207527708249639284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd018828d6f5ec4ba743658e129a408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForceMaterial: {fileID: 0}
+  ActiveChange: 1
+  _Alpha: 1
+  Gold: 4
+  ShaderChange: 0
+  ActiveUpdate: 1
 --- !u!1 &6749483935609955088
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +262,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
@@ -321,7 +320,7 @@ TrailRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 2
     numCapVertices: 0
     alignment: 0
     textureMode: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletBehavior : MonoBehaviour
 {
     public Color playerColor = Color.magenta;
+    public GameObject playerResponsible;
     public bool isMovingRight;
     public float playerID;
     public float speedScale = 2f;
@@ -64,7 +65,14 @@ public class BulletBehavior : MonoBehaviour
             if (!other.gameObject.GetComponent<Player>().isStunned)
             {
                 other.gameObject.GetComponent<Player>().health--;
+                if (other.gameObject.GetComponent<Player>().health <= 0)
+                {
+                    other.gameObject.GetComponent<Player>().killedBy = playerResponsible;
+                } else {
+                    playerResponsible.GetComponent<Player>().score += 100;
+                }
                 other.gameObject.GetComponent<Player>().TriggerStun(launchForce, true);
+                
             }
 
 
@@ -72,6 +80,7 @@ public class BulletBehavior : MonoBehaviour
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
 
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
             Destroy(gameObject, 0f);
         }
 
@@ -79,8 +88,9 @@ public class BulletBehavior : MonoBehaviour
         {
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
-
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
             Destroy(gameObject, 0f);
+
         }
 
         Debug.Log(other.gameObject.tag);

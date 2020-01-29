@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6020612193047014073}
   - component: {fileID: 6020612193047014074}
   - component: {fileID: 6020612193047014078}
+  - component: {fileID: 8076968074532376866}
   m_Layer: 11
   m_Name: Treasure Chest
   m_TagString: Tossable
@@ -51,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: d02aec440fd0b9f4ba2d18a0e10e32b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -136,6 +137,8 @@ MonoBehaviour:
     m_Bits: 256
   impactParticles: {fileID: 2278635924003363623, guid: 55add8a35830a6742855769fc8e09d0e,
     type: 3}
+  spawnBurst: {fileID: 6419466864207284544, guid: 51816cc6470de8046a9284005d1574f0,
+    type: 3}
   powerskullObj: {fileID: 4207527708249639284, guid: 22d177bdbdc64234496ac6acc4482d02,
     type: 3}
   psLaunchSpeedX: 5
@@ -161,3 +164,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &8076968074532376866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6020612193047014079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd018828d6f5ec4ba743658e129a408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForceMaterial: {fileID: 0}
+  ActiveChange: 1
+  _Alpha: 1
+  Gold: 4
+  ShaderChange: 0
+  ActiveUpdate: 1

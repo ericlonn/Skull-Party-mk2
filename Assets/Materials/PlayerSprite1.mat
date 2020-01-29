@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerSprite1
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ShaderKeywords: DOODLE_ON ETC1_EXTERNAL_ALPHA OUTBASE_ON
+  m_ShaderKeywords: DOODLE_ON ETC1_EXTERNAL_ALPHA OUTBASE8DIR_ON OUTBASEPIXELPERF_ON
+    OUTBASE_ON _OUTLINE8DIRECTIONS_ON _OUTLINEISPIXEL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -138,7 +139,7 @@ Material:
     - _HandDrawnAmount: 4.6
     - _HandDrawnSpeed: 5
     - _HitEffectBlend: 1
-    - _HitEffectGlow: 5
+    - _HitEffectGlow: 1
     - _HologramFlickerAlpha: 0
     - _HologramFlickerFreq: 0.2
     - _HologramStripesAlpha: 0.119
@@ -164,20 +165,20 @@ Material:
     - _OcclusionStrength: 1
     - _OffsetUvX: 0
     - _OffsetUvY: 0
-    - _Outline8Directions: 0
-    - _OutlineAlpha: 0.795
+    - _Outline8Directions: 1
+    - _OutlineAlpha: 0.796
     - _OutlineDistortAmount: 0.5
     - _OutlineDistortTexXSpeed: 5
     - _OutlineDistortTexYSpeed: 5
     - _OutlineDistortToggle: 0
     - _OutlineGlow: 1
-    - _OutlineIsPixel: 0
-    - _OutlinePixelWidth: 1
+    - _OutlineIsPixel: 1
+    - _OutlinePixelWidth: 4.15
     - _OutlineTexGrey: 0
     - _OutlineTexToggle: 0
     - _OutlineTexXSpeed: 10
     - _OutlineTexYSpeed: 0
-    - _OutlineWidth: 0.022
+    - _OutlineWidth: 0
     - _Parallax: 0.02
     - _PinchUvAmount: 0.35
     - _PixelateSize: 32
@@ -226,7 +227,7 @@ Material:
     - _GradTopLeftCol: {r: 1, g: 0, b: 0, a: 1}
     - _GradTopRightCol: {r: 1, g: 0, b: 0, a: 1}
     - _GreyscaleTintColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HitEffectColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HitEffectColor: {r: 1, g: 0, b: 0, a: 1}
     - _InnerOutlineColor: {r: 0.99607843, g: 0.33333334, b: 0.6745098, a: 1}
     - _OutlineColor: {r: 0.9960785, g: 0.33333334, b: 0.6745098, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
