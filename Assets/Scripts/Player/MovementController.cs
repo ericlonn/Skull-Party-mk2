@@ -100,7 +100,7 @@ public class MovementController : MonoBehaviour
         {
             CalculateRayOrigins();
 
-            if (Mathf.Abs(deltaMovement.x) > .001f)
+            // if (Mathf.Abs(deltaMovement.x) > .001f)
                 MoveHorizontally(ref deltaMovement);
 
             MoveVertically(ref deltaMovement);
@@ -128,6 +128,7 @@ public class MovementController : MonoBehaviour
     void MoveHorizontally(ref Vector2 deltaMovement)
     {
         var isGoingRight = deltaMovement.x > 0;
+        var isGoingLeft = deltaMovement.x < 0;
         var rayDistance = Mathf.Abs(deltaMovement.x) + SkinWidth;
         var rayDirection = isGoingRight ? Vector2.right : Vector2.left;
         var rayOrigin = isGoingRight ? _raycastBottomRight : _raycastBottomLeft;
@@ -137,10 +138,16 @@ public class MovementController : MonoBehaviour
 
             var rayVector = new Vector2(rayOrigin.x, rayOrigin.y + i * _verticalDistanceBetweenRays);
             Debug.DrawRay(rayVector, rayDirection * rayDistance, Color.red);
-            bool playerCollision = false;
 
             var raycastHit = Physics2D.Raycast(rayVector, rayDirection, rayDistance, HorizontalMask);
-            if (!raycastHit && !playerCollision)
+
+            if (raycastHit && isGoingRight) {
+                State.IsCollidingRight = true;
+            } else if (raycastHit && isGoingLeft){
+                State.IsCollidingLeft = true;
+            }
+
+            if (!raycastHit)
                 continue;
 
             deltaMovement.x = raycastHit.point.x - rayVector.x;

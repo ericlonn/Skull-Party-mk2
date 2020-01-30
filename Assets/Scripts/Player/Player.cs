@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
     public bool AnticipateJump { get { return !IsGrounded && GroundIsNear && _controller.Velocity.y < 0; } }
     public bool IsTouchingWall { get { return _controller.State.IsCollidingLeft || _controller.State.IsCollidingRight; } }
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
-    public bool isWallSliding { get { return (_controller.State.IsCollidingLeft || _controller.State.IsCollidingRight) && (Input.GetAxis(xInput) != 0); } }
+    public bool isWallSliding { get { return (_controller.State.IsCollidingLeft && Input.GetAxis(xInput) < 0) || (_controller.State.IsCollidingRight && Input.GetAxis(xInput) > 0); } }
     public bool _isFacingRight;
     public bool disablePlayerInput = false;
     public bool bulletStunned;
@@ -168,7 +168,7 @@ public class Player : MonoBehaviour
         if (_controller.Velocity.y < 0)
             Jumpping = false;
 
-        if (WallSlide && IsTouchingWall && _controller.Velocity.y <= 0)
+        if (WallSlide && isWallSliding && _controller.Velocity.y <= 0)
         {
             if (WallFriction == 1)
                 _controller.Parameters.Flying = true;
@@ -179,7 +179,7 @@ public class Player : MonoBehaviour
         if (powerskullCount >= 3 && !isPoweredUp)
         {
             TriggerPoweredUp();
-            
+
             ParticleSystem.MainModule psMain = poweredUpParticles.main;
             psMain.startColor = playerColor;
             poweredUpParticles.Play();
@@ -197,12 +197,11 @@ public class Player : MonoBehaviour
             ApplyStun();
         }
 
-        var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
 
-        if (!disablePlayerInput)
-        {
-            _controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
-        }
+
+
+
+        // if (playerNumber == 1) Debug.Log(_controller.State.IsCollidingLeft + ", " + _controller.State.IsCollidingRight + ", " + Input.GetAxis(xInput));
     }
 
     public void TriggerStun(Vector2 launchDirection, bool bulletStun)
@@ -350,6 +349,10 @@ public class Player : MonoBehaviour
         {
             float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
             _normalizedHorizontalSpeed = Input.GetAxis(xInput);
+
+            var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
+
+            _controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
 
             if ((horizontalInputRaw < 0 && _isFacingRight) ||
                  (horizontalInputRaw > 0 && !_isFacingRight))
@@ -499,7 +502,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnAnimation() {
+    IEnumerator SpawnAnimation()
+    {
 
         float oldGravDownMod, oldGravUpMod;
         oldGravDownMod = _controller.gravMultiplierDown;

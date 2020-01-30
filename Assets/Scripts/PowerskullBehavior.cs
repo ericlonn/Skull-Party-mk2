@@ -19,7 +19,6 @@ public class PowerskullBehavior : MonoBehaviour
     Rigidbody2D _rb;
     PlayerManager _playerMan;
     bool isCollectable = false;
-    bool lastFrameColliding = false;
 
     // Start is called before the first frame update
     void Start()
