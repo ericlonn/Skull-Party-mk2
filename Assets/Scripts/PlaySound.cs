@@ -26,6 +26,7 @@ public class PlaySound : MonoBehaviour
         }
         else
         {
+            audioClips[clipID].audioSource.volume = audioClips[clipID].volume;
             audioClips[clipID].audioSource.Play();
         }
     }

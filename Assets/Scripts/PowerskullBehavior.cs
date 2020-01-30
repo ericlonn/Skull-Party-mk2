@@ -88,9 +88,28 @@ public class PowerskullBehavior : MonoBehaviour
             }
             else if (other.gameObject.CompareTag("Player") && playerCollected == null && other.gameObject.GetComponent<Player>().isPoweredUp)
             {
-                float poweredPlayerDirection = Mathf.Sign(transform.position.x - other.gameObject.transform.position.x);
-                Vector2 bumpVector = new Vector2(bumpForceX * poweredPlayerDirection, bumpForceY);
-                GetComponent<Rigidbody2D>().AddForce(bumpVector, ForceMode2D.Impulse);
+                if (other.gameObject.GetComponent<PlayerAttack>().ammoCount < 3)
+                {
+                    playerCollected = other.gameObject;
+                    // GetComponent<SpriteRenderer>().enabled = false;
+                    GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                    playerCollected.GetComponent<PlayerAttack>().ammoCount++;
+                    playerCollected.GetComponent<Player>().score += 50;
+
+                    Color tmp = GetComponent<SpriteRenderer>().color;
+                    tmp.a = collectedAlpha;
+                    GetComponent<SpriteRenderer>().color = tmp;
+                    StartCoroutine("CollectedAnim");
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(4, false);
+                    return;
+                }
+                else
+                {
+                    float poweredPlayerDirection = Mathf.Sign(transform.position.x - other.gameObject.transform.position.x);
+                    Vector2 bumpVector = new Vector2(bumpForceX * poweredPlayerDirection, bumpForceY);
+                    GetComponent<Rigidbody2D>().AddForce(bumpVector, ForceMode2D.Impulse);
+                }
+
             }
             // GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true);
         }
@@ -98,11 +117,11 @@ public class PowerskullBehavior : MonoBehaviour
 
     IEnumerator CollectedAnim()
     {
-            Vector3 collectedVector = new Vector3(collectedAnimLargeScale, collectedAnimLargeScale, collectedAnimLargeScale);
-            LeanTween.scale(gameObject, collectedVector, collectedAnimLarge).setEase(LeanTweenType.easeInOutSine);
-            yield return new WaitForSeconds(collectedAnimLarge);
-            LeanTween.scale(gameObject, Vector3.zero, collectedAnimSmall).setEase(LeanTweenType.easeInOutSine);
-            yield return new WaitForSeconds(collectedAnimSmall);
+        Vector3 collectedVector = new Vector3(collectedAnimLargeScale, collectedAnimLargeScale, collectedAnimLargeScale);
+        LeanTween.scale(gameObject, collectedVector, collectedAnimLarge).setEase(LeanTweenType.easeInOutSine);
+        yield return new WaitForSeconds(collectedAnimLarge);
+        LeanTween.scale(gameObject, Vector3.zero, collectedAnimSmall).setEase(LeanTweenType.easeInOutSine);
+        yield return new WaitForSeconds(collectedAnimSmall);
 
         Destroy(gameObject, 0f);
     }

@@ -118,22 +118,30 @@ public class PlayerAttack : MonoBehaviour
                 //                                         meleeAttackOrigin.position.z);
                 // Debug.DrawLine(meleeAttackOrigin.position, debugPunchOffsetX, Color.yellow); 
 
-                
+
 
                 foreach (RaycastHit2D attackRayCast in meleeAttackCollider)
                 {
                     if (attackRayCast.collider.gameObject.GetInstanceID() != this.gameObject.GetInstanceID() && attackRayCast.collider.gameObject.CompareTag("Player"))
                     {
                         Vector2 launchForce;
+
                         if (!_player._isFacingRight) { launchForce = new Vector2(-meleeAttack1StunForceX, meleeAttack1StunForceY); }
                         else { launchForce = new Vector2(meleeAttack1StunForceX, meleeAttack1StunForceY); }
+
                         if (!attackRayCast.collider.gameObject.GetComponent<Player>().isStunned)
                         {
                             attackRayCast.collider.gameObject.GetComponent<Player>().TriggerStun(launchForce, false);
                             _player.score += 30;
                             _soundPlayer.PlayClip(6, false);
+
+                            if (attackRayCast.collider.gameObject.GetComponent<Player>().isPoweredUp)
+                            {
+                                attackRayCast.collider.gameObject.GetComponent<PlayerAttack>().ammoCount--;
+                            }
+                            attackRayCast.collider.gameObject.GetComponent<Player>().EjectPowerskull();
                         }
-                        attackRayCast.collider.gameObject.GetComponent<Player>().EjectPowerskull();
+
                         attackLanded = true;
                         _controller.SetHorizontalVelocity(0f);
                     }

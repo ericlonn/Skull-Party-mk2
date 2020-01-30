@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                
+
 
                 switch (player.GetComponent<Player>().health)
                 {
@@ -75,31 +75,64 @@ public class UIManager : MonoBehaviour
                         break;
                 }
 
-                switch (player.GetComponent<Player>().powerskullCount)
+                if (player.gameObject.GetComponent<Player>().isPoweredUp)
                 {
-                    case 0:
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = false;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
-                        break;
-                    case 1:
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
-                        break;
-                    case 2:
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
-                        break;
-                    case 3:
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
-                        uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = true;
-                        break;
-                    default:
-                        break;
+
+                    switch (player.GetComponent<PlayerAttack>().ammoCount)
+                    {
+                        case 0:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 1:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 2:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 3:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (player.GetComponent<Player>().powerskullCount)
+                    {
+                        case 0:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 1:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = false;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 2:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = false;
+                            break;
+                        case 3:
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 1").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 2").GetComponent<UIIconStatus>().isEnabled = true;
+                            uiStatusContainers[playerNumber].transform.Find("Powerskull 3").GetComponent<UIIconStatus>().isEnabled = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
             }
 
             playerNumber++;
