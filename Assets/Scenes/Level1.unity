@@ -4066,7 +4066,7 @@ MonoBehaviour:
   spawnBurst: {fileID: 7045993588068927770, guid: ac6d6abd48c164d4e99210b64080aefc,
     type: 3}
   startingPowerskulls: 1
-  isPlayerActive: 01010100
+  isPlayerActive: 01010101
   playerObjects:
   - {fileID: 327616465}
   - {fileID: 1979531368}

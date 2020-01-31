@@ -32,6 +32,14 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
         newSplatterExplosionSprite.color = playerColor;
         newSplatterBloodSprite.color = playerColor;
 
+        Collider2D[] deathPushbackCheck = Physics2D.OverlapCircleAll(transform.position, 3f);
+        foreach (Collider2D overlapCol in deathPushbackCheck) {
+            if (overlapCol.gameObject.CompareTag("Player")) {
+                overlapCol.gameObject.GetComponent<MovementController>().SetVelocity(new Vector2(Mathf.Sign(overlapCol.transform.position.x - transform.position.x) * 30f, 12f));
+                Debug.Log(overlapCol.gameObject.name + " caught in the explosion");
+            }
+        }
+
         EjectPowerskull();
         
         StartCoroutine("DelayedDeath");

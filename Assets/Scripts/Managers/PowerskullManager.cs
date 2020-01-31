@@ -85,7 +85,7 @@ public class PowerskullManager : MonoBehaviour
 
             foreach (Collider2D nearbyObject in skullOverlapCheck)
             {
-                if (nearbyObject.CompareTag("Powerskull") || nearbyObject.CompareTag("Tossable"))
+                if (nearbyObject.CompareTag("Powerskull") || nearbyObject.CompareTag("Tossable") || nearbyObject.CompareTag("Player"))
                 {
                     skullNearby = true;
                 }
