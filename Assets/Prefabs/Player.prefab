@@ -5443,6 +5443,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 16ab992588f15124cb0e917e44f3d0cb, type: 2}
   - {fileID: 2100000, guid: 87db7406798db3343808c9ae931e9f91, type: 2}
   - {fileID: 2100000, guid: 6d4e2b7e603ed444a96109aadcab48a1, type: 2}
+  blinkTime: 0.4
+  blinkTimer: 0
+  blinkAlpha1: 0.1
+  blinkAlpha2: 0.5
 --- !u!1 &3260339277461042436
 GameObject:
   m_ObjectHideFlags: 0
