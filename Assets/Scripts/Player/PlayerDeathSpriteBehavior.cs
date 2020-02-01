@@ -10,11 +10,12 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
     public Color playerColor = Color.white;
     public CinemachineTargetGroup targetGroup;
     public GameObject powerskullPrefab;
+    public ParticleSystem _particles;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _particles = transform.Find("Player Death Particles").GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -33,16 +34,27 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
         newSplatterBloodSprite.color = playerColor;
 
         Collider2D[] deathPushbackCheck = Physics2D.OverlapCircleAll(transform.position, 3f);
-        foreach (Collider2D overlapCol in deathPushbackCheck) {
-            if (overlapCol.gameObject.CompareTag("Player")) {
+        foreach (Collider2D overlapCol in deathPushbackCheck)
+        {
+            if (overlapCol.gameObject.CompareTag("Player"))
+            {
                 overlapCol.gameObject.GetComponent<MovementController>().SetVelocity(new Vector2(Mathf.Sign(overlapCol.transform.position.x - transform.position.x) * 30f, 12f));
-                Debug.Log(overlapCol.gameObject.name + " caught in the explosion");
             }
         }
 
         EjectPowerskull();
-        
-        StartCoroutine("DelayedDeath");
+        _particles.Stop();
+
+        if (GameObject.Find("PlayerManager").GetComponent<PlayerManager>().playerCount > 1)
+        {
+            StartCoroutine("DelayedDeath");
+        } else {
+            Color tmpColor = GetComponent<SpriteRenderer>().color;
+            tmpColor.a = 0f;
+            GetComponent<SpriteRenderer>().color = tmpColor;
+            _particles.Stop();
+        }
+
     }
 
     void EjectPowerskull()
@@ -55,7 +67,7 @@ public class PlayerDeathSpriteBehavior : MonoBehaviour
     {
         GetComponent<SpriteRenderer>().enabled = false;
         yield return new WaitForSeconds(.4f);
-        LeanTween.move(gameObject, GameObject.Find("Powerskull Manager").GetComponent<PowerskullManager>().averagePlayerLocation, .7f);
+        LeanTween.move(gameObject, GameObject.Find("Powerskull Manager").GetComponent<PowerskullManager>().averagePlayerLocation, .7f).setEase(LeanTweenType.easeInOutQuad);
         yield return new WaitForSeconds(.7f);
         targetGroup.RemoveMember(transform);
         Destroy(gameObject);
