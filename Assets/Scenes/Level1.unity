@@ -696,7 +696,7 @@ GameObject:
   - component: {fileID: 288463896}
   - component: {fileID: 288463897}
   m_Layer: 0
-  m_Name: CM vcam1
+  m_Name: Fight vcam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1181,12 +1181,12 @@ PrefabInstance:
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.44
+      value: -11.8
       objectReference: {fileID: 0}
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.99
+      value: 14.9
       objectReference: {fileID: 0}
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
@@ -4596,7 +4596,7 @@ MonoBehaviour:
   victoryUI: {fileID: 538829166}
   startingPowerskulls: 1
   playerCount: 0
-  isPlayerActive: 01010000
+  isPlayerActive: 01010101
   playerObjects:
   - {fileID: 327616465}
   - {fileID: 1979531368}
@@ -5025,7 +5025,7 @@ GameObject:
   - component: {fileID: 1728130434}
   - component: {fileID: 1728130433}
   m_Layer: 0
-  m_Name: CM vcam2
+  m_Name: Victory vcam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5947,12 +5947,12 @@ PrefabInstance:
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.5000005
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.18
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
         type: 3}
@@ -5998,6 +5998,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e3f0e3d44ce744a59b768f73078ff60, type: 3}
@@ -6225,6 +6230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880207564584455591, guid: 9e3f0e3d44ce744a59b768f73078ff60,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e3f0e3d44ce744a59b768f73078ff60, type: 3}
