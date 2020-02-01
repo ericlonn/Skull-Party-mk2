@@ -90,7 +90,6 @@ public class PlayerManager : MonoBehaviour
 
                     GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(5, false);
 
-                    playerObjects.Remove(playerObject);
                     Destroy(playerObject);
 
                     playerCount--;

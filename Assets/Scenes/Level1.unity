@@ -3519,7 +3519,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 487}
-  m_SizeDelta: {x: 993.7, y: 100}
+  m_SizeDelta: {x: 1606.51, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1110062743
 MonoBehaviour:
@@ -3539,7 +3539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: bone mommy
+  m_text: duke skullington
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c039bf8b15fdff04d88cb7b0a7eebc04, type: 2}
   m_sharedMaterial: {fileID: -8578542461950438561, guid: c039bf8b15fdff04d88cb7b0a7eebc04,
@@ -3609,7 +3609,7 @@ MonoBehaviour:
   m_margin: {x: 25.79131, y: 0, z: 32.690224, w: 19.49028}
   m_textInfo:
     textComponent: {fileID: 1110062743}
-    characterCount: 10
+    characterCount: 16
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
