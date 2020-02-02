@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,9 +13,18 @@ public class PlayerManager : MonoBehaviour
     public GameObject playerVictoryStandin;
     public GameObject gameCamera, victoryCamera;
     public CanvasGroup gameUI, victoryUI;
+    public GameObject winner = null;
+
+    public TextMeshProUGUI victoryPlayerNameText, victoryPlayerPointsText;
+
+    public GameObject highScoreUI;
+
+    public int highScoreRank;
 
     public int startingPowerskulls = 1;
     public int playerCount = 0;
+    
+    
 
     public List<bool> isPlayerActive = new List<bool>();
     public List<GameObject> playerObjects = new List<GameObject>();
@@ -22,6 +32,7 @@ public class PlayerManager : MonoBehaviour
 
     List<string> playerNames = new List<string>();
     bool playerHasWon = false;
+    bool gotHighScore = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,6 +45,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < playerObjects.Count; i++)
         {
             playerObjects[i].GetComponent<Player>().playerNumber = i + 1;
+            playerObjects[i].GetComponent<Player>().playerName = playerNames[i];
             if (isPlayerActive[i])
             {
                 Player playerScript = playerObjects[i].GetComponent<Player>();
@@ -99,28 +111,55 @@ public class PlayerManager : MonoBehaviour
             if (playerCount == 1 && !playerHasWon)
             {
                 playerHasWon = true;
-                GameObject winner = playerObjects[0];
+                winner = playerObject.GetComponent<Player>().killedBy;
+                TriggerVictory();
+            }
+        }
 
-                GameObject newVictoryStandin = Instantiate(playerVictoryStandin, winner.transform.position, Quaternion.identity);
+        void TriggerVictory()
+        {
 
-                camTargetGroup.AddMember(newVictoryStandin.transform, 1f, 0f);
 
-                newVictoryStandin.GetComponent<SpriteRenderer>().material = winner.GetComponent<Player>()._playerSprite.GetComponent<SpriteRenderer>().material;
-                Destroy(winner);
+            
 
-                var ltCamSeq = LeanTween.sequence();
-                ltCamSeq.append(3f);
-                ltCamSeq.append(() =>
+            GameObject newVictoryStandin = Instantiate(playerVictoryStandin, winner.transform.position, Quaternion.identity);
+
+            camTargetGroup.AddMember(newVictoryStandin.transform, 1f, 0f);
+
+            newVictoryStandin.GetComponent<SpriteRenderer>().material = winner.GetComponent<Player>()._playerSprite.GetComponent<SpriteRenderer>().material;
+            winner.transform.localScale = Vector3.zero;
+
+
+            var ltCamSeq = LeanTween.sequence();
+            ltCamSeq.append(3f);
+            ltCamSeq.append(() =>
+            {
+                gameCamera.SetActive(false);
+                victoryCamera.SetActive(true);
+
+                victoryPlayerNameText.text = winner.GetComponent<Player>().playerName;
+                victoryPlayerNameText.color = winner.GetComponent<Player>().playerColor;
+                victoryPlayerPointsText.text = winner.GetComponent<Player>().score.ToString() + " POINTS";
+
+                victoryCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = newVictoryStandin.transform;
+                LeanTween.alphaCanvas(gameUI, 0f, .25f);
+            });
+            ltCamSeq.append(LeanTween.alphaCanvas(victoryUI, 1f, .25f));
+
+            for (int i = 1; i <= 9; i++)
+            {
+                if (PlayerPrefs.GetInt("HighScorePoints" + i) < winner.GetComponent<Player>().score)
                 {
-                    gameCamera.SetActive(false);
-                    victoryCamera.SetActive(true);
-                    victoryCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = newVictoryStandin.transform;
-                    LeanTween.alphaCanvas(gameUI, 0f, .25f);
-                });
-                ltCamSeq.append(LeanTween.alphaCanvas(victoryUI, 1f, .25f));
+                    gotHighScore = true;
+                    highScoreUI.SetActive(true);
+                    highScoreRank = i;
+                    break;
+                }
+            }
 
-
-
+            if (gotHighScore)
+            {
+                victoryUI.GetComponent<HighScoreManager>().highScorePoints = winner.GetComponent<Player>().score;
             }
         }
     }

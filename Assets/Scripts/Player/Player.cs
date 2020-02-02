@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
 
     [System.NonSerialized]
     public string xInput, yInput, jumpInput, attackInput;
+    public string playerName;
 
     public bool Jumpping { get; set; }
     public bool JumpWhenGrounded { get; set; }
@@ -209,7 +210,6 @@ public class Player : MonoBehaviour
 
         if (!isStunned)
         {
-            Debug.Log("TriggerStun()");
             transform.Translate(new Vector3(0, GroundCheckDistance, 0));
             stunnedTimer = stunnedTime;
             isStunned = true;

@@ -92,7 +92,5 @@ public class BulletBehavior : MonoBehaviour
             Destroy(gameObject, 0f);
 
         }
-
-        Debug.Log(other.gameObject.tag);
     }
 }
