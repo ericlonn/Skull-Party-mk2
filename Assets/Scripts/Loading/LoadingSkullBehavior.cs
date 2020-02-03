@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LoadingSkullBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
     void Start()
     {
         transform.localScale = Vector3.zero;
-        LeanTween.scale(gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic);
+        LeanTween.scale(gameObject, Vector3.one, .25f).setEase(LeanTweenType.easeOutElastic).setDelay(1f);
     }
 
 }

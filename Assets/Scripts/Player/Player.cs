@@ -515,7 +515,6 @@ public class Player : MonoBehaviour
 
     IEnumerator SpawnAnimation()
     {
-
         float oldGravDownMod, oldGravUpMod;
         oldGravDownMod = _controller.gravMultiplierDown;
         oldGravUpMod = _controller.gravMultiplierUp;

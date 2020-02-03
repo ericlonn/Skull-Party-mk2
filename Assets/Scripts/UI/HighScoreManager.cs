@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class HighScoreManager : MonoBehaviour
 {
     public List<TextMeshProUGUI> textObjects = new List<TextMeshProUGUI>();
     public PlayerManager _playerManager;
     public bool scoreBeingEnter = true;
+    public bool entryComplete = false;
     public int highScorePlace = 0;
-    public int highScorePoints;
 
     List<string> letters = new List<string>();
     int curLetter = 0;
@@ -21,7 +22,7 @@ public class HighScoreManager : MonoBehaviour
     float letterDelayTimer = 0;
 
 
-    bool entryComplete = false;
+    
     bool lastFrameUp = false;
     bool lastFrameDown = false;
     void Start()
@@ -124,29 +125,32 @@ public class HighScoreManager : MonoBehaviour
         }
         else if (!entryComplete && curPosition > 3)
         {
-            for (int i = 9; i > 0; i--)
+            HighScoreEntry newScore = new HighScoreEntry();
+            newScore.name = setLetters[0] + setLetters[1] + setLetters[2] + setLetters[3];
+            newScore.score = _playerManager.winner.GetComponent<Player>().score;
+
+            List<HighScoreEntry> prevEntries = new List<HighScoreEntry>();
+            List<HighScoreEntry> curEntries = new List<HighScoreEntry>();
+
+            for (int i = 1; i <= 9; i++) 
             {
-                if (PlayerPrefs.HasKey("highScoreName" + i))
-                {
-                    string higherName = PlayerPrefs.GetString("highScoreName" + (i - 1));
-                    int higherScore = PlayerPrefs.GetInt("highScorePoints" + (i - 1));
+                HighScoreEntry holder = new HighScoreEntry();
+                holder.name = PlayerPrefs.GetString("highScoreName" + i);
+                holder.score = PlayerPrefs.GetInt("highScorePoints" + i);
 
-                    PlayerPrefs.SetString("highScoreName" + i, higherName);
-                    PlayerPrefs.SetInt("highScorePoints" + i, higherScore);
-                    PlayerPrefs.Save();
-                }
-
-
-
-                if (i == highScorePlace)
-                {
-                    PlayerPrefs.SetString("highScoreName" + (i - 1), setLetters[0] + setLetters[1] + setLetters[2] + setLetters[3]);
-                    PlayerPrefs.SetInt("highScorePoints" + (i - 1), _playerManager.winner.GetComponent<Player>().score);
-                    Debug.Log(highScorePlace);
-                    break;
-                }
-
+                prevEntries.Add(holder);
             }
+
+            prevEntries.Add(newScore);
+
+            prevEntries = prevEntries.OrderByDescending(w => w.score).ToList();
+
+            for (int i = 1; i <= 9; i++) {
+                PlayerPrefs.SetString("highScoreName" + i, prevEntries[i-1].name);
+                PlayerPrefs.SetInt("highScorePoints" + i, prevEntries[i - 1].score);
+            }
+
+            PlayerPrefs.Save();
 
             for (int i = 1; i <= 9; i++)
             {
@@ -157,3 +161,4 @@ public class HighScoreManager : MonoBehaviour
         }
     }
 }
+

@@ -9,29 +9,28 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            LoadLevel();
-        }
-    }
-
-    void LoadLevel() {
+        loadSceneID = GameObject.Find("GameDirector").GetComponent<GameDirector>().nextLevelToLoad;
         StartCoroutine("LoadLevelAsync");
     }
 
-    IEnumerator LoadLevelAsync(){
-        AsyncOperation operation = SceneManager.LoadSceneAsync(loadSceneID);
+    IEnumerator LoadLevelAsync()
+    {
+        float minLoadTime = 4f;
 
-        while (!operation.isDone) {
-            Debug.Log(operation.progress);
+        while (minLoadTime > 0)
+        {
+            minLoadTime -= Time.deltaTime;
             yield return null;
         }
 
+        AsyncOperation operation = SceneManager.LoadSceneAsync(loadSceneID);
+GameObject.Find("GameDirector").GetComponent<GameDirector>().TriggerTransitionIn();
+        while (!operation.isDone)
+        {
+            yield return null;
+        }
+
+        
 
     }
 }

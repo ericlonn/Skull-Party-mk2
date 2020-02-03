@@ -114,6 +114,18 @@ public class PlayerManager : MonoBehaviour
                 winner = playerObject.GetComponent<Player>().killedBy;
                 TriggerVictory();
             }
+
+            if ((highScoreUI.activeInHierarchy && highScoreUI.GetComponent<HighScoreManager>().entryComplete) || (!gotHighScore && playerHasWon) ) {
+                bool playerPressedGreen = Input.GetButtonDown("Jump1") || 
+                                          Input.GetButtonDown("Jump2") || 
+                                          Input.GetButtonDown("Jump3") || 
+                                          Input.GetButtonDown("Jump4");
+
+                if (playerPressedGreen) {
+                    GameObject.Find("GameDirector").GetComponent<GameDirector>().nextLevelToLoad = 1;
+                    GameObject.Find("GameDirector").GetComponent<GameDirector>().TriggerLoadingScreen();
+                }
+            }
         }
 
         void TriggerVictory()
@@ -128,6 +140,7 @@ public class PlayerManager : MonoBehaviour
 
             newVictoryStandin.GetComponent<SpriteRenderer>().material = winner.GetComponent<Player>()._playerSprite.GetComponent<SpriteRenderer>().material;
             winner.transform.localScale = Vector3.zero;
+            winner.GetComponent<Player>().disablePlayerInput = true;
 
 
             var ltCamSeq = LeanTween.sequence();
@@ -148,19 +161,15 @@ public class PlayerManager : MonoBehaviour
 
             for (int i = 1; i <= 9; i++)
             {
-                if (PlayerPrefs.GetInt("HighScorePoints" + i) < winner.GetComponent<Player>().score)
+                if (PlayerPrefs.GetInt("highScorePoints" + i) < winner.GetComponent<Player>().score)
                 {
-                    gotHighScore = true;
-                    highScoreUI.SetActive(true);
                     highScoreRank = i;
+                    highScoreUI.SetActive(true);
+                    gotHighScore = true;
                     break;
                 }
             }
 
-            if (gotHighScore)
-            {
-                victoryUI.GetComponent<HighScoreManager>().highScorePoints = winner.GetComponent<Player>().score;
-            }
         }
     }
 }
