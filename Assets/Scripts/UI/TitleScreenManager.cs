@@ -14,7 +14,9 @@ public class TitleScreenManager : MonoBehaviour
 
     public float transTime = .3f;
 
+    GameDirector _gameDirector;
     bool onTitleScreen = true;
+    bool hasCalledDirector = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,31 +26,38 @@ public class TitleScreenManager : MonoBehaviour
 
         titleScreenObjects.SetActive(true);
         titleScreenCanvas.SetActive(true);
+
+        _gameDirector = GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool anyPlayerPressGreen = Input.GetButtonDown("Jump1") || 
+        bool anyPlayerPressGreen = Input.GetButtonDown("Jump1") ||
                                    Input.GetButtonDown("Jump2") ||
                                    Input.GetButtonDown("Jump3") ||
                                    Input.GetButtonDown("Jump4");
 
 
-        if (!onTitleScreen) {
-            if (Input.GetButtonDown("Jump1")) {
+        if (!onTitleScreen)
+        {
+            if (Input.GetButtonDown("Jump1") || Input.GetKeyDown(KeyCode.Keypad1))
+            {
                 playerSprites[0].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
             }
 
-            if (Input.GetButtonDown("Jump2")) {
+            if (Input.GetButtonDown("Jump2") || Input.GetKeyDown(KeyCode.Keypad2))
+            {
                 playerSprites[1].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
             }
 
-            if (Input.GetButtonDown("Jump3")) {
+            if (Input.GetButtonDown("Jump3") || Input.GetKeyDown(KeyCode.Keypad3))
+            {
                 playerSprites[2].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
             }
 
-            if (Input.GetButtonDown("Jump4")) {
+            if (Input.GetButtonDown("Jump4") || Input.GetKeyDown(KeyCode.Keypad4))
+            {
                 playerSprites[3].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
             }
         }
@@ -56,6 +65,28 @@ public class TitleScreenManager : MonoBehaviour
         else if (anyPlayerPressGreen && onTitleScreen)
         {
             ToCharacterSelect();
+        }
+
+        int activePlayers = 0;
+        for (int i = 0; i <= 3; i++)
+        {
+            if (_gameDirector.activePlayers[i])
+            {
+                activePlayers++;
+            }
+        }
+
+        if (activePlayers > 1)
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                if (_gameDirector.activePlayers[i] && Input.GetButton("Attack" + (i + 1)) && !hasCalledDirector)
+                {
+                    _gameDirector.nextLevelToLoad = 2;
+                    _gameDirector.TriggerLoadingScreen();
+                    hasCalledDirector = true;
+                }
+            }
         }
     }
 
@@ -68,12 +99,12 @@ public class TitleScreenManager : MonoBehaviour
         titleScreenCanvas.transform.localScale = Vector3.one;
 
         var titleObjSeq = LeanTween.sequence();
-        titleObjSeq.append( LeanTween.scale(titleScreenObjects, Vector3.zero, transTime).setEase(tweenType) );
-        titleObjSeq.append (() => { titleScreenObjects.SetActive(false); });
+        titleObjSeq.append(LeanTween.scale(titleScreenObjects, Vector3.zero, transTime).setEase(tweenType));
+        titleObjSeq.append(() => { titleScreenObjects.SetActive(false); });
 
         var titleCanSeq = LeanTween.sequence();
-        titleCanSeq.append( LeanTween.scale(titleScreenCanvas, Vector3.zero, transTime).setEase(tweenType) );
-        titleCanSeq.append (() => { titleScreenCanvas.SetActive(false); });
+        titleCanSeq.append(LeanTween.scale(titleScreenCanvas, Vector3.zero, transTime).setEase(tweenType));
+        titleCanSeq.append(() => { titleScreenCanvas.SetActive(false); });
 
 
         charSelectObjects.SetActive(true);
@@ -82,11 +113,11 @@ public class TitleScreenManager : MonoBehaviour
         charSelectCanvas.transform.localScale = Vector3.zero;
 
         var charObjSeq = LeanTween.sequence();
-        charObjSeq.append( LeanTween.scale(charSelectObjects, Vector3.one, transTime).setEase(tweenType) );
+        charObjSeq.append(LeanTween.scale(charSelectObjects, Vector3.one, transTime).setEase(tweenType));
 
         var charCanSeq = LeanTween.sequence();
-        charCanSeq.append( LeanTween.scale(charSelectCanvas, Vector3.one, transTime).setEase(tweenType) );
-        
+        charCanSeq.append(LeanTween.scale(charSelectCanvas, Vector3.one, transTime).setEase(tweenType));
+
     }
 
     void ToTitleScreen()
@@ -98,12 +129,12 @@ public class TitleScreenManager : MonoBehaviour
         charSelectCanvas.transform.localScale = Vector3.one;
 
         var charObjSeq = LeanTween.sequence();
-        charObjSeq.append( LeanTween.scale(charSelectObjects, Vector3.zero, transTime).setEase(tweenType) );
-        charObjSeq.append (() => { charSelectObjects.SetActive(false); });
+        charObjSeq.append(LeanTween.scale(charSelectObjects, Vector3.zero, transTime).setEase(tweenType));
+        charObjSeq.append(() => { charSelectObjects.SetActive(false); });
 
         var charCanSeq = LeanTween.sequence();
-        charCanSeq.append( LeanTween.scale(charSelectCanvas, Vector3.zero, transTime).setEase(tweenType) );
-        charCanSeq.append (() => { charSelectCanvas.SetActive(false); });
+        charCanSeq.append(LeanTween.scale(charSelectCanvas, Vector3.zero, transTime).setEase(tweenType));
+        charCanSeq.append(() => { charSelectCanvas.SetActive(false); });
 
 
         titleScreenObjects.SetActive(true);
@@ -112,10 +143,10 @@ public class TitleScreenManager : MonoBehaviour
         titleScreenCanvas.transform.localScale = Vector3.zero;
 
         var titleObjSeq = LeanTween.sequence();
-        titleObjSeq.append( LeanTween.scale(titleScreenObjects, Vector3.one, transTime).setEase(tweenType) );
+        titleObjSeq.append(LeanTween.scale(titleScreenObjects, Vector3.one, transTime).setEase(tweenType));
 
         var titleCanSeq = LeanTween.sequence();
-        titleCanSeq.append( LeanTween.scale(titleScreenCanvas, Vector3.one, transTime).setEase(tweenType) );
+        titleCanSeq.append(LeanTween.scale(titleScreenCanvas, Vector3.one, transTime).setEase(tweenType));
     }
 
     // void ToCharacterSelect()

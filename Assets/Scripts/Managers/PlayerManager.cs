@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject gameCamera, victoryCamera;
     public CanvasGroup gameUI, victoryUI;
     public GameObject winner = null;
+    public GameDirector _director;
+    public GameObject victoryScreenUIPrompts;
 
     public TextMeshProUGUI victoryPlayerNameText, victoryPlayerPointsText;
 
@@ -23,8 +25,8 @@ public class PlayerManager : MonoBehaviour
 
     public int startingPowerskulls = 1;
     public int playerCount = 0;
-    
-    
+
+
 
     public List<bool> isPlayerActive = new List<bool>();
     public List<GameObject> playerObjects = new List<GameObject>();
@@ -33,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     List<string> playerNames = new List<string>();
     bool playerHasWon = false;
     bool gotHighScore = false;
+    bool hasCalledDirector = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,6 +44,13 @@ public class PlayerManager : MonoBehaviour
         playerNames.Add("pelvis wrestley");
         playerNames.Add("duke skullington");
         playerNames.Add("frasier cranium");
+
+        _director = GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>();
+
+        for (int i = 0; i <= 3; i++)
+        {
+            isPlayerActive[i] = _director.activePlayers[i];
+        }
 
         for (int i = 0; i < playerObjects.Count; i++)
         {
@@ -115,15 +125,37 @@ public class PlayerManager : MonoBehaviour
                 TriggerVictory();
             }
 
-            if ((highScoreUI.activeInHierarchy && highScoreUI.GetComponent<HighScoreManager>().entryComplete) || (!gotHighScore && playerHasWon) ) {
-                bool playerPressedGreen = Input.GetButtonDown("Jump1") || 
-                                          Input.GetButtonDown("Jump2") || 
-                                          Input.GetButtonDown("Jump3") || 
+            if ((highScoreUI.activeInHierarchy && highScoreUI.GetComponent<HighScoreManager>().entryComplete) || (!gotHighScore && playerHasWon))
+            {
+                if (!victoryScreenUIPrompts.activeInHierarchy) {
+                    victoryScreenUIPrompts.SetActive(true);
+                }
+                bool playerPressedGreen = Input.GetButtonDown("Jump1") ||
+                                          Input.GetButtonDown("Jump2") ||
+                                          Input.GetButtonDown("Jump3") ||
                                           Input.GetButtonDown("Jump4");
 
-                if (playerPressedGreen) {
-                    GameObject.Find("GameDirector").GetComponent<GameDirector>().nextLevelToLoad = 1;
-                    GameObject.Find("GameDirector").GetComponent<GameDirector>().TriggerLoadingScreen();
+                bool playerPressedYellow = Input.GetButtonDown("Attack1") ||
+                                           Input.GetButtonDown("Attack2") ||
+                                           Input.GetButtonDown("Attack3") ||
+                                           Input.GetButtonDown("Attack4");
+
+                if (playerPressedGreen && !hasCalledDirector)
+                {
+                    for (int i = 0; i <= 3; i++)
+                    {
+                        _director.activePlayers[i] = false;
+                    }
+
+                    _director.nextLevelToLoad = 1;
+                    _director.TriggerLoadingScreen();
+                    hasCalledDirector = true;
+                }
+
+                if (playerPressedYellow && !hasCalledDirector) {
+                    _director.nextLevelToLoad = 2;
+                    _director.TriggerLoadingScreen();
+                    hasCalledDirector = true;
                 }
             }
         }
@@ -132,7 +164,7 @@ public class PlayerManager : MonoBehaviour
         {
 
 
-            
+
 
             GameObject newVictoryStandin = Instantiate(playerVictoryStandin, winner.transform.position, Quaternion.identity);
 

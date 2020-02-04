@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7619810676301675881}
   m_Layer: 0
   m_Name: GameDirector
-  m_TagString: Untagged
+  m_TagString: GameDirector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6298274577228437425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.13809869, y: 8.365671, z: -9.5625}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8758992530790977761}
@@ -251,12 +251,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4713935b76714f46b9e1bc58882b9c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelToLoad: 0
+  nextLevelToLoad: 1
   sceneTransitionIn: {fileID: 8064990017962161537}
   sceneTransitionOut: {fileID: 6619435589561339407}
   loadingSkull: {fileID: 2171187749743331721}
   transInAnimClip: {fileID: 7400000, guid: 9a1a4185986aaeb41a94c59f86a16286, type: 2}
   transOutAnimClip: {fileID: 7400000, guid: 0dc0ea93baf7a194a858afacefec3570, type: 2}
+  activePlayers: 00000000
 --- !u!1001 &1165609914494177382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -423,7 +424,7 @@ PrefabInstance:
     - target: {fileID: 1581616532895997541, guid: a1dcc0fd0842ba4459c33599b85e0820,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7647.7607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1581616532895997541, guid: a1dcc0fd0842ba4459c33599b85e0820,
         type: 3}

@@ -8,6 +8,7 @@ TagManager:
   - Tossable
   - Ground
   - Powerskull
+  - GameDirector
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,7 @@ public class CharSelectSpriteBehavior : MonoBehaviour
     public GameObject activatedBurst;
     public Transform activatedBurstTransform;
     public Color activatedBurstColor;
+    public int playerNumber;
 
     Animator _animator;
     SpriteRenderer _sprite;
@@ -28,12 +29,13 @@ public class CharSelectSpriteBehavior : MonoBehaviour
         {
             _animator.SetBool("isActivated", true);
             tmpColor.a = 1f;
-
+            
         }
         else
         {
             _animator.SetBool("isActivated", false);
             tmpColor.a = inactiveAlpha;
+            
         }
 
         _sprite.color = tmpColor;
@@ -43,10 +45,12 @@ public class CharSelectSpriteBehavior : MonoBehaviour
     {
         if (isActivated)
         {
+            GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>().activePlayers[playerNumber] = false;
             isActivated = false;
         }
         else
         {
+            GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>().activePlayers[playerNumber] = true;
             isActivated = true;
             GameObject newBurst = Instantiate(activatedBurst, activatedBurstTransform.transform.position, Quaternion.identity);
             newBurst.transform.localScale = activatedBurstTransform.localScale;

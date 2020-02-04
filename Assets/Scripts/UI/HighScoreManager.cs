@@ -62,7 +62,7 @@ public class HighScoreManager : MonoBehaviour
 
         textObjects[curPosition].color = Color.yellow;
 
-        winningPlayerNumber = _playerManager.winner.GetComponent<Player>().playerNumber;
+        
 
         letterDelayTimer = letterDelayTime;
     }
@@ -70,6 +70,9 @@ public class HighScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        winningPlayerNumber = _playerManager.winner.GetComponent<Player>().playerNumber;
+        
         if (highScorePlace == 0)
         {
             highScorePlace = _playerManager.highScoreRank;
