@@ -63,10 +63,20 @@ public class PlayerManager : MonoBehaviour
                 playerScript.playerColor = playerColors[playerScript.playerNumber - 1];
                 camTargetGroup.AddMember(playerObjects[i].transform, 1f, 0f);
                 playerObjects[i].GetComponent<Player>().powerskullCount = startingPowerskulls;
-                playerObjects[i].gameObject.SetActive(true);
+                playerObjects[i].gameObject.SetActive(false);
 
-                GameObject newSpawnBurst = Instantiate(spawnBurst, playerObjects[i].transform.position, Quaternion.identity);
-                newSpawnBurst.GetComponent<SpriteRenderer>().color = playerObjects[i].GetComponent<Player>().playerColor;
+                GameObject playerToSpawn = playerObjects[i];
+                var spawnDelaySeq = LeanTween.sequence();
+                spawnDelaySeq.append(.5f);
+                spawnDelaySeq.append(() =>
+                {
+                    playerToSpawn.SetActive(true);
+
+                    GameObject newSpawnBurst = Instantiate(spawnBurst, playerToSpawn.transform.position, Quaternion.identity);
+                    newSpawnBurst.GetComponent<SpriteRenderer>().color = playerToSpawn.GetComponent<Player>().playerColor;
+                } );
+
+
 
                 playerCount++;
             }
@@ -81,8 +91,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         var fightAudioSeq = LeanTween.sequence();
-        fightAudioSeq.append(.25f);
-        fightAudioSeq.append( () => { GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(6, false); } );
+        fightAudioSeq.append(.5f);
+        fightAudioSeq.append(() => { GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(6, false); });
 
 
     }
@@ -131,7 +141,8 @@ public class PlayerManager : MonoBehaviour
 
             if ((highScoreUI.activeInHierarchy && highScoreUI.GetComponent<HighScoreManager>().entryComplete) || (!gotHighScore && playerHasWon))
             {
-                if (!victoryScreenUIPrompts.activeInHierarchy) {
+                if (!victoryScreenUIPrompts.activeInHierarchy)
+                {
                     victoryScreenUIPrompts.SetActive(true);
                 }
                 bool playerPressedGreen = Input.GetButtonDown("Jump1") ||
@@ -156,7 +167,8 @@ public class PlayerManager : MonoBehaviour
                     hasCalledDirector = true;
                 }
 
-                if (playerPressedYellow && !hasCalledDirector) {
+                if (playerPressedYellow && !hasCalledDirector)
+                {
                     _director.nextLevelToLoad = 2;
                     _director.TriggerLoadingScreen();
                     hasCalledDirector = true;

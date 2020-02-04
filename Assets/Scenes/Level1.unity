@@ -898,7 +898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288463895}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7260959, y: -8.7, z: 0.4375}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1615814830}
@@ -1640,7 +1640,7 @@ Camera:
   far clip plane: 5000
   field of view: 38
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1664,7 +1664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7560005, z: -10}
+  m_LocalPosition: {x: -0.7260959, y: 9.456, z: -10.4375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 288463896}
@@ -3249,7 +3249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - audioClip: {fileID: 8300000, guid: 78016d86aa7747b47aef6095268f3154, type: 3}
+  - audioClip: {fileID: 8300000, guid: 9a77d58290048074dbdff7ba059f97a0, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 95d08eb300211874fababa97efefc9f7, type: 3}
@@ -3258,16 +3258,19 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: f86907efb1adca54da51483f6e0086d2, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: c6a808b2491d3fe4babe3b97dd258f74, type: 3}
+  - audioClip: {fileID: 8300000, guid: 1e4d108d114ac94448373c50370f6b21, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 2310694843b9206488a018256f1ddd07, type: 3}
+  - audioClip: {fileID: 8300000, guid: 005bd977c88fc8c47bc4460f03c8a926, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 6fc9789e68b950a4e92e2a6e9e43d9e4, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: a20bc857af5cfe841bbc17164e8d3e5b, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: 9891947fc22a6e748bd8e1e5f17edcf2, type: 3}
     volume: 1
     audioSource: {fileID: 0}
 --- !u!4 &876034476

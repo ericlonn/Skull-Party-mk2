@@ -5136,6 +5136,7 @@ MonoBehaviour:
   stunnedTime: 2.5
   ejectedTime: 5
   playerColor: {r: 0.95847404, g: 0.990566, b: 0, a: 1}
+  playerName: 
   stunnedParticleSystem: {fileID: 8814735117380439139}
   _isFacingRight: 0
   disablePlayerInput: 0
@@ -5240,13 +5241,13 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: 374253d5c926b264dbd3590af2b39684, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 78016d86aa7747b47aef6095268f3154, type: 3}
+  - audioClip: {fileID: 8300000, guid: 9a77d58290048074dbdff7ba059f97a0, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: e9badbf8cdecbbe40bd415611110060d, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 7740c1d21481834498b801ff9192e27f, type: 3}
+  - audioClip: {fileID: 8300000, guid: cfeba051f0c27354a88514e110fbdaa3, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 3949759667fd7d74896328cf73875104, type: 3}
@@ -5256,6 +5257,9 @@ MonoBehaviour:
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 18b97850f7a2a0844925d25bbcec57e2, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: d85553d4d4a7a5a4fada2087308e054f, type: 3}
     volume: 1
     audioSource: {fileID: 0}
 --- !u!1 &2880207564674108082

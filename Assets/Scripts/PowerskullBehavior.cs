@@ -111,7 +111,7 @@ public class PowerskullBehavior : MonoBehaviour
                 }
 
             }
-            // GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true);
         }
     }
 

@@ -106,6 +106,7 @@ public class Player : MonoBehaviour
     private float _wallLingerTime;
     private float stunnedTimer = 0f;
     private float ejectedTimer = 5f;
+    private float timeActive = 0f;
 
     private bool lastFrameGrounded = false;
 
@@ -140,6 +141,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         if (playerNumber != 0)
         {
             xInput = "Horizontal" + playerNumber;
@@ -150,9 +152,9 @@ public class Player : MonoBehaviour
 
         ejectedTimer -= Time.deltaTime;
 
-        if (!lastFrameGrounded && IsGrounded)
+        if (!lastFrameGrounded && IsGrounded && timeActive > .3f)
         {
-            _soundPlayer.PlayClip(5, false);
+            _soundPlayer.PlayClip(5, true);
         }
         lastFrameGrounded = IsGrounded;
 
@@ -198,7 +200,7 @@ public class Player : MonoBehaviour
             ApplyStun();
         }
 
-
+        timeActive += Time.deltaTime;
 
 
 
@@ -234,6 +236,7 @@ public class Player : MonoBehaviour
         if (bulletStun)
         {
             bulletStunned = true;
+            _soundPlayer.PlayClip(9, false);
         }
 
 

@@ -72,7 +72,7 @@ public class TossableObject : MonoBehaviour
         isTossed = true;
         tossDirection = new Vector2(hitDirection, 0);
         tosser = passedTosser;
-        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false);
+        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
