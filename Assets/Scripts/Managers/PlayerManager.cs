@@ -80,6 +80,10 @@ public class PlayerManager : MonoBehaviour
 
         }
 
+        var fightAudioSeq = LeanTween.sequence();
+        fightAudioSeq.append(.25f);
+        fightAudioSeq.append( () => { GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(6, false); } );
+
 
     }
 
@@ -162,10 +166,6 @@ public class PlayerManager : MonoBehaviour
 
         void TriggerVictory()
         {
-
-
-
-
             GameObject newVictoryStandin = Instantiate(playerVictoryStandin, winner.transform.position, Quaternion.identity);
 
             camTargetGroup.AddMember(newVictoryStandin.transform, 1f, 0f);
@@ -181,6 +181,7 @@ public class PlayerManager : MonoBehaviour
             {
                 gameCamera.SetActive(false);
                 victoryCamera.SetActive(true);
+                _director.GetComponent<PlayMusic>().PlayClip(2, .25f);
 
                 victoryPlayerNameText.text = winner.GetComponent<Player>().playerName;
                 victoryPlayerNameText.color = winner.GetComponent<Player>().playerColor;

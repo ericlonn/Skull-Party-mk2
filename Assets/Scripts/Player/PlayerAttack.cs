@@ -162,16 +162,6 @@ public class PlayerAttack : MonoBehaviour
                 attackType = 0;
             }
         }
-        else if (attackType == 2)
-        {
-            // if (_controller.State.IsCollidingBelow || _controller.State.IsCollidingRight || _controller.State.IsCollidingLeft || _player.WallSlide)
-            // {
-            //     isAttacking = false;
-            //     attackType = 0;
-            //     _applyAnimation.AttackAnimation(attackType);
-            //     _player.disablePlayerInput = false;
-            // }
-        }
     }
 
     private void FireBullet()

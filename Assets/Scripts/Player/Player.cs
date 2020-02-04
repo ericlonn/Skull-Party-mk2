@@ -241,6 +241,7 @@ public class Player : MonoBehaviour
 
     public void TriggerPoweredUp()
     {
+        disablePlayerInput = false;
         isPoweredUp = true;
         poweredUpFire.SetActive(true);
         GetComponent<PlayerAttack>().ammoCount = poweredUpAmmo;

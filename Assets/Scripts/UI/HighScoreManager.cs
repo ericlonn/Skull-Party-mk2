@@ -86,6 +86,8 @@ public class HighScoreManager : MonoBehaviour
             bool downPressed = Input.GetAxis("Vertical" + winningPlayerNumber) == 1f;
             bool greenButtonPressed = Input.GetButtonDown("Jump" + winningPlayerNumber);
 
+            Debug.Log(winningPlayerNumber);
+
             if ((upPressed && letterDelayTimer <= 0f) || (!lastFrameUp && upPressed))
             {
                 curLetter++;
@@ -154,11 +156,6 @@ public class HighScoreManager : MonoBehaviour
             }
 
             PlayerPrefs.Save();
-
-            for (int i = 1; i <= 9; i++)
-            {
-                Debug.Log(i + ". " + PlayerPrefs.GetString("highScoreName" + i) + ": " + PlayerPrefs.GetInt("highScorePoints" + i));
-            }
 
             entryComplete = true;
         }

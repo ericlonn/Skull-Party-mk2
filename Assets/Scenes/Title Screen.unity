@@ -458,6 +458,11 @@ PrefabInstance:
       propertyPath: playerNumber
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 808940618091405559, guid: 28b3ada91d8887445bcf3ba0ec725667,
+        type: 3}
+      propertyPath: _titleScreenManager
+      value: 
+      objectReference: {fileID: 408306417}
     - target: {fileID: 6337312808674349571, guid: 28b3ada91d8887445bcf3ba0ec725667,
         type: 3}
       propertyPath: m_Name
@@ -529,6 +534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 408306419}
+  - component: {fileID: 408306420}
   - component: {fileID: 408306418}
   m_Layer: 0
   m_Name: Title Screen Manager
@@ -573,6 +579,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408306420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408306417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 952cbd129facd44498b95e3449d331ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - audioClip: {fileID: 8300000, guid: 92d67aa462740a44cb1ea8fd59c492c5, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: d6614148e06c62f408fb0eab20858410, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: 5e98b3a142b9d594c81144cf38da578c, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: 0810f60fd65eb9c49998b18bf608c3ae, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: d74594784fc80fc4d97cf083105789d1, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
 --- !u!1 &439154726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2357,6 +2391,11 @@ PrefabInstance:
       propertyPath: playerNumber
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 808940618091405559, guid: 28b3ada91d8887445bcf3ba0ec725667,
+        type: 3}
+      propertyPath: _titleScreenManager
+      value: 
+      objectReference: {fileID: 408306417}
     - target: {fileID: 6337312808674349571, guid: 28b3ada91d8887445bcf3ba0ec725667,
         type: 3}
       propertyPath: m_Name
@@ -3648,6 +3687,11 @@ PrefabInstance:
       propertyPath: playerNumber
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 808940618091405559, guid: 28b3ada91d8887445bcf3ba0ec725667,
+        type: 3}
+      propertyPath: _titleScreenManager
+      value: 
+      objectReference: {fileID: 408306417}
     - target: {fileID: 6337312808674349571, guid: 28b3ada91d8887445bcf3ba0ec725667,
         type: 3}
       propertyPath: m_Name
@@ -4098,6 +4142,11 @@ PrefabInstance:
       propertyPath: activatedBurstColor.b
       value: 0.69411767
       objectReference: {fileID: 0}
+    - target: {fileID: 808940618091405559, guid: 28b3ada91d8887445bcf3ba0ec725667,
+        type: 3}
+      propertyPath: _titleScreenManager
+      value: 
+      objectReference: {fileID: 408306417}
     - target: {fileID: 6337312808674349571, guid: 28b3ada91d8887445bcf3ba0ec725667,
         type: 3}
       propertyPath: m_Name

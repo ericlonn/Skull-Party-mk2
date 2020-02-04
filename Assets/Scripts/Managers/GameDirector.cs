@@ -9,6 +9,7 @@ public class GameDirector : MonoBehaviour
     public GameObject sceneTransitionIn, sceneTransitionOut;
     public GameObject loadingSkull;
     public AnimationClip transInAnimClip, transOutAnimClip;
+    public PlayMusic _musicPlayer;
 
     public List<bool> activePlayers = new List<bool>();
 
@@ -26,12 +27,22 @@ public class GameDirector : MonoBehaviour
         activePlayers[2] = false;
         activePlayers[3] = false;
 
+        _musicPlayer = GetComponent<PlayMusic>();
+
+    }
+
+    private void Start()
+    {
+        _musicPlayer.PlayClip(0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            _musicPlayer.PlayClip(1, 3);
+        }
     }
 
     public void TriggerLoadingScreen()
@@ -59,7 +70,7 @@ public class GameDirector : MonoBehaviour
         yield return new WaitForSeconds(transOutAnimClip.length);
 
         loadingSkull.SetActive(true);
-        LeanTween.scale(loadingSkull, Vector3.one * 6, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(.2f);
+        LeanTween.scale(loadingSkull, Vector3.one * 6, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(.05f);
 
         AsyncOperation loadLoadingScreen = SceneManager.LoadSceneAsync(0);
         while (!loadLoadingScreen.isDone)
@@ -72,7 +83,7 @@ public class GameDirector : MonoBehaviour
 
     IEnumerator LevelLoadSequence()
     {
-        float minLoadTime = 2.5f;
+        float minLoadTime = 5f;
 
         while (minLoadTime > 0)
         {
@@ -88,6 +99,11 @@ public class GameDirector : MonoBehaviour
         }
 
         loadingSkull.SetActive(false);
+        if (nextLevelToLoad == 2) {
+            _musicPlayer.PlayClip(1, .25f);
+        } else if (nextLevelToLoad == 1) {
+            _musicPlayer.PlayClip(0, .25f);
+        }
         sceneTransitionIn.SetActive(true);
     }
 }

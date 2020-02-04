@@ -10,6 +10,7 @@ public class CharSelectSpriteBehavior : MonoBehaviour
     public Transform activatedBurstTransform;
     public Color activatedBurstColor;
     public int playerNumber;
+    public GameObject _titleScreenManager;
 
     Animator _animator;
     SpriteRenderer _sprite;
@@ -47,7 +48,8 @@ public class CharSelectSpriteBehavior : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>().activePlayers[playerNumber] = false;
             isActivated = false;
-        }
+            _titleScreenManager.GetComponent<PlaySound>().PlayClip(3, false);
+        }   
         else
         {
             GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>().activePlayers[playerNumber] = true;
@@ -55,6 +57,7 @@ public class CharSelectSpriteBehavior : MonoBehaviour
             GameObject newBurst = Instantiate(activatedBurst, activatedBurstTransform.transform.position, Quaternion.identity);
             newBurst.transform.localScale = activatedBurstTransform.localScale;
             newBurst.GetComponent<SpriteRenderer>().color = activatedBurstColor;
+            _titleScreenManager.GetComponent<PlaySound>().PlayClip(2, false);
         }
     }
 }

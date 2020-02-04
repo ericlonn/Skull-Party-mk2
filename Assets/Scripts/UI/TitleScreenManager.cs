@@ -15,6 +15,7 @@ public class TitleScreenManager : MonoBehaviour
     public float transTime = .3f;
 
     GameDirector _gameDirector;
+    PlaySound _soundPlayer;
     bool onTitleScreen = true;
     bool hasCalledDirector = false;
 
@@ -28,63 +29,73 @@ public class TitleScreenManager : MonoBehaviour
         titleScreenCanvas.SetActive(true);
 
         _gameDirector = GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>();
+        _soundPlayer = GetComponent<PlaySound>();
+
+        var announcerAudio = LeanTween.sequence();
+        announcerAudio.append(.3f);
+        announcerAudio.append(() => { _soundPlayer.PlayClip(4, true); });
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool anyPlayerPressGreen = Input.GetButtonDown("Jump1") ||
-                                   Input.GetButtonDown("Jump2") ||
-                                   Input.GetButtonDown("Jump3") ||
-                                   Input.GetButtonDown("Jump4");
-
-
-        if (!onTitleScreen)
+        if (!hasCalledDirector)
         {
-            if (Input.GetButtonDown("Jump1") || Input.GetKeyDown(KeyCode.Keypad1))
+            bool anyPlayerPressGreen = Input.GetButtonDown("Jump1") ||
+                                       Input.GetButtonDown("Jump2") ||
+                                       Input.GetButtonDown("Jump3") ||
+                                       Input.GetButtonDown("Jump4");
+
+
+            if (!onTitleScreen)
             {
-                playerSprites[0].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                if (Input.GetButtonDown("Jump1") || Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    playerSprites[0].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                }
+
+                if (Input.GetButtonDown("Jump2") || Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    playerSprites[1].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                }
+
+                if (Input.GetButtonDown("Jump3") || Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    playerSprites[2].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                }
+
+                if (Input.GetButtonDown("Jump4") || Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    playerSprites[3].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                }
             }
 
-            if (Input.GetButtonDown("Jump2") || Input.GetKeyDown(KeyCode.Keypad2))
+            else if (anyPlayerPressGreen && onTitleScreen)
             {
-                playerSprites[1].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
+                ToCharacterSelect();
+                _soundPlayer.PlayClip(0, true);
             }
 
-            if (Input.GetButtonDown("Jump3") || Input.GetKeyDown(KeyCode.Keypad3))
-            {
-                playerSprites[2].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
-            }
-
-            if (Input.GetButtonDown("Jump4") || Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                playerSprites[3].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
-            }
-        }
-
-        else if (anyPlayerPressGreen && onTitleScreen)
-        {
-            ToCharacterSelect();
-        }
-
-        int activePlayers = 0;
-        for (int i = 0; i <= 3; i++)
-        {
-            if (_gameDirector.activePlayers[i])
-            {
-                activePlayers++;
-            }
-        }
-
-        if (activePlayers > 1)
-        {
+            int activePlayers = 0;
             for (int i = 0; i <= 3; i++)
             {
-                if (_gameDirector.activePlayers[i] && Input.GetButton("Attack" + (i + 1)) && !hasCalledDirector)
+                if (_gameDirector.activePlayers[i])
                 {
-                    _gameDirector.nextLevelToLoad = 2;
-                    _gameDirector.TriggerLoadingScreen();
-                    hasCalledDirector = true;
+                    activePlayers++;
+                }
+            }
+
+            if (activePlayers > 1)
+            {
+                for (int i = 0; i <= 3; i++)
+                {
+                    if (_gameDirector.activePlayers[i] && Input.GetButton("Attack" + (i + 1)) && !hasCalledDirector)
+                    {
+                        _gameDirector.nextLevelToLoad = 2;
+                        _gameDirector.TriggerLoadingScreen();
+                        _soundPlayer.PlayClip(2, false);
+                        hasCalledDirector = true;
+                    }
                 }
             }
         }

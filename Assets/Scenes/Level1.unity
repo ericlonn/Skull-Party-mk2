@@ -898,7 +898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288463895}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.7260959, y: -8.7, z: 0.4375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1615814830}
@@ -1640,7 +1640,7 @@ Camera:
   far clip plane: 5000
   field of view: 38
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1664,7 +1664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7260959, y: 9.456, z: -10.4375}
+  m_LocalPosition: {x: 0, y: 0.7560005, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 288463896}
@@ -2941,6 +2941,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7d980a92dffaa54987c2d3d63283658, type: 3}
+--- !u!1 &750351200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6703929771531385692, guid: a7d980a92dffaa54987c2d3d63283658,
+    type: 3}
+  m_PrefabInstance: {fileID: 750351199}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &750351201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750351200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a03211700730640a7a1c33198bf47d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 538829166}
 --- !u!1 &765706969
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,6 +3265,9 @@ MonoBehaviour:
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 6fc9789e68b950a4e92e2a6e9e43d9e4, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: a20bc857af5cfe841bbc17164e8d3e5b, type: 3}
     volume: 1
     audioSource: {fileID: 0}
 --- !u!4 &876034476
@@ -3581,6 +3603,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 467567980}
     m_Modifications:
+    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 422378397343297502, guid: 8bba2b34106fedf409c9c24224791f6e,
         type: 3}
       propertyPath: m_Name
@@ -3658,6 +3685,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bba2b34106fedf409c9c24224791f6e, type: 3}
+--- !u!1 &922740055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 422378397343297502, guid: 8bba2b34106fedf409c9c24224791f6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 922740054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &922740056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922740055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a03211700730640a7a1c33198bf47d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 538829166}
 --- !u!1 &940339548
 GameObject:
   m_ObjectHideFlags: 0

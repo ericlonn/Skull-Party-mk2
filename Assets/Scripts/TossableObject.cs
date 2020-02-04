@@ -34,7 +34,9 @@ public class TossableObject : MonoBehaviour
     {
         if (!_collider.IsTouchingLayers(groundLayer) && !isTossed)
         {
-            MoveToFloor();
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        } else {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         }
 
         if (isTossed)
@@ -71,11 +73,6 @@ public class TossableObject : MonoBehaviour
         tossDirection = new Vector2(hitDirection, 0);
         tosser = passedTosser;
         GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false);
-    }
-
-    void MoveToFloor()
-    {
-        transform.Translate(Vector2.down * Time.deltaTime * gravityMultiplier);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
