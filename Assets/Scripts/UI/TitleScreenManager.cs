@@ -93,7 +93,7 @@ public class TitleScreenManager : MonoBehaviour
                     {
                         _gameDirector.nextLevelToLoad = 2;
                         _gameDirector.TriggerLoadingScreen();
-                        _soundPlayer.PlayClip(2, false);
+                        _soundPlayer.PlayClip(5, false);
                         hasCalledDirector = true;
                     }
                 }

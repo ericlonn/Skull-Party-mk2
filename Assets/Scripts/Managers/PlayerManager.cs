@@ -124,7 +124,7 @@ public class PlayerManager : MonoBehaviour
 
                     camTargetGroup.AddMember(playerStandIn.transform, 1f, 0f);
 
-                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(5, false);
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(5, false, transform.position);
 
                     Destroy(playerObject);
 

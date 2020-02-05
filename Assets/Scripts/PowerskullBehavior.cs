@@ -83,6 +83,7 @@ public class PowerskullBehavior : MonoBehaviour
                 tmp.a = collectedAlpha;
                 GetComponent<SpriteRenderer>().color = tmp;
                 StartCoroutine("CollectedAnim");
+
                 GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(4, false);
                 return;
             }
@@ -111,7 +112,10 @@ public class PowerskullBehavior : MonoBehaviour
                 }
 
             }
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true);
+            if (_playerMan.winner == null)
+            {
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true, transform.position);
+            }
         }
     }
 

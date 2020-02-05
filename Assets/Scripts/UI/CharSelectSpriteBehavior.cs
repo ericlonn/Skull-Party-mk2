@@ -48,7 +48,7 @@ public class CharSelectSpriteBehavior : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("GameDirector").GetComponent<GameDirector>().activePlayers[playerNumber] = false;
             isActivated = false;
-            _titleScreenManager.GetComponent<PlaySound>().PlayClip(3, false);
+            _titleScreenManager.GetComponent<PlaySound>().PlayClip(3, false, transform.position);
         }   
         else
         {
@@ -57,7 +57,7 @@ public class CharSelectSpriteBehavior : MonoBehaviour
             GameObject newBurst = Instantiate(activatedBurst, activatedBurstTransform.transform.position, Quaternion.identity);
             newBurst.transform.localScale = activatedBurstTransform.localScale;
             newBurst.GetComponent<SpriteRenderer>().color = activatedBurstColor;
-            _titleScreenManager.GetComponent<PlaySound>().PlayClip(2, false);
+            _titleScreenManager.GetComponent<PlaySound>().PlayClip(2, false, transform.position);
         }
     }
 }

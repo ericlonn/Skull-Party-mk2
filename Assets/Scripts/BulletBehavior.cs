@@ -80,7 +80,7 @@ public class BulletBehavior : MonoBehaviour
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
 
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false, transform.position);
             Destroy(gameObject, 0f);
         }
 
@@ -88,7 +88,7 @@ public class BulletBehavior : MonoBehaviour
         {
             GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false, transform.position);
             Destroy(gameObject, 0f);
 
         }

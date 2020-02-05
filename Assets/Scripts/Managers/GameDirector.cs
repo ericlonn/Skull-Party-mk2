@@ -10,10 +10,14 @@ public class GameDirector : MonoBehaviour
     public GameObject loadingSkull;
     public AnimationClip transInAnimClip, transOutAnimClip;
     public PlayMusic _musicPlayer;
+    public float timeOutTime = 180f;
 
     public List<bool> activePlayers = new List<bool>();
 
     bool firstLoad = true;
+    bool anyInput;
+    float inputTimer;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -39,10 +43,7 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            _musicPlayer.PlayClip(1, 3);
-        }
+        InputWatcher();
     }
 
     public void TriggerLoadingScreen()
@@ -50,9 +51,36 @@ public class GameDirector : MonoBehaviour
         StartCoroutine("LoadingScreenSequence");
     }
 
-    public void TriggerTransitionIn()
+    void InputWatcher()
     {
+        if (Input.GetButtonDown("Jump1") ||
+            Input.GetButtonDown("Jump2") ||
+            Input.GetButtonDown("Jump3") ||
+            Input.GetButtonDown("Jump4") ||
+            Input.GetButtonDown("Attack1") ||
+            Input.GetButtonDown("Attack2") ||
+            Input.GetButtonDown("Attack3") ||
+            Input.GetButtonDown("Attack4") ||
+            Input.GetAxis("Horizontal1") > 0 || Input.GetAxis("Horizontal1") < 0 ||
+            Input.GetAxis("Horizontal2") > 0 || Input.GetAxis("Horizontal2") < 0 ||
+            Input.GetAxis("Horizontal3") > 0 || Input.GetAxis("Horizontal3") < 0 ||
+            Input.GetAxis("Horizontal4") > 0 || Input.GetAxis("Horizontal4") < 0 ||
+            Input.GetAxis("Vertical1") > 0 || Input.GetAxis("Vertical1") < 0 ||
+            Input.GetAxis("Vertical2") > 0 || Input.GetAxis("Vertical2") < 0 ||
+            Input.GetAxis("Vertical3") > 0 || Input.GetAxis("Vertical3") < 0 ||
+            Input.GetAxis("Vertical4") > 0 || Input.GetAxis("Vertical4") < 0)
+        {
+            inputTimer = 0f;
+        }
 
+        inputTimer += Time.deltaTime;
+
+        if (SceneManager.GetActiveScene().buildIndex == 2 && inputTimer >= timeOutTime)
+        {
+            inputTimer = 0f;
+            nextLevelToLoad = 1;
+            TriggerLoadingScreen();
+        }
     }
 
 
@@ -99,9 +127,12 @@ public class GameDirector : MonoBehaviour
         }
 
         loadingSkull.SetActive(false);
-        if (nextLevelToLoad == 2) {
+        if (nextLevelToLoad == 2)
+        {
             _musicPlayer.PlayClip(1, .25f);
-        } else if (nextLevelToLoad == 1) {
+        }
+        else if (nextLevelToLoad == 1)
+        {
             _musicPlayer.PlayClip(0, .25f);
         }
         sceneTransitionIn.SetActive(true);

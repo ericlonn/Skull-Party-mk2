@@ -72,7 +72,7 @@ public class TossableObject : MonoBehaviour
         isTossed = true;
         tossDirection = new Vector2(hitDirection, 0);
         tosser = passedTosser;
-        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true);
+        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true, transform.position);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -84,14 +84,14 @@ public class TossableObject : MonoBehaviour
 
             Instantiate(impactParticles, transform.position, Quaternion.identity);
             SpawnPowerskull();
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, false);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, false, transform.position);
             Destroy(gameObject);
         }
 
         if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false);
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false, transform.position);
         }
 
     }

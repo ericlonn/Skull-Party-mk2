@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
 
         if (!lastFrameGrounded && IsGrounded && timeActive > .3f)
         {
-            _soundPlayer.PlayClip(5, true);
+            _soundPlayer.PlayClip(5, true, transform.position);
         }
         lastFrameGrounded = IsGrounded;
 
@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
         if (bulletStun)
         {
             bulletStunned = true;
-            _soundPlayer.PlayClip(9, false);
+            _soundPlayer.PlayClip(9, false, transform.position);
         }
 
 
@@ -288,7 +288,7 @@ public class Player : MonoBehaviour
             if (_controller.State.IsCollidingRight || _controller.State.IsCollidingLeft)
             {
                 _controller.SetHorizontalVelocity(-_controller.Velocity.x);
-                _soundPlayer.PlayClip(1, true);
+                _soundPlayer.PlayClip(1, true, transform.position);
             }
 
             if (!stunnedParticleSystem.isPlaying && !_controller.State.IsCollidingBelow) stunnedParticleSystem.Play();
@@ -368,13 +368,13 @@ public class Player : MonoBehaviour
             if ((Input.GetButtonDown(jumpInput) && IsGrounded && !Jumpping) || (JumpWhenGrounded && IsGrounded))
             {
                 Jump(JumpMagnitude);
-                _soundPlayer.PlayClip(4, false);
+                _soundPlayer.PlayClip(4, false, transform.position);
             }
 
             else if (CanWallJump && Input.GetButtonDown(jumpInput))
             {
                 JumpOffWall(WallJumpForce);
-                _soundPlayer.PlayClip(4, false);
+                _soundPlayer.PlayClip(4, false, transform.position);
             }
 
             if (Jumpping && !Input.GetButton(jumpInput))
@@ -474,7 +474,7 @@ public class Player : MonoBehaviour
             _controller.SetVerticalVelocity(bounceForceY);
         }
 
-        _soundPlayer.PlayClip(0, true);
+        _soundPlayer.PlayClip(0, true, transform.position);
 
 
         // if (isStunned)

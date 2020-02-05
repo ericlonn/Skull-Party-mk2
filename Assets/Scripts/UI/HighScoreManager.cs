@@ -106,9 +106,20 @@ public class HighScoreManager : MonoBehaviour
             {
                 textObjects[curPosition].color = Color.white;
                 setLetters.Add(letters[curLetter]);
+
+                if (curPosition < 3) {
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(8, false);
+                } else {
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, true);
+                }
+
                 curPosition++;
                 curLetter = 0;
                 textObjects[curPosition].color = Color.yellow;
+                Debug.Log(curPosition);
+
+                
+                
             }
 
             if ((!lastFrameUp && upPressed) || (!lastFrameDown && downPressed))

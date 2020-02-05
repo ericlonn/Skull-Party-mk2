@@ -14,7 +14,7 @@ public class PowerskullManager : MonoBehaviour
     public float spawnDelayTime = 20f;
     public Vector2 averagePlayerLocation = Vector2.zero;
 
-    float lastSkullSpawnedTime = 0f;
+    float lastSkullSpawnedTime = 2f;
     int currentPowerskullsInPlay = 0;
     bool playerIsPoweredUp;
     GameObject[] powerskullObjects;
@@ -105,7 +105,7 @@ public class PowerskullManager : MonoBehaviour
             }
         }
 
-        if (furthestSpawnPoint != null)
+        if (furthestSpawnPoint != null && _playerManager.winner == null)
         {
             if (Random.Range(0f, 1f) > treasureChestChance)
             {
