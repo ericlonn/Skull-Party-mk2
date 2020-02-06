@@ -259,6 +259,7 @@ MonoBehaviour:
   transInAnimClip: {fileID: 7400000, guid: 9a1a4185986aaeb41a94c59f86a16286, type: 2}
   transOutAnimClip: {fileID: 7400000, guid: 0dc0ea93baf7a194a858afacefec3570, type: 2}
   _musicPlayer: {fileID: 0}
+  timeOutTime: 180
   activePlayers: 00000000
 --- !u!114 &6644693832543946470
 MonoBehaviour:
@@ -273,13 +274,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - audioClip: {fileID: 8300000, guid: 81e3580b00725d3429fd796217b33296, type: 3}
+  - audioClip: {fileID: 8300000, guid: fc149a2121012ad4cb4541f34df31763, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 09d804cfa1680bf448cf7fd77f3923cb, type: 3}
+  - audioClip: {fileID: 8300000, guid: 9f408a3352adcf84abe7b632e55f9496, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: a10663a0afdf2a34980498a469c1312f, type: 3}
+  - audioClip: {fileID: 8300000, guid: d3e6c3b2d638e894488855bc2ce7e1a5, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   currentAudioSource: {fileID: 0}

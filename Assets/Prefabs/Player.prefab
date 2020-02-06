@@ -5232,34 +5232,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - audioClip: {fileID: 8300000, guid: 65774af9375723141a5a459a9fc59553, type: 3}
+  - audioClip: {fileID: 8300000, guid: 9c22f29da2c78eb459b85868cebaacc0, type: 3}
     volume: 0.5
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: c0edc9019eae3c4469f390126bfeaf60, type: 3}
+  - audioClip: {fileID: 8300000, guid: 2f116f5bace4178439f89c130bf32232, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 374253d5c926b264dbd3590af2b39684, type: 3}
+  - audioClip: {fileID: 8300000, guid: 45adca55eca7cb94688f44769e6b1072, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 9a77d58290048074dbdff7ba059f97a0, type: 3}
+  - audioClip: {fileID: 8300000, guid: e16e4b5b8ec6f14419bbc6df0285239b, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: e9badbf8cdecbbe40bd415611110060d, type: 3}
+  - audioClip: {fileID: 8300000, guid: 2bbb556f5d21aa64581f62a15c2573c2, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: cfeba051f0c27354a88514e110fbdaa3, type: 3}
+  - audioClip: {fileID: 8300000, guid: d4651c54e5aaeaa45868ddbe6849654e, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 3949759667fd7d74896328cf73875104, type: 3}
+  - audioClip: {fileID: 8300000, guid: 540f60b4a9865e949b91cabf973d1baa, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 094c207c28d6fb948bb49441be456eea, type: 3}
+  - audioClip: {fileID: 8300000, guid: 451c89d9154d42b4b8b02c8b6d137e86, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 18b97850f7a2a0844925d25bbcec57e2, type: 3}
+  - audioClip: {fileID: 8300000, guid: a1f285899392c4d4ebd7176350b22588, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: d85553d4d4a7a5a4fada2087308e054f, type: 3}
+  - audioClip: {fileID: 8300000, guid: 76df4f04863389b4f8f6059bc3669736, type: 3}
     volume: 1
     audioSource: {fileID: 0}
 --- !u!1 &2880207564674108082

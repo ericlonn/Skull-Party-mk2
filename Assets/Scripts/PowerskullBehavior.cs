@@ -51,6 +51,11 @@ public class PowerskullBehavior : MonoBehaviour
 
     private void LateUpdate()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
         if (ejected)
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 300f));

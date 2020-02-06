@@ -132,6 +132,8 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
+            
+
             if (playerCount == 1 && !playerHasWon)
             {
                 playerHasWon = true;
