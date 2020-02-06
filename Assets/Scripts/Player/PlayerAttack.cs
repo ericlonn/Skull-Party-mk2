@@ -46,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!_player.isPoweredUp)
         {
@@ -63,16 +63,10 @@ public class PlayerAttack : MonoBehaviour
             _applyAnimation.AttackAnimation(attackType);
             meleeAttackTimer = meleeAttackAnimation.length;
 
-            if (_player.IsGrounded)
-            {
-                _controller.SetHorizontalVelocity(0f);
-            }
-        }
-        else if (!isAttacking && !_player.isPoweredUp && !_player.IsGrounded && !_player.isStunned)
-        {
-            // isAttacking = true;
-            // attackType = 2;
-            // _applyAnimation.AttackAnimation(attackType);
+            // if (_player.IsGrounded)
+            // {
+            //     _controller.SetHorizontalVelocity(0f);
+            // }
         }
         else if (_player.isPoweredUp)
         {
@@ -92,13 +86,13 @@ public class PlayerAttack : MonoBehaviour
             {
                 float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimation.length);
 
-                if (isAttacking && _player._isFacingRight && !attackLanded && _player.IsGrounded)
+                if (isAttacking && _player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(smoothAttackMove);
+                    _controller.SetHorizontalVelocity(smoothAttackMove * Time.fixedDeltaTime);
                 }
-                else if (isAttacking && !_player._isFacingRight && !attackLanded && _player.IsGrounded)
+                else if (isAttacking && !_player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(-smoothAttackMove);
+                    _controller.SetHorizontalVelocity(-smoothAttackMove * Time.fixedDeltaTime);
                 }
 
                 Vector2 raycastDirection;

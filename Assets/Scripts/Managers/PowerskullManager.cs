@@ -57,7 +57,7 @@ public class PowerskullManager : MonoBehaviour
             averagePlayerLocation += new Vector2(player.transform.position.x, player.transform.position.y);
             currentPowerskullsInPlay += player.GetComponent<Player>().powerskullCount;
 
-            if (player.GetComponent<Player>().isPoweredUp)
+            if (player.GetComponent<Player>().isPoweredUp && player.activeInHierarchy)
             {
                 playerIsPoweredUp = true;
             }

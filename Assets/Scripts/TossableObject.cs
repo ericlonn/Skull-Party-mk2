@@ -45,6 +45,11 @@ public class TossableObject : MonoBehaviour
 
             Vector2 wallCheckOrigin;
             RaycastHit2D wallCheckHit;
+
+            if (transform.position.x > 100 || transform.position.x < -100) {
+                Destroy(gameObject);
+            }
+
             if (tossDirection.x > 0)
             {
                 wallCheckOrigin = new Vector2(transform.position.x + _collider.bounds.extents.x, transform.position.y);
@@ -75,7 +80,7 @@ public class TossableObject : MonoBehaviour
         GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true, transform.position);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {

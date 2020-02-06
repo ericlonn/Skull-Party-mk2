@@ -275,13 +275,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClips:
   - audioClip: {fileID: 8300000, guid: fc149a2121012ad4cb4541f34df31763, type: 3}
-    volume: 1
+    volume: 0
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 9f408a3352adcf84abe7b632e55f9496, type: 3}
-    volume: 1
+    volume: 0
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: d3e6c3b2d638e894488855bc2ce7e1a5, type: 3}
-    volume: 1
+    volume: 0
     audioSource: {fileID: 0}
   currentAudioSource: {fileID: 0}
 --- !u!1001 &1165609914494177382

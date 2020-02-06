@@ -496,7 +496,7 @@ public class Player : MonoBehaviour
         if (!isPoweredUp)
         {
             ejectedCounter++;
-            if (powerskullCount > 0 && ejectedCounter >= 3 && ejectedTimer <= 0f)
+            if (powerskullCount > 0 && ejectedCounter >= 1 && ejectedTimer <= 0f)
             {
                 Vector2 offsetPos = new Vector2(transform.position.x, transform.position.y + 2);
                 GameObject ejectedPowerskull = Instantiate(powerskullPrefab, offsetPos, Quaternion.identity);
