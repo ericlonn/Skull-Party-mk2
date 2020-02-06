@@ -61,6 +61,7 @@ public class HighScoreManager : MonoBehaviour
         textObjects[3].text = letters[0];
 
         textObjects[curPosition].color = Color.yellow;
+        textObjects[curPosition].fontStyle = FontStyles.Underline;
 
         
 
@@ -105,6 +106,7 @@ public class HighScoreManager : MonoBehaviour
             if (greenButtonPressed)
             {
                 textObjects[curPosition].color = Color.white;
+                textObjects[curPosition].fontStyle = FontStyles.Normal;
                 setLetters.Add(letters[curLetter]);
 
                 if (curPosition < 3) {
@@ -135,6 +137,7 @@ public class HighScoreManager : MonoBehaviour
             if (curPosition <= 3)
             {
                 textObjects[curPosition].color = Color.yellow;
+                textObjects[curPosition].fontStyle = FontStyles.Underline;
                 lastFrameUp = upPressed;
                 lastFrameDown = downPressed;
             }
