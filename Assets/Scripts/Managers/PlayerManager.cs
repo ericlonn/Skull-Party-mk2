@@ -191,6 +191,7 @@ public class PlayerManager : MonoBehaviour
             camTargetGroup.AddMember(newVictoryStandin.transform, 1f, 0f);
 
             newVictoryStandin.GetComponent<SpriteRenderer>().material = winner.GetComponent<Player>()._playerSprite.GetComponent<SpriteRenderer>().material;
+            newVictoryStandin.GetComponent<SpriteRenderer>().color = winner.GetComponent<Player>().playerColor;
             winner.transform.localScale = Vector3.zero;
             winner.GetComponent<Player>().disablePlayerInput = true;
 

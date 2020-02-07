@@ -235,6 +235,7 @@ public class Player : MonoBehaviour
         if (bulletStun)
         {
             bulletStunned = true;
+            GameObject.Find("Fight vcam").GetComponent<CameraShake>().TriggerNoise();
             _soundPlayer.PlayClip(9, false, transform.position);
         }
 
