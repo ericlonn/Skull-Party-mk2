@@ -32,10 +32,13 @@ public class TossableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!_collider.IsTouchingLayers(groundLayer) && !isTossed)
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        } else {
+        }
+        else
+        {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         }
 
@@ -43,31 +46,46 @@ public class TossableObject : MonoBehaviour
         {
             transform.Translate(tossDirection * tossForce * Time.deltaTime);
 
-            Vector2 wallCheckOrigin;
-            RaycastHit2D wallCheckHit;
+            Collider2D[] wallCheckHit;
 
-            if (transform.position.x > 100 || transform.position.x < -100) {
+            if (transform.position.x > 100 || transform.position.x < -100)
+            {
                 Destroy(gameObject);
             }
 
-            if (tossDirection.x > 0)
+            wallCheckHit = Physics2D.OverlapBoxAll(transform.position, new Vector2(_collider.size.x, _collider.size.y * .8f), 0f);
+            bool hasCollidedGround = false;
+            bool hasCollidedPlayer = false;
+            List<GameObject> collidedPlayers = new List<GameObject>();
+
+
+            foreach (Collider2D overlapCollider in wallCheckHit)
             {
-                wallCheckOrigin = new Vector2(transform.position.x + _collider.bounds.extents.x, transform.position.y);
-                wallCheckHit = Physics2D.Raycast(wallCheckOrigin, Vector2.right, wallCheckDistance);
-            }
-            else
-            {
-                wallCheckOrigin = new Vector2(transform.position.x - _collider.bounds.extents.x, transform.position.y);
-                wallCheckHit = Physics2D.Raycast(wallCheckOrigin, -Vector2.right, wallCheckDistance);
+                if (overlapCollider.gameObject.CompareTag("Ground"))
+                {
+                    hasCollidedGround = true;
+                }
+
+                if (overlapCollider.gameObject.CompareTag("Player") && overlapCollider.gameObject.GetInstanceID() != gameObject.GetInstanceID())
+                {
+                    hasCollidedPlayer = true;
+                    collidedPlayers.Add(overlapCollider.gameObject);
+                }
             }
 
-            if (wallCheckHit.collider == null) return;
-
-            if (wallCheckHit.collider.gameObject.CompareTag("Ground"))
+            if (hasCollidedGround || hasCollidedPlayer)
             {
                 Instantiate(impactParticles, transform.position, Quaternion.identity);
                 SpawnPowerskull();
                 Destroy(gameObject);
+            }
+
+            if (hasCollidedPlayer)
+            {
+                foreach (GameObject collidedPlayer in collidedPlayers)
+                {
+                    collidedPlayer.gameObject.GetComponent<Player>().TriggerStun(new Vector2(Mathf.Sign(tossDirection.x) * stunForceX, stunForceY), false);
+                }
             }
         }
     }
@@ -82,21 +100,10 @@ public class TossableObject : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
-        {
-
-            other.gameObject.GetComponent<Player>().TriggerStun(new Vector2(Mathf.Sign(tossDirection.x) * stunForceX, stunForceY), false);
-
-            Instantiate(impactParticles, transform.position, Quaternion.identity);
-            SpawnPowerskull();
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, false, transform.position);
-            Destroy(gameObject);
-        }
 
         if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
-            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, false, transform.position);
         }
 
     }

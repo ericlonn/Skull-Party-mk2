@@ -46,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!_player.isPoweredUp)
         {
@@ -88,11 +88,11 @@ public class PlayerAttack : MonoBehaviour
 
                 if (isAttacking && _player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(smoothAttackMove * Time.fixedDeltaTime);
+                    _controller.SetHorizontalVelocity(smoothAttackMove * Time.deltaTime);
                 }
                 else if (isAttacking && !_player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(-smoothAttackMove * Time.fixedDeltaTime);
+                    _controller.SetHorizontalVelocity(-smoothAttackMove * Time.deltaTime);
                 }
 
                 Vector2 raycastDirection;

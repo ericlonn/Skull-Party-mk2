@@ -61,6 +61,7 @@ public class PlayerManager : MonoBehaviour
                 Player playerScript = playerObjects[i].GetComponent<Player>();
 
                 playerScript.playerColor = playerColors[playerScript.playerNumber - 1];
+                playerScript._playerSprite.GetComponent<SpriteRenderer>().color = playerColors[playerScript.playerNumber - 1];
                 camTargetGroup.AddMember(playerObjects[i].transform, 1f, 0f);
                 playerObjects[i].GetComponent<Player>().powerskullCount = startingPowerskulls;
                 playerObjects[i].gameObject.SetActive(false);

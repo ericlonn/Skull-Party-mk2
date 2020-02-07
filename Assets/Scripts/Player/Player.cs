@@ -110,7 +110,6 @@ public class Player : MonoBehaviour
 
     private bool lastFrameGrounded = false;
 
-    private int ejectedCounter;
 
     private Walls _lastWallTouched;
 
@@ -495,14 +494,12 @@ public class Player : MonoBehaviour
     {
         if (!isPoweredUp)
         {
-            ejectedCounter++;
-            if (powerskullCount > 0 && ejectedCounter >= 1 && ejectedTimer <= 0f)
+            if (powerskullCount > 0 && ejectedTimer <= 0f)
             {
                 Vector2 offsetPos = new Vector2(transform.position.x, transform.position.y + 2);
                 GameObject ejectedPowerskull = Instantiate(powerskullPrefab, offsetPos, Quaternion.identity);
                 ejectedPowerskull.GetComponent<PowerskullBehavior>().ejected = true;
                 powerskullCount--;
-                ejectedCounter = 0;
                 ejectedTimer = ejectedTime;
             }
         }
