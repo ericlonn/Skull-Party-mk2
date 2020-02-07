@@ -26,6 +26,8 @@ public class PlayerManager : MonoBehaviour
     public int startingPowerskulls = 1;
     public int playerCount = 0;
 
+    public bool victoryAllowKeypress = false;
+
 
 
     public List<bool> isPlayerActive = new List<bool>();
@@ -75,7 +77,7 @@ public class PlayerManager : MonoBehaviour
 
                     GameObject newSpawnBurst = Instantiate(spawnBurst, playerToSpawn.transform.position, Quaternion.identity);
                     newSpawnBurst.GetComponent<SpriteRenderer>().color = playerToSpawn.GetComponent<Player>().playerColor;
-                } );
+                });
 
 
 
@@ -101,6 +103,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         foreach (GameObject playerObject in playerObjects)
         {
             if (playerObject != null)
@@ -133,7 +136,6 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            
 
             if (playerCount == 1 && !playerHasWon)
             {
@@ -158,25 +160,28 @@ public class PlayerManager : MonoBehaviour
                                            Input.GetButtonDown("Attack3") ||
                                            Input.GetButtonDown("Attack4");
 
-                if (playerPressedGreen && !hasCalledDirector)
+                if (playerPressedGreen && !hasCalledDirector && victoryAllowKeypress)
                 {
                     for (int i = 0; i <= 3; i++)
                     {
                         _director.activePlayers[i] = false;
                     }
 
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
                     _director.nextLevelToLoad = 1;
                     _director.TriggerLoadingScreen();
                     hasCalledDirector = true;
                 }
 
-                if (playerPressedYellow && !hasCalledDirector)
+                if (playerPressedYellow && !hasCalledDirector && victoryAllowKeypress)
                 {
+                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
                     _director.nextLevelToLoad = 2;
                     _director.TriggerLoadingScreen();
                     hasCalledDirector = true;
                 }
             }
+
         }
 
         void TriggerVictory()
@@ -206,6 +211,11 @@ public class PlayerManager : MonoBehaviour
                 LeanTween.alphaCanvas(gameUI, 0f, .25f);
             });
             ltCamSeq.append(LeanTween.alphaCanvas(victoryUI, 1f, .25f));
+            ltCamSeq.append(() => { victoryAllowKeypress = true; });
+            ltCamSeq.append(1f);
+            ltCamSeq.append(() => { GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(7, false); });
+
+
 
             for (int i = 1; i <= 9; i++)
             {

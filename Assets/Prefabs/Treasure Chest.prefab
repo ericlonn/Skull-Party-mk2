@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd717f32a2c2aaa45aeb4e5e1a48edbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tossForce: 50
+  tossForce: 75
   tossRotationMultiplier: 50
   gravityMultiplier: 5
   isTossed: 0

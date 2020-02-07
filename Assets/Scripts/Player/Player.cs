@@ -254,7 +254,6 @@ public class Player : MonoBehaviour
         isPoweredUp = false;
         powerskullCount = 0;
         poweredUpFire.gameObject.GetComponent<PowerskullFire>().PowerDown();
-        _playerSprite.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     void ApplyPoweredUp()
@@ -270,7 +269,7 @@ public class Player : MonoBehaviour
     {
         stunnedTimer -= Time.deltaTime;
 
-        if (stunnedTimer < 0)
+        if (stunnedTimer <= 0)
         {
             isStunned = false;
         }

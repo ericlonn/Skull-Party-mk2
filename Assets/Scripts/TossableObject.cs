@@ -66,7 +66,7 @@ public class TossableObject : MonoBehaviour
                     hasCollidedGround = true;
                 }
 
-                if (overlapCollider.gameObject.CompareTag("Player") && overlapCollider.gameObject.GetInstanceID() != gameObject.GetInstanceID())
+                if (overlapCollider.gameObject.CompareTag("Player") && overlapCollider.gameObject.GetInstanceID() != tosser.gameObject.GetInstanceID())
                 {
                     hasCollidedPlayer = true;
                     collidedPlayers.Add(overlapCollider.gameObject);
@@ -77,6 +77,7 @@ public class TossableObject : MonoBehaviour
             {
                 Instantiate(impactParticles, transform.position, Quaternion.identity);
                 SpawnPowerskull();
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true, transform.position);
                 Destroy(gameObject);
             }
 
@@ -95,7 +96,7 @@ public class TossableObject : MonoBehaviour
         isTossed = true;
         tossDirection = new Vector2(hitDirection, 0);
         tosser = passedTosser;
-        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(1, true, transform.position);
+        GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, true, transform.position);
     }
 
     private void OnCollisionStay2D(Collision2D other)

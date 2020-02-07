@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TitleScreenManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class TitleScreenManager : MonoBehaviour
 
     public GameObject charSelectObjects;
     public GameObject charSelectCanvas;
+
+    public GameObject toBeginText;
+    public GameObject toBeginButton;
 
     public List<GameObject> playerSprites = new List<GameObject>();
 
@@ -97,8 +101,39 @@ public class TitleScreenManager : MonoBehaviour
                         hasCalledDirector = true;
                     }
                 }
+
+                Color tmpColor = toBeginButton.GetComponent<SpriteRenderer>().color;
+                tmpColor.a = 1f;
+                toBeginButton.GetComponent<SpriteRenderer>().color = tmpColor;
+
+                tmpColor = toBeginText.GetComponent<TextMeshProUGUI>().color;
+                tmpColor.a = 1f;
+                toBeginText.GetComponent<TextMeshProUGUI>().color = tmpColor;
             }
+            else
+            {
+                bool pressedYellow = Input.GetButtonDown("Attack1") ||
+                                     Input.GetButtonDown("Attack2") ||
+                                     Input.GetButtonDown("Attack3") ||
+                                     Input.GetButtonDown("Attack4");
+
+                if (pressedYellow)
+                {
+                    _soundPlayer.PlayClip(1, false);
+                }
+                
+                Color tmpColor = toBeginButton.GetComponent<SpriteRenderer>().color;
+                tmpColor.a = .25f;
+                toBeginButton.GetComponent<SpriteRenderer>().color = tmpColor;
+
+                tmpColor = toBeginText.GetComponent<TextMeshProUGUI>().color;
+                tmpColor.a = .25f;
+                toBeginText.GetComponent<TextMeshProUGUI>().color = tmpColor;
+            }
+
+
         }
+
     }
 
     void ToCharacterSelect()

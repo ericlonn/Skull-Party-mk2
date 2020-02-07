@@ -79,7 +79,12 @@ public class MovementController : MonoBehaviour
 
     public void SetHorizontalVelocity(float x)
     {
-        _velocity.x = x;
+        if (x <= Parameters.MaxVelocity.x && x >= -Parameters.MaxVelocity.x)
+        {
+            _velocity.x = x;
+        } else {
+            _velocity.x = Parameters.MaxVelocity.x * Mathf.Sign(x);
+        }
     }
 
     public void AddVerticalForce(float y)
@@ -101,7 +106,7 @@ public class MovementController : MonoBehaviour
             CalculateRayOrigins();
 
             // if (Mathf.Abs(deltaMovement.x) > .001f)
-                MoveHorizontally(ref deltaMovement);
+            MoveHorizontally(ref deltaMovement);
 
             MoveVertically(ref deltaMovement);
         }
@@ -111,8 +116,16 @@ public class MovementController : MonoBehaviour
         if (Time.deltaTime > 0)
             _velocity = deltaMovement / Time.deltaTime;
 
-        _velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
-        _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
+
+        if (Mathf.Abs(_velocity.x) > Parameters.MaxVelocity.x)
+        {
+            _velocity.x = Parameters.MaxVelocity.x * Mathf.Sign(_velocity.x);
+        }
+
+        if (Mathf.Abs(_velocity.y) > Parameters.MaxVelocity.y)
+        {
+            _velocity.y = Parameters.MaxVelocity.y * Mathf.Sign(_velocity.y);
+        }
     }
 
     void CalculateRayOrigins()
@@ -141,9 +154,12 @@ public class MovementController : MonoBehaviour
 
             var raycastHit = Physics2D.Raycast(rayVector, rayDirection, rayDistance, HorizontalMask);
 
-            if (raycastHit && isGoingRight) {
+            if (raycastHit && isGoingRight)
+            {
                 State.IsCollidingRight = true;
-            } else if (raycastHit && isGoingLeft){
+            }
+            else if (raycastHit && isGoingLeft)
+            {
                 State.IsCollidingLeft = true;
             }
 

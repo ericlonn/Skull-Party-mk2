@@ -8,6 +8,7 @@ public class GameDirector : MonoBehaviour
     public int nextLevelToLoad;
     public GameObject sceneTransitionIn, sceneTransitionOut;
     public GameObject loadingSkull;
+    public GameObject controlsExplainer;
     public AnimationClip transInAnimClip, transOutAnimClip;
     public PlayMusic _musicPlayer;
     public float timeOutTime = 180f;
@@ -33,6 +34,7 @@ public class GameDirector : MonoBehaviour
 
         _musicPlayer = GetComponent<PlayMusic>();
 
+        Cursor.visible = false;
     }
 
     private void Start()
@@ -44,6 +46,7 @@ public class GameDirector : MonoBehaviour
     void Update()
     {
         InputWatcher();
+
     }
 
     public void TriggerLoadingScreen()
@@ -98,6 +101,10 @@ public class GameDirector : MonoBehaviour
         yield return new WaitForSeconds(transOutAnimClip.length);
 
         loadingSkull.SetActive(true);
+        if (nextLevelToLoad == 2) {
+            controlsExplainer.SetActive(true);
+        }
+
         LeanTween.scale(loadingSkull, Vector3.one * 6, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(.05f);
 
         AsyncOperation loadLoadingScreen = SceneManager.LoadSceneAsync(0);
@@ -127,6 +134,9 @@ public class GameDirector : MonoBehaviour
         }
 
         loadingSkull.SetActive(false);
+        if (nextLevelToLoad == 2) {
+            controlsExplainer.SetActive(false);
+        }
         if (nextLevelToLoad == 2)
         {
             _musicPlayer.PlayClip(1, .25f);

@@ -88,12 +88,13 @@ public class PlayerAttack : MonoBehaviour
 
                 if (isAttacking && _player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(smoothAttackMove * Time.deltaTime);
+                    _controller.SetHorizontalVelocity(smoothAttackMove);
                 }
                 else if (isAttacking && !_player._isFacingRight && !attackLanded)
                 {
-                    _controller.SetHorizontalVelocity(-smoothAttackMove * Time.deltaTime);
+                    _controller.SetHorizontalVelocity(-smoothAttackMove);
                 }
+                Debug.Log(_controller.Velocity.x);
 
                 Vector2 raycastDirection;
 
@@ -142,7 +143,10 @@ public class PlayerAttack : MonoBehaviour
                     else if (attackRayCast.collider.CompareTag("Tossable"))
                     {
                         attackRayCast.collider.GetComponent<TossableObject>().TriggerHit(Mathf.Sign(attackRayCast.collider.gameObject.transform.position.x - transform.position.x), gameObject);
-                        _player.score += 30;
+                        if (!attackRayCast.collider.gameObject.GetComponent<TossableObject>().isTossed)
+                        {
+                            _player.score += 30;
+                        }
                     }
                 }
             }

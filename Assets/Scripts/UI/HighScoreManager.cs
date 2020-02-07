@@ -103,7 +103,7 @@ public class HighScoreManager : MonoBehaviour
                 textObjects[curPosition].text = letters[curLetter];
             }
 
-            if (greenButtonPressed)
+            if (greenButtonPressed && _playerManager.victoryAllowKeypress)
             {
                 textObjects[curPosition].color = Color.white;
                 textObjects[curPosition].fontStyle = FontStyles.Normal;

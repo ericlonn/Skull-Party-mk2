@@ -7,8 +7,7 @@ public class MusicClip
 {
     public AudioClip musicClip;
     public float loopFadeTime;
+    public bool looping;
     [HideInInspector]
-    public AudioSource audioSource1;
-    [HideInInspector]
-    public AudioSource audioSource2;
+    public AudioSource audioSource;
 }

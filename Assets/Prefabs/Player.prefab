@@ -5171,10 +5171,10 @@ MonoBehaviour:
   DefaultParameters:
     Flying: 0
     Gravity: -28
-    MaxVelocity: {x: 3.4028235e+38, y: 3.4028235e+38}
+    MaxVelocity: {x: 100, y: 1000}
     MaxSpeed: 12
     AccelerationOnGround: 20
-    AccelerationInAir: 3
+    AccelerationInAir: 30
   gravMultiplierUp: 1.2
   gravMultiplierDown: 3
 --- !u!114 &2880207564584455589
@@ -5198,7 +5198,7 @@ MonoBehaviour:
     m_Bits: 512
   bulletPrefab: {fileID: 2812968497762163074, guid: 6d4b0d1833456a641a081f1cfddfbe8a,
     type: 3}
-  meleeAttack1MoveForce: 3000
+  meleeAttack1MoveForce: 80
   kickAttackMoveForce: {x: 5, y: 5}
   meleeAttackRaycastDistance: 1
   meleeAttack1StunForceX: 30

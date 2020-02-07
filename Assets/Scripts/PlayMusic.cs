@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayMusic : MonoBehaviour
 {
-    public List<Sound> audioClips = new List<Sound>();
+    public List<MusicClip> audioClips = new List<MusicClip>();
     public AudioSource currentAudioSource;
 
     AudioSource newAudioSource;
@@ -15,10 +15,10 @@ public class PlayMusic : MonoBehaviour
 
     void Awake()
     {
-        foreach (Sound sound in audioClips)
+        foreach (MusicClip sound in audioClips)
         {
             sound.audioSource = gameObject.AddComponent<AudioSource>();
-            sound.audioSource.clip = sound.audioClip;
+            sound.audioSource.clip = sound.musicClip;
             sound.audioSource.playOnAwake = false;
         }
     }
@@ -37,9 +37,9 @@ public class PlayMusic : MonoBehaviour
         {
             currentAudioSource = audioClips[clipID].audioSource;
             currentAudioSource.Play();
-            currentAudioSource.loop = true;
+            currentAudioSource.loop = audioClips[clipID].looping;
         }
-        else if (currentAudioSource != null && currentAudioSource.clip != audioClips[clipID].audioClip && !isFading)
+        else if (currentAudioSource != null && currentAudioSource.clip != audioClips[clipID].musicClip && !isFading)
         {
             fadeTime = newFadeTime;
             fadeTimer = newFadeTime;
