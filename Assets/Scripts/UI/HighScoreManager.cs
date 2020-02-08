@@ -8,6 +8,7 @@ public class HighScoreManager : MonoBehaviour
 {
     public List<TextMeshProUGUI> textObjects = new List<TextMeshProUGUI>();
     public PlayerManager _playerManager;
+    public GameObject nameEntryInputPrompts;
     public bool scoreBeingEnter = true;
     public bool entryComplete = false;
     public int highScorePlace = 0;
@@ -172,6 +173,7 @@ public class HighScoreManager : MonoBehaviour
 
             PlayerPrefs.Save();
 
+            nameEntryInputPrompts.SetActive(false);
             entryComplete = true;
         }
     }

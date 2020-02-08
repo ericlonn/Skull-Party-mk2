@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public CanvasGroup gameUI, victoryUI;
     public GameObject winner = null;
     public GameDirector _director;
+    public GameObject nameEntryUIPrompts;
     public GameObject victoryScreenUIPrompts;
 
     public TextMeshProUGUI victoryPlayerNameText, victoryPlayerPointsText;
@@ -213,6 +214,7 @@ public class PlayerManager : MonoBehaviour
             });
             ltCamSeq.append(LeanTween.alphaCanvas(victoryUI, 1f, .25f));
             ltCamSeq.append(() => { victoryAllowKeypress = true; });
+            ltCamSeq.append(() => { if (gotHighScore) nameEntryUIPrompts.SetActive(true); });
             ltCamSeq.append(1f);
             ltCamSeq.append(() => { GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(7, false); });
 
