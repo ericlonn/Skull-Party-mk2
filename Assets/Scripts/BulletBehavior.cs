@@ -77,7 +77,7 @@ public class BulletBehavior : MonoBehaviour
 
 
 
-            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
+            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
 
             GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
@@ -86,7 +86,7 @@ public class BulletBehavior : MonoBehaviour
 
         if (other.gameObject.CompareTag("Ground"))
         {
-            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.identity);
+            GameObject newHitParticles = Instantiate(hitParticles, gameObject.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
             newHitParticles.GetComponent<SpriteRenderer>().color = playerColor;
             GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
             Destroy(gameObject, 0f);

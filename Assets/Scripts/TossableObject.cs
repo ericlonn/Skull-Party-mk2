@@ -18,10 +18,12 @@ public class TossableObject : MonoBehaviour
     public ParticleSystem impactParticles;
     public GameObject spawnBurst;
 
+
     public GameObject powerskullObj;
     public float psLaunchSpeedX = 30f;
     public float psLaunchSpeedY = 10f;
 
+    bool hasTouchedGround = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,14 @@ public class TossableObject : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         }
+
+        if (!hasTouchedGround && GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Kinematic)
+        {
+            GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true, transform.position);
+            hasTouchedGround = true;
+            Debug.Log("treasure chest landed");
+        }
+        
 
         if (isTossed)
         {
