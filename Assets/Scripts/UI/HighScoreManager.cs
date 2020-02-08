@@ -22,7 +22,7 @@ public class HighScoreManager : MonoBehaviour
     float letterDelayTimer = 0;
 
 
-    
+
     bool lastFrameUp = false;
     bool lastFrameDown = false;
     void Start()
@@ -63,7 +63,7 @@ public class HighScoreManager : MonoBehaviour
         textObjects[curPosition].color = Color.yellow;
         textObjects[curPosition].fontStyle = FontStyles.Underline;
 
-        
+
 
         letterDelayTimer = letterDelayTime;
     }
@@ -73,7 +73,7 @@ public class HighScoreManager : MonoBehaviour
     {
 
         winningPlayerNumber = _playerManager.winner.GetComponent<Player>().playerNumber;
-        
+
         if (highScorePlace == 0)
         {
             highScorePlace = _playerManager.highScoreRank;
@@ -94,10 +94,12 @@ public class HighScoreManager : MonoBehaviour
                 curLetter++;
                 if (curLetter > 25) curLetter = 0;
                 textObjects[curPosition].text = letters[curLetter];
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(8, false);
             }
 
             if ((downPressed && letterDelayTimer <= 0f) || (!lastFrameDown && downPressed))
             {
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(8, false);
                 curLetter--;
                 if (curLetter < 0) curLetter = 25;
                 textObjects[curPosition].text = letters[curLetter];
@@ -109,19 +111,17 @@ public class HighScoreManager : MonoBehaviour
                 textObjects[curPosition].fontStyle = FontStyles.Normal;
                 setLetters.Add(letters[curLetter]);
 
-                if (curPosition < 3) {
-                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(8, false);
-                } else {
-                    GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, true);
-                }
+
+                GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(0, false);
+
 
                 curPosition++;
                 curLetter = 0;
                 textObjects[curPosition].color = Color.yellow;
                 Debug.Log(curPosition);
 
-                
-                
+
+
             }
 
             if ((!lastFrameUp && upPressed) || (!lastFrameDown && downPressed))
@@ -151,7 +151,7 @@ public class HighScoreManager : MonoBehaviour
             List<HighScoreEntry> prevEntries = new List<HighScoreEntry>();
             List<HighScoreEntry> curEntries = new List<HighScoreEntry>();
 
-            for (int i = 1; i <= 9; i++) 
+            for (int i = 1; i <= 9; i++)
             {
                 HighScoreEntry holder = new HighScoreEntry();
                 holder.name = PlayerPrefs.GetString("highScoreName" + i);
@@ -164,8 +164,9 @@ public class HighScoreManager : MonoBehaviour
 
             prevEntries = prevEntries.OrderByDescending(w => w.score).ToList();
 
-            for (int i = 1; i <= 9; i++) {
-                PlayerPrefs.SetString("highScoreName" + i, prevEntries[i-1].name);
+            for (int i = 1; i <= 9; i++)
+            {
+                PlayerPrefs.SetString("highScoreName" + i, prevEntries[i - 1].name);
                 PlayerPrefs.SetInt("highScorePoints" + i, prevEntries[i - 1].score);
             }
 
