@@ -47,6 +47,11 @@ public class PowerskullBehavior : MonoBehaviour
             _rb.velocity = new Vector2(_rb.velocity.x, bumpForceY);
         }
 
+        if (transform.position.x > 50 || transform.position.x < -50 || 
+            transform.position.y > 30 || transform.position.y < -30) {
+                Destroy(gameObject, 0f);
+            }
+
     }
 
     private void LateUpdate()

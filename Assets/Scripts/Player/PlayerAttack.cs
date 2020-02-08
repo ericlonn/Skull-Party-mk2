@@ -63,10 +63,15 @@ public class PlayerAttack : MonoBehaviour
             _applyAnimation.AttackAnimation(attackType);
             meleeAttackTimer = meleeAttackAnimation.length;
 
-            // if (_player.IsGrounded)
-            // {
-            //     _controller.SetHorizontalVelocity(0f);
-            // }
+            _controller.SetVelocity(Vector2.zero);
+            if (_player._isFacingRight)
+            {
+                _controller.SetHorizontalVelocity(meleeAttack1MoveForce);
+            }
+            else if (!_player._isFacingRight)
+            {
+                _controller.SetHorizontalVelocity(-meleeAttack1MoveForce);
+            }
         }
         else if (_player.isPoweredUp)
         {
@@ -84,18 +89,6 @@ public class PlayerAttack : MonoBehaviour
         {
             if (attackCanLand && isAttacking)
             {
-                float smoothAttackMove = Mathf.SmoothStep(0, meleeAttack1MoveForce, meleeAttackTimer / meleeAttackAnimation.length);
-
-                if (isAttacking && _player._isFacingRight && !attackLanded)
-                {
-                    _controller.SetHorizontalVelocity(smoothAttackMove);
-                }
-                else if (isAttacking && !_player._isFacingRight && !attackLanded)
-                {
-                    _controller.SetHorizontalVelocity(-smoothAttackMove);
-                }
-                Debug.Log(_controller.Velocity.x);
-
                 Vector2 raycastDirection;
 
                 if (_player._isFacingRight)
