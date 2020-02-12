@@ -373,7 +373,7 @@ public class Player : MonoBehaviour
             else if (CanWallJump && Input.GetButtonDown(jumpInput))
             {
                 JumpOffWall(WallJumpForce);
-                _soundPlayer.PlayClip(4, false, transform.position);
+                _soundPlayer.PlayClip(10, false, transform.position);
             }
 
             if (Jumpping && !Input.GetButton(jumpInput))

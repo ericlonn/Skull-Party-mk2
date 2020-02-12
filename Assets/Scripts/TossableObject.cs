@@ -48,9 +48,10 @@ public class TossableObject : MonoBehaviour
         {
             GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(3, true, transform.position);
             hasTouchedGround = true;
-            Debug.Log("treasure chest landed");
         }
-        
+
+
+
 
         if (isTossed)
         {
@@ -105,6 +106,7 @@ public class TossableObject : MonoBehaviour
     {
         isTossed = true;
         tossDirection = new Vector2(hitDirection, 0);
+        Debug.Log(tossDirection);
         tosser = passedTosser;
         GameObject.Find("Sound Manager").GetComponent<PlaySound>().PlayClip(2, true, transform.position);
     }
@@ -115,6 +117,19 @@ public class TossableObject : MonoBehaviour
         if (!isTossed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player>().isStunned && other.gameObject.GetInstanceID() != tosser.GetInstanceID())
         {
             TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
+        }
+
+        if (!isTossed && other.gameObject.CompareTag("Player"))
+        {
+            if (other.gameObject.GetComponent<PlayerAttack>().isAttacking)
+            {
+                float hitDirection = other.transform.localScale.x > 0 ? 1 : -1;
+                TriggerHit(hitDirection, other.gameObject);
+            }
+            else if (other.gameObject.GetComponent<Player>().isStunned)
+            {
+                TriggerHit(Mathf.Sign(transform.position.x - other.gameObject.transform.position.x), other.gameObject);
+            }
         }
 
     }

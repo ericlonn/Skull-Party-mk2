@@ -9,6 +9,7 @@ public class HighScoreManager : MonoBehaviour
     public List<TextMeshProUGUI> textObjects = new List<TextMeshProUGUI>();
     public PlayerManager _playerManager;
     public GameObject nameEntryInputPrompts;
+    public TextMeshProUGUI highScorePlaceText;
     public bool scoreBeingEnter = true;
     public bool entryComplete = false;
     public int highScorePlace = 0;
@@ -79,6 +80,11 @@ public class HighScoreManager : MonoBehaviour
         {
             highScorePlace = _playerManager.highScoreRank;
         }
+
+        if (highScorePlace == 1) highScorePlaceText.text = "1st place";
+        else if (highScorePlace == 2)highScorePlaceText.text = "2nd place";
+        else if (highScorePlace == 3)highScorePlaceText.text = "3rd place";
+        else if (highScorePlace > 3)highScorePlaceText.text = highScorePlace + "th place";
 
         if (curPosition <= 3)
         {

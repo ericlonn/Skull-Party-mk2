@@ -5245,7 +5245,7 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: e16e4b5b8ec6f14419bbc6df0285239b, type: 3}
     volume: 1
     audioSource: {fileID: 0}
-  - audioClip: {fileID: 8300000, guid: 2bbb556f5d21aa64581f62a15c2573c2, type: 3}
+  - audioClip: {fileID: 8300000, guid: c1ba698f470d3d44a83925e1c89dab2e, type: 3}
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: d4651c54e5aaeaa45868ddbe6849654e, type: 3}
@@ -5261,6 +5261,9 @@ MonoBehaviour:
     volume: 1
     audioSource: {fileID: 0}
   - audioClip: {fileID: 8300000, guid: 76df4f04863389b4f8f6059bc3669736, type: 3}
+    volume: 1
+    audioSource: {fileID: 0}
+  - audioClip: {fileID: 8300000, guid: 4e9c7a9f967a20d48979afe4cefeb3da, type: 3}
     volume: 1
     audioSource: {fileID: 0}
 --- !u!114 &641850844052368622
