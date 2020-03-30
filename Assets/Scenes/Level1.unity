@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -2025,7 +2024,6 @@ SpriteMask:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2074,7 +2072,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2814,7 +2811,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2961,11 +2957,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 467567980}
     m_Modifications:
-    - target: {fileID: 6703929771531385689, guid: a7d980a92dffaa54987c2d3d63283658,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 49
-      objectReference: {fileID: 0}
     - target: {fileID: 6703929771531385692, guid: a7d980a92dffaa54987c2d3d63283658,
         type: 3}
       propertyPath: m_Name
@@ -3040,6 +3031,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 54.01232
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703929771531385689, guid: a7d980a92dffaa54987c2d3d63283658,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 49
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7d980a92dffaa54987c2d3d63283658, type: 3}
@@ -3870,16 +3866,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 467567980}
     m_Modifications:
-    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 49
-      objectReference: {fileID: 0}
     - target: {fileID: 422378397343297502, guid: 8bba2b34106fedf409c9c24224791f6e,
         type: 3}
       propertyPath: m_Name
@@ -3954,6 +3940,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 54.01232
+      objectReference: {fileID: 0}
+    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 49
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bba2b34106fedf409c9c24224791f6e, type: 3}
@@ -4136,7 +4132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 590, y: -110.99997}
+  m_AnchoredPosition: {x: 590, y: -111}
   m_SizeDelta: {x: 83, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977602821
@@ -4263,7 +4259,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4675,11 +4670,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2082725371}
     m_Modifications:
-    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 422378397343297502, guid: 8bba2b34106fedf409c9c24224791f6e,
         type: 3}
       propertyPath: m_Name
@@ -4754,6 +4744,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 54.01232
+      objectReference: {fileID: 0}
+    - target: {fileID: 422378397343297501, guid: 8bba2b34106fedf409c9c24224791f6e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bba2b34106fedf409c9c24224791f6e, type: 3}
@@ -5163,7 +5158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -200, y: -110.99997}
+  m_AnchoredPosition: {x: -200, y: -111}
   m_SizeDelta: {x: 83, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1233442183
@@ -6120,7 +6115,7 @@ MonoBehaviour:
     type: 3}
   itemSpawnBurstPrefab: {fileID: 6419466864207284544, guid: 51816cc6470de8046a9284005d1574f0,
     type: 3}
-  treasureChestChance: 0.25
+  treasureChestChance: 0.33
   spawnDelayTime: 5
   averagePlayerLocation: {x: 0, y: 0}
 --- !u!4 &1338671993
@@ -6576,7 +6571,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -590, y: -110.99997}
+  m_AnchoredPosition: {x: -590, y: -111}
   m_SizeDelta: {x: 83, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1682044257
@@ -6740,7 +6735,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7779,7 +7773,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8309,7 +8302,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

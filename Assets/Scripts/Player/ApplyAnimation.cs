@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class ApplyAnimation : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ApplyAnimation : MonoBehaviour
     MovementController _controller;
     SquashAndStretch _sAndSController;
     PlaySound _soundPlayer;
+    Rewired.Player playerInput;
 
 
     // Start is called before the first frame update
@@ -19,14 +21,19 @@ public class ApplyAnimation : MonoBehaviour
         _player = GetComponent<Player>();
         _controller = GetComponent<MovementController>();
         _soundPlayer = GetComponent<PlaySound>();
+        playerInput = ReInput.players.GetPlayer(_player.playerNumber - 1);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector2 joystickInputVector = new Vector2(playerInput.GetAxisRaw("Move X"), playerInput.GetAxisRaw("Move Y"));
+
+        float combinedXInput = Mathf.Round(joystickInputVector.x);
+
         if (_player.xInput != null)
         {
-            if (_player.IsGrounded && Mathf.Round(Input.GetAxisRaw(_player.xInput)) == 0)
+            if (_player.IsGrounded && combinedXInput == 0)
             {
                 playerAnim.SetBool("isRunning", false);
                 _soundPlayer.StopClip(8);

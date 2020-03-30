@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 using TMPro;
 
 public class TitleScreenManager : MonoBehaviour
@@ -43,32 +44,34 @@ public class TitleScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ControllerTest();
+
         if (!hasCalledDirector)
         {
-            bool anyPlayerPressGreen = Input.GetButtonDown("Jump1") ||
-                                       Input.GetButtonDown("Jump2") ||
-                                       Input.GetButtonDown("Jump3") ||
-                                       Input.GetButtonDown("Jump4");
+            bool anyPlayerPressGreen = ReInput.players.GetPlayer(0).GetButtonDown("Jump") ||
+                                       ReInput.players.GetPlayer(1).GetButtonDown("Jump") ||
+                                       ReInput.players.GetPlayer(2).GetButtonDown("Jump") ||
+                                       ReInput.players.GetPlayer(3).GetButtonDown("Jump");
 
 
             if (!onTitleScreen)
             {
-                if (Input.GetButtonDown("Jump1") || Input.GetKeyDown(KeyCode.Keypad1))
+                if (ReInput.players.GetPlayer(0).GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Keypad1))
                 {
                     playerSprites[0].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
                 }
 
-                if (Input.GetButtonDown("Jump2") || Input.GetKeyDown(KeyCode.Keypad2))
+                if (ReInput.players.GetPlayer(1).GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Keypad2))
                 {
                     playerSprites[1].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
                 }
 
-                if (Input.GetButtonDown("Jump3") || Input.GetKeyDown(KeyCode.Keypad3))
+                if (ReInput.players.GetPlayer(2).GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Keypad3))
                 {
                     playerSprites[2].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
                 }
 
-                if (Input.GetButtonDown("Jump4") || Input.GetKeyDown(KeyCode.Keypad4))
+                if (ReInput.players.GetPlayer(3).GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Keypad4))
                 {
                     playerSprites[3].GetComponent<CharSelectSpriteBehavior>().ToggleActive();
                 }
@@ -91,9 +94,10 @@ public class TitleScreenManager : MonoBehaviour
 
             if (activePlayers > 1)
             {
+
                 for (int i = 0; i <= 3; i++)
                 {
-                    if (_gameDirector.activePlayers[i] && Input.GetButton("Attack" + (i + 1)) && !hasCalledDirector)
+                    if (_gameDirector.activePlayers[i] && ReInput.players.GetPlayer(i).GetButtonDown("Attack") && !hasCalledDirector)
                     {
                         _gameDirector.nextLevelToLoad = 2;
                         _gameDirector.TriggerLoadingScreen();
@@ -112,16 +116,16 @@ public class TitleScreenManager : MonoBehaviour
             }
             else
             {
-                bool pressedYellow = Input.GetButtonDown("Attack1") ||
-                                     Input.GetButtonDown("Attack2") ||
-                                     Input.GetButtonDown("Attack3") ||
-                                     Input.GetButtonDown("Attack4");
+                bool pressedYellow = ReInput.players.GetPlayer(0).GetButtonDown("Attack") ||
+                                     ReInput.players.GetPlayer(1).GetButtonDown("Attack") ||
+                                     ReInput.players.GetPlayer(2).GetButtonDown("Attack") ||
+                                     ReInput.players.GetPlayer(3).GetButtonDown("Attack");
 
                 if (pressedYellow)
                 {
                     _soundPlayer.PlayClip(1, false);
                 }
-                
+
                 Color tmpColor = toBeginButton.GetComponent<SpriteRenderer>().color;
                 tmpColor.a = .25f;
                 toBeginButton.GetComponent<SpriteRenderer>().color = tmpColor;
@@ -193,6 +197,29 @@ public class TitleScreenManager : MonoBehaviour
 
         var titleCanSeq = LeanTween.sequence();
         titleCanSeq.append(LeanTween.scale(titleScreenCanvas, Vector3.one, transTime).setEase(tweenType));
+    }
+
+    private void ControllerTest()
+    {
+        bool pressedYellow = false;
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Attack")) pressedYellow = true;
+        if (ReInput.players.GetPlayer(1).GetButtonDown("Attack")) pressedYellow = true;
+        if (ReInput.players.GetPlayer(2).GetButtonDown("Attack")) pressedYellow = true;
+        if (ReInput.players.GetPlayer(3).GetButtonDown("Attack")) pressedYellow = true;
+
+        bool pressedGreen = false;
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Jump")) pressedGreen = true;
+        if (ReInput.players.GetPlayer(1).GetButtonDown("Jump")) pressedGreen = true;
+        if (ReInput.players.GetPlayer(2).GetButtonDown("Jump")) pressedGreen = true;
+        if (ReInput.players.GetPlayer(3).GetButtonDown("Jump")) pressedGreen = true;
+
+        if (pressedYellow) {
+            Debug.Log("PRESSED YELLOW");
+        }
+
+        if (pressedGreen) {
+            Debug.Log("PRESSED GREEN");
+        }
     }
 
     // void ToCharacterSelect()

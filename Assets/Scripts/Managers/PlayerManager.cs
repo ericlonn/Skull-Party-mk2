@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
+using Rewired;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -151,15 +152,15 @@ public class PlayerManager : MonoBehaviour
                 {
                     victoryScreenUIPrompts.SetActive(true);
                 }
-                bool playerPressedGreen = Input.GetButtonDown("Jump1") ||
-                                          Input.GetButtonDown("Jump2") ||
-                                          Input.GetButtonDown("Jump3") ||
-                                          Input.GetButtonDown("Jump4");
+                bool playerPressedGreen = ReInput.players.GetPlayer(0).GetButtonDown("Jump") ||
+                                          ReInput.players.GetPlayer(1).GetButtonDown("Jump") ||
+                                          ReInput.players.GetPlayer(2).GetButtonDown("Jump") ||
+                                          ReInput.players.GetPlayer(3).GetButtonDown("Jump");
 
-                bool playerPressedYellow = Input.GetButtonDown("Attack1") ||
-                                           Input.GetButtonDown("Attack2") ||
-                                           Input.GetButtonDown("Attack3") ||
-                                           Input.GetButtonDown("Attack4");
+                bool playerPressedYellow = ReInput.players.GetPlayer(0).GetButtonDown("Attack") ||
+                                           ReInput.players.GetPlayer(1).GetButtonDown("Attack") ||
+                                           ReInput.players.GetPlayer(2).GetButtonDown("Attack") ||
+                                           ReInput.players.GetPlayer(3).GetButtonDown("Attack");
 
                 if (playerPressedGreen && !hasCalledDirector && victoryAllowKeypress)
                 {

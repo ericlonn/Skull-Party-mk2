@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using Rewired;
 
 public class HighScoreManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class HighScoreManager : MonoBehaviour
     int curLetter = 0;
     int curPosition = 0;
     int winningPlayerNumber;
+    Rewired.Player winningPlayerInput;
     List<string> setLetters = new List<string>();
 
     float letterDelayTime = .2f;
@@ -75,6 +77,7 @@ public class HighScoreManager : MonoBehaviour
     {
 
         winningPlayerNumber = _playerManager.winner.GetComponent<Player>().playerNumber;
+        winningPlayerInput = ReInput.players.GetPlayer(winningPlayerNumber - 1);
 
         if (highScorePlace == 0)
         {
@@ -90,11 +93,19 @@ public class HighScoreManager : MonoBehaviour
         {
             letterDelayTimer -= Time.deltaTime;
 
-            bool upPressed = Input.GetAxis("Vertical" + winningPlayerNumber) == -1f;
-            bool downPressed = Input.GetAxis("Vertical" + winningPlayerNumber) == 1f;
-            bool greenButtonPressed = Input.GetButtonDown("Jump" + winningPlayerNumber);
+            Vector2 joystickInput = new Vector2(winningPlayerInput.GetAxisRaw("Move X"), winningPlayerInput.GetAxisRaw("Move Y"));
+
+            float sanitizedYInput;
+
+            sanitizedYInput = joystickInput.y;
+
+
+            bool upPressed = sanitizedYInput > 0;
+            bool downPressed = sanitizedYInput < 0;
+            bool greenButtonPressed = winningPlayerInput.GetButtonDown("Jump");
 
             Debug.Log(winningPlayerNumber);
+            Debug.Log("UP: " + upPressed + " DOWN: " + downPressed + " BUTTON: " + greenButtonPressed);
 
             if ((upPressed && letterDelayTimer <= 0f) || (!lastFrameUp && upPressed))
             {

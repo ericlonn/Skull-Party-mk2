@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class SquashAndStretch : MonoBehaviour
 {
@@ -15,17 +16,18 @@ public class SquashAndStretch : MonoBehaviour
     public float landBounceAmount = .5f;
 
     bool previousIsGrounded;
+    Rewired.Player playerInput;
 
     private void Start() {
         previousIsGrounded = _player.IsGrounded;
-
+        playerInput = ReInput.players.GetPlayer(_player.playerNumber - 1);
     }
 
     private void Update()
     {
         squashPoint.localScale = new Vector3(1 + scaleFactor, 1 - scaleFactor, squashPoint.localScale.z);
 
-        if (Input.GetButtonDown("Jump" + _player.playerNumber) && _player.IsGrounded)
+        if (playerInput.GetButtonDown("Jump") && _player.IsGrounded)
         {
             LaunchSandS();
         }

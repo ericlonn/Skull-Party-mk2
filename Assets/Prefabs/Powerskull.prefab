@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4207527708249639294}
   - component: {fileID: 4207527708249639289}
   - component: {fileID: 4873983476382507417}
-  - component: {fileID: 7298784083294540548}
+  - component: {fileID: 2239020756528052593}
   m_Layer: 10
   m_Name: Powerskull
   m_TagString: Powerskull
@@ -51,7 +51,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -176,7 +175,7 @@ MonoBehaviour:
   bumpForceY: 3
   ejected: 0
   ejectedCRRunning: 0
---- !u!114 &7298784083294540548
+--- !u!114 &2239020756528052593
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,7 +239,6 @@ TrailRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

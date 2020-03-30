@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class Player : MonoBehaviour
 {
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
     public bool AnticipateJump { get { return !IsGrounded && GroundIsNear && _controller.Velocity.y < 0; } }
     public bool IsTouchingWall { get { return _controller.State.IsCollidingLeft || _controller.State.IsCollidingRight; } }
     public bool CanWallJump { get { return WallJump && (IsTouchingWall || _wallLingerTime < WallLinger); } }
-    public bool isWallSliding { get { return (_controller.State.IsCollidingLeft && Input.GetAxis(xInput) < 0) || (_controller.State.IsCollidingRight && Input.GetAxis(xInput) > 0); } }
+    public bool isWallSliding { get { return (_controller.State.IsCollidingLeft && sanitizedXInput < 0) || (_controller.State.IsCollidingRight && sanitizedXInput > 0); } }
     public bool _isFacingRight;
     public bool disablePlayerInput = false;
     public bool bulletStunned;
@@ -118,6 +119,9 @@ public class Player : MonoBehaviour
     private MovementController _controller;
     private Rigidbody2D _playerRB;
     private PlaySound _soundPlayer;
+    private Rewired.Player playerInput;
+
+    private float sanitizedXInput;
 
     void Awake()
     {
@@ -131,6 +135,7 @@ public class Player : MonoBehaviour
         stunnedParticleSystem.Stop();
 
         ejectedTimer = ejectedTime;
+        playerInput = ReInput.players.GetPlayer(playerNumber - 1);
 
         StartCoroutine("SpawnAnimation");
 
@@ -140,6 +145,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        CheckDirectionalInput();
 
         if (playerNumber != 0)
         {
@@ -274,7 +280,6 @@ public class Player : MonoBehaviour
         {
             isStunned = false;
         }
-
         if (GroundIsNear && !bulletStunned && stunnedTime / stunnedTimer < .8f)
         {
             isStunned = false;
@@ -350,8 +355,9 @@ public class Player : MonoBehaviour
 
         if (!disablePlayerInput)
         {
-            float horizontalInputRaw = Mathf.Round(Input.GetAxisRaw(xInput));
-            _normalizedHorizontalSpeed = Input.GetAxis(xInput);
+
+            float horizontalInputRaw = Mathf.Round(sanitizedXInput);
+            _normalizedHorizontalSpeed = horizontalInputRaw;
 
             var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
 
@@ -361,31 +367,31 @@ public class Player : MonoBehaviour
                  (horizontalInputRaw > 0 && !_isFacingRight))
                 Flip();
 
-            if (AnticipateJump && Input.GetButtonDown(jumpInput))
+            if (AnticipateJump && playerInput.GetButtonDown("Jump"))
                 JumpWhenGrounded = true;
 
-            if ((Input.GetButtonDown(jumpInput) && IsGrounded && !Jumpping) || (JumpWhenGrounded && IsGrounded))
+            if ((playerInput.GetButtonDown("Jump") && IsGrounded && !Jumpping) || (JumpWhenGrounded && IsGrounded))
             {
                 Jump(JumpMagnitude);
                 _soundPlayer.PlayClip(4, false, transform.position);
             }
 
-            else if (CanWallJump && Input.GetButtonDown(jumpInput))
+            else if (CanWallJump && playerInput.GetButtonDown("Jump"))
             {
                 JumpOffWall(WallJumpForce);
                 _soundPlayer.PlayClip(10, false, transform.position);
             }
 
-            if (Jumpping && !Input.GetButton(jumpInput))
+            if (Jumpping && !playerInput.GetButton("Jump"))
                 _controller.AddVerticalForce(-JumpInterruptStrength);
 
-            if (Input.GetButtonDown(attackInput))
+            if (playerInput.GetButtonDown("Attack"))
             {
                 gameObject.GetComponent<PlayerAttack>().Attack();
                 // TriggerPoweredUp();
             }
 
-            _controller.State.DropThroughPlatform = Input.GetAxisRaw(yInput) < 0;
+            _controller.State.DropThroughPlatform = playerInput.GetAxisRaw("Move Y") < 0;
         }
     }
 
@@ -514,6 +520,13 @@ public class Player : MonoBehaviour
 
     }
 
+    private void CheckDirectionalInput()
+    {
+        Vector2 joystickInputVector = new Vector2(playerInput.GetAxisRaw("Move X"), playerInput.GetAxisRaw("Move Y"));
+        
+        sanitizedXInput = joystickInputVector.x;
+    }
+
     IEnumerator SpawnAnimation()
     {
         float oldGravDownMod, oldGravUpMod;
@@ -530,5 +543,7 @@ public class Player : MonoBehaviour
         disablePlayerInput = false;
 
     }
+
+
 
 }
